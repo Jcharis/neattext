@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"      # current default Python on Travis CI
+  - "3.7"
+  - "3.7-dev"  # 3.7 development branch
+  - "3.8"
+  - "nightly"  # nightly build
+
+# command to run tests
+script:
+  - pytest
