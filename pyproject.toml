@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "neattext"
+version = "0.0.1"
+description = "Neattext - a simple NLP package for cleaning text"
+authors = ["Jesse E.Agbe(JCharis) <jcharistech@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/Jcharis/neattext"
+repository = "https://github.com/Jcharis/neattext"
+keywords = ["neattext","tidytext" "jcharistech", "clean text", "NLP","text preprocessing","text cleaning"]
+
+classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Operating System :: OS Independent",
+    ]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
