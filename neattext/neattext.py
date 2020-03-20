@@ -1,4 +1,5 @@
 import re
+from collections import Counter
 
 EMAIL_REGEX =  re.compile(r"[\w\.-]+@[\w\.-]+")
 NUMBERS_REGEX = re.compile(r"\d+")
@@ -28,7 +29,7 @@ class TextCleaner(object):
 		self.text = text
 
 	def __repr__(self):
-		return 'TextCleaner(text={})'.format(self.text)
+		return 'TextCleaner(text="{}")'.format(self.text)
 
 	def remove_emails(self):
 		result = re.sub(EMAIL_REGEX,"",self.text)
@@ -100,13 +101,18 @@ class TextCleaner(object):
 
 
 class TextExtractor(TextCleaner):
-	"""docstring for TextExtractor"""
+	"""docstring for TextExtractor
+	
+	docx = TextExtractor(text="your text here")
+	docx.extract_emails()
+	
+	"""
 	def __init__(self, text=None):
 		super(TextExtractor, self).__init__()
 		self.text = text
 
 	def __repr__(self):
-		return 'TextExtractor(text={})'.format(self.text)
+		return 'TextExtractor(text="{}")'.format(self.text)
 
 	def extract_emails(self):
 		result = re.findall(EMAIL_REGEX,self.text)
@@ -135,19 +141,49 @@ class TextExtractor(TextCleaner):
 	
 
 class TextMetrics(object):
-	"""docstring for TextMetrics"""
+	"""docstring for TextMetrics
+	  t1 = TextMetrics(text="Your text Here")
+	  t1.word_stats()
+	  t1.count_vowels()
+	  t1.count_consonants()
+
+	"""
 	def __init__(self, text=None):
 		super(TextMetrics, self).__init__()
 		self.text = text
 	
 
 	def __repr__(self):
-		return 'TextMetrics(text={})'.format(self.text)
+		return 'TextMetrics(text="{}")'.format(self.text)
 
 	def count_vowels(self):
 		words = self.text.lower()
 		result = {v:words.count(v) for v in 'aeiou'}
 		return result
+
+	def count_consonants(self):
+		words = self.text.lower()
+		result = {v:words.count(v) for v in 'bcdfghjklmnpqrstvwxyz'}
+		return result
+
+	def count_stopwords(self):
+		result = [word for word in self.text.lower().split() if word in STOPWORDS]
+		final_res = Counter(result)
+		return final_res
+
+	def word_stats(self):
+		words = self.text.lower()
+		result_all_words = Counter(words.split())
+		result_stopwords = [word for word in self.text.lower().split() if word in STOPWORDS]
+		vowels_num = sum(self.count_vowels().values())
+		consonants_num = sum(self.count_consonants().values())
+		stats_dict = {"Length of Text":len(words),"Num of Vowels":vowels_num,
+		"Num of Consonants":consonants_num,"Num of Stopwords":len(result_stopwords),
+		"Stats of Vowels":self.count_vowels(),
+		"Stats of Consonants":self.count_consonants(),
+		}
+		return stats_dict
+
 
 	@property
 	def vowels(self):
@@ -155,6 +191,16 @@ class TextMetrics(object):
 		result = {v:words.count(v) for v in 'aeiou'}
 		return result
 
+	@property 
+	def consonants(self):
+		words = self.text.lower()
+		result = {v:words.count(v) for v in 'bcdfghjklmnpqrstvwxyz'}
+		return result
+
+	@property 
+	def length(self):
+		return len(self.text.lower())
+		
 
 
 # Individual Functions
@@ -182,3 +228,29 @@ def remove_emojis(text):
 def remove_stopwords(text):
 	result = [word for word in text.split() if word not in STOPWORDS]
 	return ' '.join(result)
+
+
+def extract_emails(text):
+	result = re.findall(EMAIL_REGEX,text)
+	return result
+	
+def extract_numbers(text):
+	result = re.findall(NUMBERS_REGEX,text)
+	return result
+	
+def extract_phone_numbers(text):
+	result = re.findall(PHONE_REGEX,text)
+	return result
+	
+def extract_special_characters(text):
+	result = re.findall(SPECIAL_CHARACTERS_REGEX,text)
+	return result
+	
+def extract_emojis(text):
+	result = re.findall(EMOJI_REGEX,text)
+	return result
+	
+def extract_stopwords(text):
+	result = [word for word in text.split() if word in STOPWORDS]
+	return result
+	

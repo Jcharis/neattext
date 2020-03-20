@@ -1,6 +1,9 @@
 # neattext
 NeatText a simple NLP package for cleaning textual data and text preprocessing
 
+[![Build Status](https://travis-ci.org/Jcharis/neattext.svg?branch=master)](https://travis-ci.org/Jcharis/neattext)
+
+[![GitHub license](https://img.shields.io/github/license/Jcharis/neattext)](https://github.com/Jcharis/neattext/blob/master/LICENSE)
 
 #### Problem
 + Cleaning of unstructured text data
@@ -54,6 +57,19 @@ pip install neattext
 >>> docx = TextExtractor()
 >>> docx.text = "your text with example@gmail.com goes here"
 >>> docx.extract_emails()
+```
+
+
+### Using TextMetrics
++ To Find the Words Stats such as counts of vowels,consonants,stopwords,word-stats
+```python
+>>> from neattext import TextMetrics
+>>> docx = TextMetrics()
+>>> docx.text = "your text with example@gmail.com goes here"
+>>> docx.count_vowels()
+>>> docx.count_consonants()
+>>> docx.count_stopwords()
+>>> docx.word_stats()
 ```
 
 
