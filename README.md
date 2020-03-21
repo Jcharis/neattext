@@ -1,5 +1,5 @@
 # neattext
-NeatText a simple NLP package for cleaning textual data and text preprocessing
+NeatText:a simple NLP package for cleaning textual data and text preprocessing
 
 [![Build Status](https://travis-ci.org/Jcharis/neattext.svg?branch=master)](https://travis-ci.org/Jcharis/neattext)
 
@@ -21,26 +21,36 @@ pip install neattext
 
 ### Usage
 #### Clean Text
-+ Clean text by removing emails,numbers,stopwords,etc
++ Clean text by removing emails,numbers,stopwords,emojis,etc
 ```python
 >>> from neattext import TextCleaner
 >>> docx = TextCleaner()
->>> docx.text = "your text goes here"
+>>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 >>> docx.clean_text()
 ```
 
 #### Remove Emails,Numbers,Phone Numbers 
 ```python
 >>> docx.remove_emails()
+>>> 'This is the mail  ,our WEBSITE is https://example.com 😊.'
+>>>
+>>> docx.remove_stopwords()
+>>> 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
+>>>
 >>> docx.remove_numbers()
 >>> docx.remove_phone_numbers()
->>> docx.remove_stopwords()
 ```
 
 
 #### Remove Special Characters
 ```python
 >>> docx.remove_special_characters()
+```
+
+#### Remove Emojis
+```python
+>>> docx.remove_emojis()
+>>> 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
 ```
 
 #### Replace Emails,Numbers,Phone Numbers
@@ -51,12 +61,16 @@ pip install neattext
 ```
 
 ### Using TextExtractor
-+ To Extract emails,phone numbers,numbers from text
++ To Extract emails,phone numbers,numbers,urls,emojis from text
 ```python
 >>> from neattext import TextExtractor
 >>> docx = TextExtractor()
->>> docx.text = "your text with example@gmail.com goes here"
+>>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 >>> docx.extract_emails()
+>>> ['example@gmail.com']
+>>>
+>>> docx.extract_emojis()
+>>> ['😊']
 ```
 
 
@@ -65,7 +79,7 @@ pip install neattext
 ```python
 >>> from neattext import TextMetrics
 >>> docx = TextMetrics()
->>> docx.text = "your text with example@gmail.com goes here"
+>>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 >>> docx.count_vowels()
 >>> docx.count_consonants()
 >>> docx.count_stopwords()
@@ -77,8 +91,11 @@ pip install neattext
 + unicode explainer
 + currency normalizer
 
+#### Acknowledgements
++ Inspired by packages like `clean-text` from Johannes Fillter
 
-#### By 
+
+#### By
 + Jesse E.Agbe(JCharis)
 + Jesus Saves @JCharisTech
 
@@ -88,3 +105,5 @@ pip install neattext
 + Contributions Are Welcomed
 + Notice a bug, please let us know.
 + Thanks A lot
+
+

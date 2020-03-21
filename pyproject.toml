@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neattext"
-version = "0.0.1"
+version = "0.0.2"
 description = "Neattext - a simple NLP package for cleaning text"
 authors = ["Jesse E.Agbe(JCharis) <jcharistech@gmail.com>"]
 license = "MIT"
@@ -12,6 +12,7 @@ keywords = ["neattext","tidytext","jcharistech", "clean text", "NLP","text prepr
 classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -19,7 +20,8 @@ classifiers=[
     ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.3"
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
