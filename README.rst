@@ -31,6 +31,8 @@ Installation
 Usage
 -----
 
+-  The OOP Way(Object Oriented Way)
+
 Clean Text
 ~~~~~~~~~~
 
@@ -112,6 +114,20 @@ Using TextMetrics
        >>> docx.count_consonants()
        >>> docx.count_stopwords()
        >>> docx.word_stats()
+
+Usage
+-----
+
+-  The MOP(method/function oriented way) Way
+
+.. code:: python
+
+    >>> from neattext.neattext import clean_text,extract_emails
+    >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
+    >>> clean_text(t1,True)
+    >>>'this is the mail <email> ,our website is <url> .'
+    >>> extract_emails(t1)
+    >>> ['example@gmail.com']
 
 More Features To Add
 --------------------

@@ -317,7 +317,7 @@ def extract_urls(text):
 def clean_text(text,preserve=False):
 	"""Clean Entire Text"""
 	if preserve == False:
-		email_result = re.sub(EMAIL_REGEX,"",self.text)
+		email_result = re.sub(EMAIL_REGEX,"",text)
 		phone_result = re.sub(PHONE_REGEX,"",email_result)
 		number_result = re.sub(NUMBERS_REGEX,"",phone_result)
 		url_result = re.sub(URL_PATTERN,"",number_result)
@@ -325,8 +325,7 @@ def clean_text(text,preserve=False):
 		special_char_result = re.sub(SPECIAL_CHARACTERS_REGEX,"",emoji_result)
 		final_result = special_char_result.lower()
 	else:
-		special_char_result = re.sub(r'[^A-Za-z0-9@ ]+',"",self.text)
-		email_result = re.sub(EMAIL_REGEX,"<EMAIL>",special_char_result)
+		email_result = re.sub(EMAIL_REGEX,"<EMAIL>",text)
 		phone_result = re.sub(PHONE_REGEX,"<PHONENUMBER>",email_result)
 		number_result = re.sub(NUMBERS_REGEX,"<NUMBERS>",phone_result)
 		url_result = re.sub(URL_PATTERN,"<URL>",number_result)
