@@ -1,7 +1,7 @@
 from setuptools import setup
 
 def readme():
-    with open('README.md') as f:
+    with open('README.rst') as f:
         README = f.read()
     return README
 
@@ -11,7 +11,7 @@ setup(
     version="0.0.2",
     description="Neattext - a simple NLP package for cleaning text",
     long_description=readme(),
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     url="https://github.com/Jcharis/neattext",
     author="Jesse E.Agbe(JCharis)",
     author_email="jcharistech@gmail.com",
