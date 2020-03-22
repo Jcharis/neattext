@@ -127,7 +127,8 @@ class TextCleaner(object):
 			email_result = re.sub(EMAIL_REGEX,"",self.text)
 			phone_result = re.sub(PHONE_REGEX,"",email_result)
 			number_result = re.sub(NUMBERS_REGEX,"",phone_result)
-			emoji_result = re.sub(EMOJI_REGEX,"",number_result)
+			url_result = re.sub(URL_PATTERN,"",number_result)
+			emoji_result = re.sub(EMOJI_REGEX,"",url_result)
 			special_char_result = re.sub(SPECIAL_CHARACTERS_REGEX,"",emoji_result)
 			final_result = special_char_result.lower()
 			
@@ -136,7 +137,9 @@ class TextCleaner(object):
 			email_result = re.sub(EMAIL_REGEX,"<EMAIL>",special_char_result)
 			phone_result = re.sub(PHONE_REGEX,"<PHONENUMBER>",email_result)
 			number_result = re.sub(NUMBERS_REGEX,"<NUMBERS>",phone_result)
-			final_result = number_result.lower()
+			url_result = re.sub(URL_PATTERN,"<URL>",number_result)
+			emoji_result = re.sub(EMOJI_REGEX,"<EMOJI>",url_result)
+			final_result = emoji_result.lower()
 			
 		return final_result
 
@@ -277,6 +280,11 @@ def remove_stopwords(text):
 	result = [word for word in text.split() if word not in STOPWORDS]
 	return ' '.join(result)
 
+def remove_urls(text):
+	result = re.sub(URL_PATTERN,"",text)
+	return result
+
+
 
 def extract_emails(text):
 	result = re.findall(EMAIL_REGEX,text)
@@ -302,3 +310,30 @@ def extract_stopwords(text):
 	result = [word for word in text.split() if word in STOPWORDS]
 	return result
 	
+def extract_urls(text):
+	result = re.findall(URL_PATTERN,text)
+	return result
+
+def clean_text(text,preserve=False):
+	"""Clean Entire Text"""
+	if preserve == False:
+		email_result = re.sub(EMAIL_REGEX,"",self.text)
+		phone_result = re.sub(PHONE_REGEX,"",email_result)
+		number_result = re.sub(NUMBERS_REGEX,"",phone_result)
+		url_result = re.sub(URL_PATTERN,"",number_result)
+		emoji_result = re.sub(EMOJI_REGEX,"",url_result)
+		special_char_result = re.sub(SPECIAL_CHARACTERS_REGEX,"",emoji_result)
+		final_result = special_char_result.lower()
+	else:
+		special_char_result = re.sub(r'[^A-Za-z0-9@ ]+',"",self.text)
+		email_result = re.sub(EMAIL_REGEX,"<EMAIL>",special_char_result)
+		phone_result = re.sub(PHONE_REGEX,"<PHONENUMBER>",email_result)
+		number_result = re.sub(NUMBERS_REGEX,"<NUMBERS>",phone_result)
+		url_result = re.sub(URL_PATTERN,"<URL>",number_result)
+		emoji_result = re.sub(EMOJI_REGEX,"<EMOJI>",url_result)
+		final_result = emoji_result.lower()
+
+	return final_result
+
+
+
