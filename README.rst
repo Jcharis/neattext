@@ -129,6 +129,13 @@ Usage
     >>> extract_emails(t1)
     >>> ['example@gmail.com']
 
+Documentation
+-------------
+
+Please read the
+`documentation <https://github.com/Jcharis/neattext/wiki>`__ for more
+information on what neattext does and how to use is for your needs.
+
 More Features To Add
 --------------------
 
@@ -138,13 +145,8 @@ More Features To Add
 Acknowledgements
 ~~~~~~~~~~~~~~~~
 
--  Inspired by packages like ``clean-text`` from Johannes Fillter
-
-By
-~~
-
--  Jesse E.Agbe(JCharis)
--  Jesus Saves @JCharisTech
+-  Inspired by packages like ``clean-text`` from Johannes Fillter and
+   ``textify`` by JCharisTech
 
 NB
 ~~
@@ -152,6 +154,12 @@ NB
 -  Contributions Are Welcomed
 -  Notice a bug, please let us know.
 -  Thanks A lot
+
+By
+~~
+
+-  Jesse E.Agbe(JCharis)
+-  Jesus Saves @JCharisTech
 
 .. |Build Status| image:: https://travis-ci.org/Jcharis/neattext.svg?branch=master
    :target: https://travis-ci.org/Jcharis/neattext

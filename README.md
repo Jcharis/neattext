@@ -108,18 +108,18 @@ Please read the [documentation](https://github.com/Jcharis/neattext/wiki) for mo
 + currency normalizer
 
 #### Acknowledgements
-+ Inspired by packages like `clean-text` from Johannes Fillter
-
-
-#### By
-+ Jesse E.Agbe(JCharis)
-+ Jesus Saves @JCharisTech
-
++ Inspired by packages like `clean-text` from Johannes Fillter and `textify` by JCharisTech
 
 
 #### NB
 + Contributions Are Welcomed
 + Notice a bug, please let us know.
 + Thanks A lot
+
+
+#### By
++ Jesse E.Agbe(JCharis)
++ Jesus Saves @JCharisTech
+
 
 
