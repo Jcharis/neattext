@@ -100,6 +100,9 @@ pip install neattext
 >>> ['example@gmail.com']
 ```
 
+### Documentation
+Please read the [documentation](https://github.com/Jcharis/neattext/wiki) for more information on what neattext does and how to use is for your needs.
+
 ### More Features To Add
 + unicode explainer
 + currency normalizer
