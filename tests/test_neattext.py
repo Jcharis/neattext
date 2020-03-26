@@ -1,6 +1,6 @@
 from neattext import __version__
 from neattext import TextCleaner,TextExtractor,TextMetrics
-from neattext.neattext import clean_text,remove_emails,extract_emails
+from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls
 
 
 def test_version():
@@ -79,6 +79,17 @@ def test_single_fxn_clean_text_false():
 	result = clean_text(t1,False)
 	assert result == 'this is the mail  our website is  '
 
+def test_single_fxn_replace_emails():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = replace_emails(t1)
+	assert result == 'This is the mail <EMAIL> ,our WEBSITE is https://example.com 😊.'
+
+def test_single_fxn_replace_urls():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = replace_urls(t1)
+	assert result == 'This is the mail example@gmail.com ,our WEBSITE is <URL> 😊.'
+
+	
 
 
 

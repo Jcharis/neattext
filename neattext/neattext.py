@@ -334,5 +334,27 @@ def clean_text(text,preserve=False):
 
 	return final_result
 
+def replace_emails(text,replace_with="<EMAIL>"):
+	result = re.sub(EMAIL_REGEX,replace_with,text)
+	return result
 
+def replace_phone_numbers(text,replace_with="<PHONENUMBER>"):
+	result = re.sub(PHONE_REGEX,replace_with,text)
+	return result
+
+def replace_numbers(text,replace_with="<NUMBER>"):
+	result = re.sub(NUMBERS_REGEX,replace_with,text)
+	return result
+
+def replace_special_characters(text,replace_with="<SPECIAL_CHAR>"):
+	result = re.sub(SPECIAL_CHARACTERS_REGEX,replace_with,text)
+	return result
+
+def replace_emojis(text,replace_with="<EMOJI>"):
+	result = re.sub(EMOJI_REGEX,replace_with,text)
+	return result
+
+def replace_urls(text,replace_with="<URL>"):
+	result = re.sub(URL_PATTERN,replace_with,text)
+	return result
 
