@@ -1,10 +1,10 @@
 from neattext import __version__
 from neattext import TextCleaner,TextExtractor,TextMetrics
-from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls
+from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls,remove_currencies,remove_currency_symbols,extract_currencies
 
 
 def test_version():
-    assert __version__ == '0.0.2'
+    assert __version__ == '0.0.3'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -44,6 +44,33 @@ def test_extract_urls():
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.extract_urls()
 	assert result == ['https://example.com']
+
+def test_remove_currencies():
+	docx = TextCleaner()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+	result = docx.remove_currencies()
+	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
+
+
+def test_extract_currencies():
+	docx = TextExtractor()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+	result = docx.extract_currencies()
+	assert result == ['$100']
+
+def test_remove_currency_symbols():
+	docx = TextCleaner()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+	result = docx.remove_currency_symbols()
+	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost 100 to subscribe.'
+
+
+def test_extract_currency_symbols():
+	docx = TextExtractor()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+	result = docx.extract_currency_symbols()
+	assert result == ['$']
+
 
 def test_remove_stopwords():
 	docx = TextCleaner()
@@ -88,8 +115,11 @@ def test_single_fxn_replace_urls():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = replace_urls(t1)
 	assert result == 'This is the mail example@gmail.com ,our WEBSITE is <URL> 😊.'
-
 	
+def test_single_fxn_remove_currencies():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+	result = remove_currencies(t1)
+	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
 
 
 
