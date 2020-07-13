@@ -33,13 +33,13 @@ pip install neattext
 
 #### Remove Emails,Numbers,Phone Numbers 
 ```python
->>> docx.remove_emails()
+>>> print(docx.remove_emails())
 >>> 'This is the mail  ,our WEBSITE is https://example.com 😊.'
 >>>
->>> docx.remove_stopwords()
+>>> print(docx.remove_stopwords())
 >>> 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
 >>>
->>> docx.remove_numbers()
+>>> print(docx.remove_numbers())
 >>> docx.remove_phone_numbers()
 ```
 
@@ -51,7 +51,7 @@ pip install neattext
 
 #### Remove Emojis
 ```python
->>> docx.remove_emojis()
+>>> print(docx.remove_emojis())
 >>> 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
 ```
 
@@ -60,6 +60,17 @@ pip install neattext
 >>> docx.replace_emails()
 >>> docx.replace_numbers()
 >>> docx.replace_phone_numbers()
+```
+
+#### Chain Multiple Methods
+```python
+>>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+>>> docx = TextCleaner(t1)
+>>> result = docx.remove_emails().remove_urls().remove_emojis()
+>>> print(result)
+'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
+
+
 ```
 
 ### Using TextExtractor
@@ -92,7 +103,7 @@ pip install neattext
 + The MOP(method/function oriented way) Way
 
 ```python
->>> from neattext.neattext import clean_text,extract_emails
+>>> from neattext.functions import clean_text,extract_emails
 >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
 >>> clean_text(t1,True)
 >>>'this is the mail <email> ,our website is <url> .'
@@ -100,11 +111,37 @@ pip install neattext
 >>> ['example@gmail.com']
 ```
 
+### Explainer
++ Explain an emoji or unicode for emoji 
+	- emoji_explainer()
+	- emojify()
+	- unicode_2_emoji()
+
+
+```python
+>>> from neattext.explainer import emojify
+>>> emojify('Smiley')
+>>> '😃'
+```
+
+```python
+>>> from neattext.explainer import emoji_explainer
+>>> emoji_explainer('😃')
+>>> 'SMILING FACE WITH OPEN MOUTH'
+```
+
+```python
+>>> from neattext.explainer import unicode_2_emoji
+>>> unicode_2_emoji('0x1f49b')
+	'FLUSHED FACE'
+```
+
+
 ### Documentation
 Please read the [documentation](https://github.com/Jcharis/neattext/wiki) for more information on what neattext does and how to use is for your needs.
 
 ### More Features To Add
-+ unicode explainer
++ basic nlp task
 + currency normalizer
 
 #### Acknowledgements
