@@ -1,5 +1,7 @@
 import re
 from neattext.pattern_data import EMAIL_REGEX,NUMBERS_REGEX,PHONE_REGEX,SPECIAL_CHARACTERS_REGEX,EMOJI_REGEX,URL_PATTERN,CURRENCY_REGEX,CURRENCY_SYMB_REGEX,STOPWORDS,DATE_REGEX
+from neattext import TextFrame
+
 
 # Individual Functions
 def remove_emails(text):
@@ -165,3 +167,52 @@ def replace_dates(text,replace_with="<DATE>"):
 	"""Replaces Dates in the text with custom label"""
 	result = re.sub(DATE_REGEX,replace_with,text)
 	return result
+
+
+def read_txt(filename):
+	"""
+		Read a Text File and Create A TextFrame From it
+
+		
+		Parameters
+    	----------
+    	text : Main Text
+    	filename : file with text to read
+
+    	Returns
+    	----------
+    	Returns a TextFrame for text
+    """
+	with open(filename,'r') as f:
+		text_read = f.read()
+		docx_tf = TextFrame(text_read)
+	return docx_tf
+
+
+def to_txt(text,filename):
+	"""
+		Save/Write a Text  to A File 
+
+		
+		Parameters
+    	----------
+    	text : Main Text
+    	filename : file with text to write/save to
+
+    	Returns
+    	----------
+    	Creates A New File with Text on it
+        
+
+		"""
+	with open(filename,'w') as f:
+		f.write(text)
+		
+
+def hamming_distance(lhs,rhs):
+    """Returns the Hamming Distance of Two Equal Strings
+
+    Usage
+    >>> nt.hamming_distance('Pear','Pearls')
+    """
+    return len([(x,y) for x,y in zip(lhs,rhs) if x !=y])
