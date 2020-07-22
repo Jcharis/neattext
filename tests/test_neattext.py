@@ -1,6 +1,9 @@
 from neattext import __version__
 from neattext import TextCleaner,TextExtractor,TextMetrics
-from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls,remove_currencies,remove_currency_symbols,extract_currencies
+# from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls,remove_currencies,remove_currency_symbols,extract_currencies
+from neattext.functions import *
+from neattext.explainer import *
+
 
 
 def test_version():
@@ -10,7 +13,7 @@ def test_remove_emails():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.remove_emails()
-	assert result == 'This is the mail  ,our WEBSITE is https://example.com 😊.'
+	assert str(result) == 'This is the mail  ,our WEBSITE is https://example.com 😊.'
 
 
 def test_extract_emails():
@@ -23,7 +26,7 @@ def test_remove_emojis():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.remove_emojis()
-	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
+	assert str(result) == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
 
 def test_extract_emojis():
 	docx = TextExtractor()
@@ -36,7 +39,7 @@ def test_remove_urls():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.remove_urls()
-	assert result == 'This is the mail example@gmail.com ,our WEBSITE is  😊.'
+	assert str(result) == 'This is the mail example@gmail.com ,our WEBSITE is  😊.'
 
 
 def test_extract_urls():
@@ -49,7 +52,7 @@ def test_remove_currencies():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
 	result = docx.remove_currencies()
-	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
+	assert str(result) == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
 
 
 def test_extract_currencies():
@@ -62,7 +65,7 @@ def test_remove_currency_symbols():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
 	result = docx.remove_currency_symbols()
-	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost 100 to subscribe.'
+	assert str(result) == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost 100 to subscribe.'
 
 
 def test_extract_currency_symbols():
@@ -76,7 +79,7 @@ def test_remove_stopwords():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.remove_stopwords()
-	assert result == 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
+	assert str(result) == 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
 
 
 def test_extract_stopwords():
@@ -121,5 +124,24 @@ def test_single_fxn_remove_currencies():
 	result = remove_currencies(t1)
 	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
 
+def test_multiple_methods_chaining():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+	docx = TextCleaner(t1)
+	result = docx.remove_emails().remove_urls().remove_emojis()
+	assert str(result) == 'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
 
+def test_remove_dates():
+	docx = TextCleaner()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe 20/12/2005."
+	result = docx.remove_dates()
+	assert str(result) == "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe ."
+
+
+def test_emojify():
+	result = emojify('Smiley')
+	assert result == '😃'
+
+def test_emoji_explainer():
+	result = emoji_explainer('😃')
+	assert result == 'SMILING FACE WITH OPEN MOUTH'
 

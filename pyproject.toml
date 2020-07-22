@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/Jcharis/neattext"
 repository = "https://github.com/Jcharis/neattext"
-keywords = ["neattext","tidytext","jcharistech", "clean text", "NLP","text preprocessing","text cleaning"]
+keywords = ["neattext","tidytext","jcharistech", "clean text", "NLP","text preprocessing","text cleaning","ftfy"]
 
 classifiers=[
         "License :: OSI Approved :: MIT License",
