@@ -1,5 +1,5 @@
 from neattext import __version__
-from neattext import TextCleaner,TextExtractor,TextMetrics
+from neattext import TextCleaner,TextExtractor,TextMetrics,TextFrame
 # from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls,remove_currencies,remove_currency_symbols,extract_currencies
 from neattext.functions import *
 from neattext.explainer import *
@@ -144,4 +144,11 @@ def test_emojify():
 def test_emoji_explainer():
 	result = emoji_explainer('😃')
 	assert result == 'SMILING FACE WITH OPEN MOUTH'
+
+
+def test_textframe():
+	docx = TextFrame()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = docx.word_tokens()
+	assert result == ['This', 'is', 'the', 'mail', 'examplegmailcom', 'our', 'WEBSITE', 'is', 'httpsexamplecom', '😊']
 

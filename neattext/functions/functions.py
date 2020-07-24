@@ -1,6 +1,12 @@
+# -*- coding: utf-8 -*-
+# This file is part of the NEAT Project suite of libraries
+
 import re
 from neattext.pattern_data import EMAIL_REGEX,NUMBERS_REGEX,PHONE_REGEX,SPECIAL_CHARACTERS_REGEX,EMOJI_REGEX,URL_PATTERN,CURRENCY_REGEX,CURRENCY_SYMB_REGEX,STOPWORDS,DATE_REGEX
 from neattext import TextFrame
+from collections import defaultdict
+from heapq import nlargest
+import random,string
 
 
 # Individual Functions
@@ -175,14 +181,14 @@ def read_txt(filename):
 
 		
 		Parameters
-    	----------
-    	text : Main Text
-    	filename : file with text to read
+		----------
+		text : Main Text
+		filename : file with text to read
 
-    	Returns
-    	----------
-    	Returns a TextFrame for text
-    """
+		Returns
+		----------
+		Returns a TextFrame for text
+	"""
 	with open(filename,'r') as f:
 		text_read = f.read()
 		docx_tf = TextFrame(text_read)
@@ -195,14 +201,14 @@ def to_txt(text,filename):
 
 		
 		Parameters
-    	----------
-    	text : Main Text
-    	filename : file with text to write/save to
+		----------
+		text : Main Text
+		filename : file with text to write/save to
 
-    	Returns
-    	----------
-    	Creates A New File with Text on it
-        
+		Returns
+		----------
+		Creates A New File with Text on it
+		
 
 		"""
 	with open(filename,'w') as f:
@@ -210,9 +216,249 @@ def to_txt(text,filename):
 		
 
 def hamming_distance(lhs,rhs):
-    """Returns the Hamming Distance of Two Equal Strings
+	"""Returns the Hamming Distance of Two Equal Strings
 
-    Usage
-    >>> nt.hamming_distance('Pear','Pearls')
-    """
-    return len([(x,y) for x,y in zip(lhs,rhs) if x !=y])
+	Usage
+	>>> nt.hamming_distance('Pear','Pearls')
+	"""
+	return len([(x,y) for x,y in zip(lhs,rhs) if x !=y])
+
+
+__numbers_dict = {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', \
+			 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten', \
+			11: 'Eleven', 12: 'Twelve', 13: 'Thirteen', 14: 'Fourteen', \
+			15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', \
+			19: 'Nineteen', 20: 'Twenty', 30: 'Thirty', 40: 'Forty', \
+			50: 'Fifty', 60: 'Sixty', 70: 'Seventy', 80: 'Eighty', \
+			90: 'Ninety', 0: 'Zero',100: 'Hundred',200: 'Two Hundred',300:'Three Hundred',
+			400: 'Four Hundred',500:'Five Hundred',600:'Six Hundred',700:'Seven Hundred',
+			800: 'Eight Hundred',900:'Nine Hundred',1000:'Thousand',100000:'Hundred Thousand'}
+
+
+def num2words(num):
+		try:
+			result = __numbers_dict[num]
+		except KeyError:
+			try:
+				# Find the decimal(tens) using numb - modulus of number and add the remainder to it
+				result = __numbers_dict[num-num%10] + __numbers_dict[num%10].lower()
+			except KeyError:
+				print('Number out of range')
+		return result 
+
+
+def digit2words(num):
+	try:
+		result = __numbers_dict[num]
+	except KeyError:
+		num_length = len(str(num))
+		if num_length == 2:
+			# Find the decimal(tens) using numb - modulus of number and add the remainder to it
+			result = __numbers_dict[num-num%10] + __numbers_dict[num%10].lower()
+		elif num_length == 3:
+			result = __numbers_dict[num-num%100] + __numbers_dict[num%10].lower() 
+		elif num_length == 4:
+			result = __numbers_dict[num-num%1000] + __numbers_dict[num%10].lower()
+		elif num_length == 5:
+			result = __numbers_dict[num-num%10000] + __numbers_dict[num%10].lower()
+		elif num_length == 6:
+			result = __numbers_dict[num-num%100000] + __numbers_dict[num%10].lower()
+		elif num_length == 7:
+			result = __numbers_dict[num-num%1000000] + __numbers_dict[num%10].lower()
+		elif num_length == 8:
+			result = __numbers_dict[num-num%10000000] + __numbers_dict[num%10].lower()
+		elif num_length == 9:
+			result = __numbers_dict[num-num%100000000] + __numbers_dict[num%100000000].lower()
+		else:
+			print("Number out of range")
+
+
+	return result
+
+
+def summarize(raw_docx):
+	""" usage: text_summarizer(yourtext) """
+	
+	raw_text = raw_docx
+	docx = TextFrame(raw_text)
+	stopwords = list(STOPWORDS)
+	# Build Word Frequency # word.text is tokenization in spacy
+	word_frequencies = {}  
+	for word in docx.text.split():  
+		if word not in stopwords:
+			if word not in word_frequencies.keys():
+				word_frequencies[word] = 1
+			else:
+				word_frequencies[word] += 1
+
+	print(word_frequencies)
+	maximum_frequncy = max(word_frequencies.values())
+
+	for word in word_frequencies.keys():  
+		word_frequencies[word] = (word_frequencies[word]/maximum_frequncy)
+	# Sentence Tokens
+	print(word_frequencies)
+	sentence_list = [ sentence for sentence in docx.text.split() ]
+	print(sentence_list)
+	#Calculate Sentence Scores
+	sentence_scores = {}  
+	for sent in sentence_list:  
+		for word in sent:
+			if word.lower() in word_frequencies.keys():
+				if len(sent.split(' ')) < 30:
+					if sent not in sentence_scores.keys():
+						sentence_scores[sent] = word_frequencies[word.lower()]
+					else:
+						sentence_scores[sent] += word_frequencies[word.lower()]
+	print(sentence_scores)
+	# Find N Largest and Join Sentences
+	summarized_sentences = nlargest(10, sentence_scores, key=sentence_scores.get)
+	final_sentences = [ w for w in summarized_sentences ]
+	print(summarized_sentences)
+	summary = ' '.join(final_sentences)
+	return summary
+	
+
+
+# Source https://github.com/adashofdata/nlp-in-python-tutorial/blob/master/5-Text-Generation.ipynb
+def markov_chain(text):
+	"""Returns a dictionary with each word as
+	   a key and each value as the list of words that come after the key in the text."""
+	
+	# Tokenize the text by word, though including punctuation
+	words = text.split(' ')
+	
+	# Initialize a default dictionary to hold all of the words and next words
+	m_dict = defaultdict(list)
+	
+	# Create a zipped list of all of the word pairs and put them in word: list of next words format
+	for current_word, next_word in zip(words[0:-1], words[1:]):
+		m_dict[current_word].append(next_word)
+
+	# Convert the default dict back into a dictionary
+	m_dict = dict(m_dict)
+	return m_dict
+	
+
+
+def __generate_text(chain, count=15):
+	'''Input a dictionary in the format of key = current word, value = list of next words
+	   along with the number of words you would like to see in your generated sentence.'''
+
+	# Capitalize the first word
+	word1 = random.choice(list(chain.keys()))
+	sentence = word1.capitalize()
+
+	# Generate the second word from the value list. Set the new word as the first word. Repeat.
+	for i in range(count-1):
+		word2 = random.choice(chain[word1])
+		word1 = word2
+		sentence += ' ' + word2
+
+	# End it with a period
+	sentence += '.'
+	# print(sentence)
+	return(sentence)
+
+
+
+
+def generate_sentence(text,num_of_words=15):
+	"""Returns a new sentence/text From a given text using Markov Chains
+	
+	Parameters
+	----------
+	text : Main Text
+	num_of_words : number of words to generate
+
+	Returns
+	----------
+	Returns a new sentence of the number of words specified
+	
+	Usage
+	------
+	>>> from neattext.functions import generate_sentence
+	>>> t1 = "your text...here"
+	>>> generate_sentence(t1)
+	>>> generate_sentence(t1,20)
+	
+	#Alternatively generate 4 sentences
+	>>> for i in range(4):
+		print(generate_sentence(t1))
+	
+	
+	"""
+	result_dict = markov_chain(text)
+	final_result_sentence = __generate_text(result_dict,num_of_words)
+	return final_result_sentence
+
+def normalize(text,level='shallow'):
+	"""Normalize Text by converting to lowercase,removing punctuations and square brackets
+
+	Parameters
+	----------
+	text : Main Text
+	level : level of normalization (shallow/deep)
+		shallow:lowercase,remove text in brackets and digits
+		deep: shallow + removing puncts,emojis,bad commas,etc
+	Returns
+	----------
+	Returns a new clean and normalized sentence
+	
+	Usage
+	------
+	>>> from neattext.functions import normalize
+	>>> t1 = "your text...here"
+	>>> normalize(t1)
+	
+	#Alternatively
+	>>> normalize(t1,level='deep')
+	"""
+	
+	if level == 'shallow':
+		# Lowercase
+		text = text.lower() 
+		# Remove Txt in Square Bracket
+		text = re.sub('\\[.*?\\]', '', text) 
+		text = re.sub('\\w*\\d\\w*', '', text) 
+
+	elif level == 'deep':
+		# Lowercase
+		text = text.lower() 
+		# Remove Txt in Square Bracket
+		text = re.sub('\\[.*?\\]', '', text) 
+		# Remove Digit containing words
+		text = re.sub('\\w*\\d\\w*', '', text) 
+		# Remove Punct
+		text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
+		# Remove Bad Quotations
+		text = re.sub('[‘’“”…]', '', text)
+		# Remove emojis
+		text = re.sub(EMOJI_REGEX,"",text)
+
+	return text
+	
+
+
+def fix_contractions(text):
+	"""Fix contractions in a text"""
+	text = text.lower()
+	text = re.sub(r"i'm", "i am", text)
+	text = re.sub(r"he's", "he is", text)
+	text = re.sub(r"she's", "she is", text)
+	text = re.sub(r"that's", "that is", text)        
+	text = re.sub(r"what's", "what is", text)
+	text = re.sub(r"where's", "where is", text) 
+	text = re.sub(r"\'ll", " will", text)  
+	text = re.sub(r"\'ve", " have", text)  
+	text = re.sub(r"\'re", " are", text)
+	text = re.sub(r"\'d", " would", text)
+	text = re.sub(r"\'ve", " have", text)
+	text = re.sub(r"won't", "will not", text)
+	text = re.sub(r"don't", "do not", text)
+	text = re.sub(r"did't", "did not", text)
+	text = re.sub(r"can't", "can not", text)
+	text = re.sub(r"it's", "it is", text)
+	text = re.sub(r"couldn't", "could not", text)
+	text = re.sub(r"have't", "have not", text)
+	return text
