@@ -21,6 +21,12 @@ pip install neattext
 
 ### Usage
 + The OOP Way(Object Oriented Way)
++ NeatText offers 4 main classes for working with text data
+	- TextFrame : a frame-like object for cleaning text
+	- TextCleaner: remove or replace specifics
+	- TextExtractor: extract unwanted text data
+	- TextMetrics: word stats and metrics
+
 
 #### Clean Text
 + Clean text by removing emails,numbers,stopwords,emojis,etc
@@ -136,6 +142,51 @@ pip install neattext
 	'FLUSHED FACE'
 ```
 
+
+### Using TextFrame
++ Keeps the text as a Frame like object. This allows us to do more with our text. 
++ It inherits the benefits of the TextCleaner and the TextMetrics out of the box with some additional features for handling text data.
+
+```python
+>>> import neattext as nt 
+>>> docx = nt.TextFrame(text='your_text')
+>>> docx.describe()
+>>> docx.length()
+>>> docx.head()
+>>> docx.tail()
+>>> docx.count_vowels()
+>>> docx.count_stopwords()
+>>> docx.count_consonants()
+>>> docx.nlongest()
+>>> docx.nshortest()
+```
+#### Basic NLP Task (Tokenization,Ngram,Text Generation)
+```python
+>>> docx.word_tokens()
+>>> docx.sent_tokens()
+>>> docx.bow()
+```
+#### Basic Text Preprocessing
+```python
+>>> docx.normalize(level='shallow')
+>>> docx.normalize()
+>>> docx.remove_punct()
+>>> docx.remove_special_characters()
+>>> docx.remove_emojis()
+>>> docx.fix_contractions()
+```
+
+##### Handling Files with NeatText
++ Read txt file directly into TextFrame
+```python
+>>> import neattext as nt 
+>>> docx_df = nt.read_txt('file.txt')
+```
++ Alternatively you can instantiate a TextFrame and read a text file into it
+```python
+>>> import neattext as nt 
+>>> docx_df = nt.TextFrame().read_txt('file.txt')
+```
 
 ### Documentation
 Please read the [documentation](https://github.com/Jcharis/neattext/wiki) for more information on what neattext does and how to use is for your needs.

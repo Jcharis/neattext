@@ -1,6 +1,13 @@
+# -*- coding: utf-8 -*-
+# This file is part of the NEAT Project suite of libraries
+# Please see the LICENSE file that should have been included as part of this 
+# package. 
+
 import re
 from collections import Counter
 import string
+import csv
+import heapq
 
 # PATTERNS
 EMAIL_REGEX =  re.compile(r"[\w\.-]+@[\w\.-]+")
@@ -8,58 +15,58 @@ NUMBERS_REGEX = re.compile(r"\d+")
 PHONE_REGEX = re.compile(r"[\+\(]?[1-9][0-9 .\-\(\)]{8,}[0-9]")
 SPECIAL_CHARACTERS_REGEX = re.compile(r"[^A-Za-z0-9 ]+")
 EMOJI_REGEX = re.compile("["
-                       u"\U0001F600-\U0001F64F"  # for emoticons
-                       u"\U0001F300-\U0001F5FF"  # for symbols & pictographs
-                       u"\U0001F680-\U0001F6FF"  # for transport & map symbols
-                       u"\U0001F1E0-\U0001F1FF"  # for flags (iOS)
-                       u"\U00002702-\U000027B0"
-                       u"\U000024C2-\U0001F251"
-                       "]+", flags=re.UNICODE)
+					   u"\U0001F600-\U0001F64F"  # for emoticons
+					   u"\U0001F300-\U0001F5FF"  # for symbols & pictographs
+					   u"\U0001F680-\U0001F6FF"  # for transport & map symbols
+					   u"\U0001F1E0-\U0001F1FF"  # for flags (iOS)
+					   u"\U00002702-\U000027B0"
+					   u"\U000024C2-\U0001F251"
+					   "]+", flags=re.UNICODE)
 
 DATE_REGEX = re.compile(r"([0-9]{2}\/[0-9]{2}\/[0-9]{4})|([0-9]{4}\/[0-9]{2}\/[0-9]{2})")
 
 # modified source :https://gist.github.com/dperini/729294
 URL_PATTERN = re.compile(
-    r"(?:^|(?<![\w\/\.]))"
-    # protocol identifier
-    # r"(?:(?:https?|ftp)://)"  <-- alt?
-    r"(?:(?:https?:\/\/|ftp:\/\/|www\d{0,3}\.))"
-    # user:pass authentication
-    r"(?:\S+(?::\S*)?@)?" r"(?:"
-    # IP address exclusion
-    # private & local networks
-    r"(?!(?:10|127)(?:\.\d{1,3}){3})"
-    r"(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})"
-    r"(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})"
-    # IP address dotted notation octets
-    # excludes loopback network 0.0.0.0
-    # excludes reserved space >= 224.0.0.0
-    # excludes network & broadcast addresses
-    # (first & last IP address of each class)
-    r"(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])"
-    r"(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}"
-    r"(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))"
-    r"|"
-    # host name
-    r"(?:(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)"
-    # domain name
-    r"(?:\.(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)*"
-    # TLD identifier
-    r"(?:\.(?:[a-z\\u00a1-\\uffff]{2,}))" r")"
-    # port number
-    r"(?::\d{2,5})?"
-    # resource path
-    r"(?:\/[^\)\]\}\s]*)?",
-    flags=re.UNICODE | re.IGNORECASE,
+	r"(?:^|(?<![\w\/\.]))"
+	# protocol identifier
+	# r"(?:(?:https?|ftp)://)"  <-- alt?
+	r"(?:(?:https?:\/\/|ftp:\/\/|www\d{0,3}\.))"
+	# user:pass authentication
+	r"(?:\S+(?::\S*)?@)?" r"(?:"
+	# IP address exclusion
+	# private & local networks
+	r"(?!(?:10|127)(?:\.\d{1,3}){3})"
+	r"(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})"
+	r"(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})"
+	# IP address dotted notation octets
+	# excludes loopback network 0.0.0.0
+	# excludes reserved space >= 224.0.0.0
+	# excludes network & broadcast addresses
+	# (first & last IP address of each class)
+	r"(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])"
+	r"(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}"
+	r"(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))"
+	r"|"
+	# host name
+	r"(?:(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)"
+	# domain name
+	r"(?:\.(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)*"
+	# TLD identifier
+	r"(?:\.(?:[a-z\\u00a1-\\uffff]{2,}))" r")"
+	# port number
+	r"(?::\d{2,5})?"
+	# resource path
+	r"(?:\/[^\)\]\}\s]*)?",
+	flags=re.UNICODE | re.IGNORECASE,
 )
 
 CURRENCY_REGEX = re.compile(
-    r"[$¢£¤¥ƒ֏؋৲৳૱௹฿៛ℳ元円圆圓﷼\u20A0-\u20C0]\d+",
-    flags=re.UNICODE)
+	r"[$¢£¤¥ƒ֏؋৲৳૱௹฿៛ℳ元円圆圓﷼\u20A0-\u20C0]\d+",
+	flags=re.UNICODE)
 
 CURRENCY_SYMB_REGEX = re.compile(
-    r"[$¢£¤¥ƒ֏؋৲৳૱௹฿៛ℳ元円圆圓﷼\u20A0-\u20C0]",
-    flags=re.UNICODE)
+	r"[$¢£¤¥ƒ֏؋৲৳૱௹฿៛ℳ元円圆圓﷼\u20A0-\u20C0]",
+	flags=re.UNICODE)
 
 # PHONE_REGEX = re.compile(
 #     r"(?:^|(?<=[^\w)]))(\+?1[ .-]?)?(\(?\d{3}\)?[ .-]?)?(\d{3}[ .-]?\d{4})"
@@ -73,11 +80,11 @@ class TextMetrics(object):
 	""" TextMetrics : analyses a text for vowels,consonants,etc
 
 	  Parameters
-      ----------
-      self.text : Main Text
-    	
-      Example
-      ----------
+	  ----------
+	  self.text : Main Text
+		
+	  Example
+	  ----------
 	  t1 = TextMetrics(text="Your text Here")
 	  t1.word_stats()
 	  t1.count_vowels()
@@ -146,8 +153,8 @@ class TextCleaner(TextMetrics):
 	""" TextCleaner: removes and cleans emails,numbers,etc from text
 	
 	Parameters
-    ----------
-      self.text : Main Text
+	----------
+	  self.text : Main Text
 
 	usage
 	-------
@@ -211,6 +218,7 @@ class TextCleaner(TextMetrics):
 		self.text = re.sub(CURRENCY_SYMB_REGEX,"",self.text)
 		return self
 
+	
 	def remove_dates(self):
 		"""Returns A String with Dates Removed """
 		self.text = re.sub(DATE_REGEX,"",self.text)
@@ -261,6 +269,29 @@ class TextCleaner(TextMetrics):
 		result = re.sub(DATE_REGEX,replace_with,self.text)
 		return result
 
+	def fix_contractions(self):
+		"""Fix contractions in a text"""
+		text = self.text.lower()
+		text = re.sub(r"i'm", "i am", text)
+		text = re.sub(r"he's", "he is", text)
+		text = re.sub(r"she's", "she is", text)
+		text = re.sub(r"that's", "that is", text)        
+		text = re.sub(r"what's", "what is", text)
+		text = re.sub(r"where's", "where is", text) 
+		text = re.sub(r"\'ll", " will", text)  
+		text = re.sub(r"\'ve", " have", text)  
+		text = re.sub(r"\'re", " are", text)
+		text = re.sub(r"\'d", " would", text)
+		text = re.sub(r"\'ve", " have", text)
+		text = re.sub(r"won't", "will not", text)
+		text = re.sub(r"don't", "do not", text)
+		text = re.sub(r"did't", "did not", text)
+		text = re.sub(r"can't", "can not", text)
+		text = re.sub(r"it's", "it is", text)
+		text = re.sub(r"couldn't", "could not", text)
+		text = re.sub(r"have't", "have not", text)
+		return text		
+
 
 	def clean_text(self,preserve=False):
 		"""
@@ -306,8 +337,8 @@ class TextExtractor(TextCleaner):
 	""" TextExtractor: extracts emails,numbers,etc from text
 	 
 	Parameters
-    ----------
-    self.text : Main Text
+	----------
+	self.text : Main Text
 	
 	Usage
 	--------
@@ -373,24 +404,59 @@ class TextExtractor(TextCleaner):
 		result = re.findall(DATE_REGEX,self.text)
 		return result
 
+	def extract_btwn_squares(self):
+		"""Returns the text in the square bracket
+		
+		Example
+		>>> docx = nt.TextExtractor("he was [here] yesterday (early)")
+		>>> docx.extract_btwn_squares()
+		['here']
+
+		"""
+		# return re.findall('\\[[^]]*\\]',self.text)
+		return re.findall('\\[[.*]\\]',self.text)
+
+	def extract_btwn_brackets(self):
+		"""Returns the text in the [] brackets
+
+		Example
+		>>> docx = nt.TextExtractor("he was [here] yesterday (early)")
+		>>> docx.extract_btwn_brackets()
+		['here']
+
+		"""
+		return re.findall('\\[(.*)\\]',self.text)
+
+	def extract_btwn_parenthesis(self):
+		"""Returns the text in the parenthesis/round () brackets
+		
+		Example
+		>>> docx = nt.TextExtractor("he was [here] yesterday (early)")
+		>>> docx.extract_btwn_parenthesis()
+		['early']
+
+		"""
+		return re.findall('\\(([^)]+)',self.text)
+
+
 
 
 def _pretty_table(my_dict):
 	print("{:<8} {:<15}".format('Key','Value'))
 	for k, v in my_dict.items():
-	    print("{:<8}: {:<15}".format(k, v))
+		print("{:<8}: {:<15}".format(k, v))
 
 class TextFrame(TextCleaner):
 	"""Creates a TextFrame For Analyzing Text
 	
 	Parameters
-    ----------
-    self.text : Main Text
-    
+	----------
+	self.text : Main Text
+	
 
-    Returns
-    ----------
-    Returns a TextFrame for text
+	Returns
+	----------
+	Returns a TextFrame for text
 
 	"""
 	def __init__(self, text=None):
@@ -399,6 +465,20 @@ class TextFrame(TextCleaner):
 
 	def __repr__(self):
 		return 'TextFrame(text="{}")'.format(self.text)
+
+	
+	def head(self,n=5):
+		"""Returns the First N Characters of a Text Default is 5
+		
+		"""
+		return self.text[:n]
+
+
+	def tail(self,n=5):
+		"""Returns the Last N Characters of a Text Default is 5
+		
+		"""
+		return self.text[-n:]
 
 	def length(self):
 		"""Returns the Length of the Text"""
@@ -426,13 +506,15 @@ class TextFrame(TextCleaner):
 	def count_special_char(self):
 		"""Returns the Count of Each Special Char"""
 		words = self.text.lower()
-		result = {v:words.count(v) for v in """!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""}
+		sp_char_pattern = """!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"""
+		# use double \\ to avoid invalid escape sequence
+		result = {v:words.count(v) for v in sp_char_pattern }
 		return result
 
 	def count_puncts(self):
 		"""Returns the Count of Each Punctuation"""
 		words = self.text.lower()
-		result = {v:words.count(v) for v in """!"&'()*,-./:;?@[\]^_`{|}"""}
+		result = {v:words.count(v) for v in """!"&'()*,-./:;?@[\\]^_`{|}"""}
 		return result
 
 
@@ -480,14 +562,14 @@ class TextFrame(TextCleaner):
 
 		
 		Parameters
-    	----------
-    	self : Main Text
-    	filename : file with text to read
+		----------
+		self : Main Text
+		filename : file with text to read
 
-    	Returns
-    	----------
-    	Returns a TextFrame for text
-        
+		Returns
+		----------
+		Returns a TextFrame for text
+		
 
 		"""
 		with open(filename,'r') as f:
@@ -501,19 +583,19 @@ class TextFrame(TextCleaner):
 		Return a Word Tokens of the Text
 		
 		Parameters
-    	----------
-    	self : Main Text
-    	split_by : whitespace,words
-        	Split text into tokens using whitespace or words
-        remove_punct: Remove/Strip off Punctuation Default is True
-    	Returns
-    	-------
-    	word tokens as a list
+		----------
+		self : Main Text
+		split_by : whitespace,words
+			Split text into tokens using whitespace or words
+		remove_punct: Remove/Strip off Punctuation Default is True
+		Returns
+		-------
+		word tokens as a list
 
-    	Examples
-    	--------
-    	>>> docx.word_tokens()
-    	    	
+		Examples
+		--------
+		>>> docx.word_tokens()
+				
 		"""
 		if remove_punct is True:
 			# Split by White Space
@@ -588,15 +670,126 @@ class TextFrame(TextCleaner):
 
 		
 		Parameters
-    	----------
-    	self : Main Text
-    	filename : file with text to write/save to
+		----------
+		self : Main Text
+		filename : file with text to write/save to
 
-    	Returns
-    	----------
-    	Creates A New File with Text on it
-        
+		Returns
+		----------
+		Creates A New File with Text on it
+		
 
 		"""
 		with open(filename,'w') as f:
 			f.write(self.text)
+
+	
+	def to_csv(self,filename,count_str=False):
+		"""Write Text to CSV file 
+
+		Return a CSV of the Sentence Tokenized Text with/without string length
+		
+		Parameters
+		----------
+		self : Main Text
+		filename : name of file to save as
+			
+		count_str: Compute/Count the length of each tokenized sentence/string
+
+		Returns
+		-------
+		a csv file
+
+		Examples
+		--------
+		>>> docx.to_csv("myfile.csv",count_str=True)
+
+
+		"""
+		
+		with open(filename, "w") as csv_file:
+			writer = csv.writer(csv_file,delimiter=",",quoting=csv.QUOTE_MINIMAL)
+			# Split Text to Sentence Tokens
+			data = self.sent_tokens()
+			if count_str is True:
+				# Create Column Headers
+				writer.writerow(['sentence','count'])
+				for i in data:
+					writer.writerow([i,len(i)])
+			else:
+				for i in data:
+					writer.writerow([i])
+
+	
+
+	def nshortest(self,n=3):
+		"""Returns N list of the Shortest Tokens in a text"""
+		
+		token_list = self.word_tokens()
+		result = heapq.nsmallest(n,token_list)
+		return result
+
+
+	def nlongest(self,n=3):
+		"""Returns N list of the Longest Tokens in a text"""
+		
+		token_list = self.word_tokens()
+		result = heapq.nlargest(n,token_list)
+		return result
+
+	def longest_token(self):
+		"""Returns the Longest Token by length"""
+		token_list = self.word_tokens(split_by='words')
+		result = max(token_list,key=len)
+		return result 
+
+	def shortest_token(self):
+		"""Returns the Shortest Token by length"""
+		token_list = self.word_tokens(split_by='whitespace')
+		result = min(token_list,key=len)
+		return result 
+
+	
+	def normalize(self,level='shallow'):
+		"""Normalize Text by converting to lowercase,removing punctuations and square brackets
+
+		Parameters
+		----------
+		self : Main Text
+		level : level of normalization (shallow/deep)
+			shallow:lowercase,remove text in brackets and digits
+			deep: shallow + removing puncts,emojis,bad commas,etc
+		Returns
+		----------
+		Returns a new clean and normalized sentence
+		
+
+		"""
+		
+		if level == 'shallow':
+			# Lowercase
+			text = self.text.lower() 
+			# Remove Txt in Square Bracket
+			text = re.sub('\\[.*?\\]', '', text) 
+			text = re.sub('\\w*\\d\\w*', '', text) 
+
+		elif level == 'deep':
+			# Lowercase
+			text = self.text.lower() 
+			# Remove Txt in Square Bracket
+			text = re.sub('\\[.*?\\]', '', text) 
+			# Remove Digit containing words
+			text = re.sub('\\w*\\d\\w*', '', text) 
+
+			# Fix Contractions
+			text = self.fix_contractions()
+			# Remove Punct
+			text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
+			# Remove Bad Quotations
+			text = re.sub('[‘’“”…]', '', text)
+			# Remove emojis
+			text = re.sub(EMOJI_REGEX,"",text)
+
+
+
+		return text
