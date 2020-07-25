@@ -91,6 +91,14 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [word_stats](#word_stats)
 
 
+**TextFrame**<a name="textframe"><a>
+
+The neattext TextFrame API is a frame-like class useful for cleaning text.It inherits all the methods of the TextCleaner hence it can be used for removing or replacing emails,numbers,phone numbers,special characters,emojis,etc 
+
+It can receive a text file and process it for a better output.
+```Python
+TextFrame(text=None)
+```
 
 **TextCleaner**<a name="textcleaner"><a>
 
@@ -98,6 +106,7 @@ The neattext TextCleaner API is a class useful for cleaning text by either remov
 ```Python
 TextCleaner(text=None)
 ```
+
 
 **TextExtractor**<a name="textextractor"><a>
 
@@ -203,6 +212,56 @@ Works on text by using custom regex to extract emojis and unicode representing e
 ***extract_stopwords***<a name="extract_stopwords"></a>
 
 Works on text by using custom regex to extract english stopwords
+
+
+#### TextFrame Basics
+***read_text***<a name="read_text"></a>
+
+Reads a text file and Creates A TextFrame for cleaning text
+
+
+***describe***<a name="describe"></a>
+
+Gives a basic description of the text which includes length,tokens,vowel and consonant count,etc
+
+
+***head***<a name="head"></a>
+
+Returns the first N characters in a text
+
+
+***tail***<a name="tail"></a>
+
+Returns the last N characters in a text
+
+
+***normalize***<a name="normalize"></a>
+
+Normalizes a text using two levels(shallow and deep) that removes all necessary noise to generate a clean text 
+
+
+***word_tokens***<a name="word_tokens"></a>
+
+Generate a word token of the text supplied using white-space or words
+
+
+***sent_tokens***<a name="sent_tokens"></a>
+
+Generate a sentence token of the text supplied 
+
+
+***ngrams***<a name="ngrams"></a>
+
+Generate an N-gram of the text supplied
+
+
+***bow***<a name="bow"></a>
+
+Generate a simple bag of words of text
+
+
+
+
 
 
 

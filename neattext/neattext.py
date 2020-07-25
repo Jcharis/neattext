@@ -187,6 +187,10 @@ class TextCleaner(TextMetrics):
 		self.text = re.sub(PHONE_REGEX,"",self.text)
 		return self
 
+	def remove_puncts(self):
+		"""Returns A String with punctuations remove"""
+		self.text = (self.text).translate(str.maketrans('','',string.punctuation))
+		return self
 
 	def remove_special_characters(self):
 		"""Returns A String with the specified characters removed """
@@ -267,6 +271,11 @@ class TextCleaner(TextMetrics):
 	def replace_dates(self,replace_with="<DATE>"):
 		"""Replaces Dates in the text with custom label"""
 		result = re.sub(DATE_REGEX,replace_with,self.text)
+		return result
+
+	def replace_term(self,old_term,new_term):
+		"""Replaces term in the text with another term"""
+		result = re.sub(old_term,new_term,self.text)
 		return result
 
 	def fix_contractions(self):
@@ -480,6 +489,7 @@ class TextFrame(TextCleaner):
 		"""
 		return self.text[-n:]
 
+	@property
 	def length(self):
 		"""Returns the Length of the Text"""
 		return len(self.text)
@@ -790,6 +800,36 @@ class TextFrame(TextCleaner):
 			# Remove emojis
 			text = re.sub(EMOJI_REGEX,"",text)
 
-
-
 		return text
+
+
+
+	def term_freq(self):
+		""" Returns the Term Frequency of Words in a Sentence
+
+		Definition
+		---------
+		The number of times a word appears in a document divided by the total number of words in the document. 
+			
+		Formular
+		---------
+		TF = (Frequency of the word in the sentence) / (Total number of words in the sentence)
+
+		"""
+		stopwords = list(STOPWORDS)
+		# Build Bag of Words or Word Frequency(bag) # 
+		term_frequencies = {}  
+		for word in self.text.split():  
+			if word not in stopwords:
+				if word not in term_frequencies.keys():
+					term_frequencies[word] = 1
+				else:
+					term_frequencies[word] += 1
+
+		
+		maximum_frequency = max(term_frequencies.values())
+
+		for word in term_frequencies.keys():  
+			term_frequencies[word] = (term_frequencies[word]/maximum_frequency)
+		
+		return term_frequencies

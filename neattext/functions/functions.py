@@ -25,6 +25,12 @@ def remove_phone_numbers(text):
 	result = re.sub(PHONE_REGEX,"",text)
 	return result
 
+def remove_puncts(text):
+	"""Returns A String with punctuations remove"""
+	PUNCT_REGEX = re.compile(r"""[!"&'()*,-./:;?@[\\]^_`{|}]""")
+	result = re.sub(PUNCT_REGEX,"",text)
+	return result
+
 
 def remove_special_characters(text):
 	"""Returns A String with the specified characters removed """
@@ -174,6 +180,11 @@ def replace_dates(text,replace_with="<DATE>"):
 	result = re.sub(DATE_REGEX,replace_with,text)
 	return result
 
+def replace_term(text,old_term,new_term):
+	"""Replaces term in the text with another term"""
+	result = re.sub(old_term,new_term,text)
+	return result
+
 
 def read_txt(filename):
 	"""
@@ -276,47 +287,48 @@ def digit2words(num):
 	return result
 
 
-def summarize(raw_docx):
-	""" usage: text_summarizer(yourtext) """
+# def summarize(raw_docx):
+# 	""" usage: summarize(yourtext) """
 	
-	raw_text = raw_docx
-	docx = TextFrame(raw_text)
-	stopwords = list(STOPWORDS)
-	# Build Word Frequency # word.text is tokenization in spacy
-	word_frequencies = {}  
-	for word in docx.text.split():  
-		if word not in stopwords:
-			if word not in word_frequencies.keys():
-				word_frequencies[word] = 1
-			else:
-				word_frequencies[word] += 1
+# 	raw_text = raw_docx
+# 	docx = TextFrame(raw_text)
+# 	stopwords = list(STOPWORDS)
+# 	# Build Word Frequency # word.text is tokenization in spacy
+# 	word_frequencies = {}  
+# 	for word in docx.text.split():  
+# 		if word not in stopwords:
+# 			if word not in word_frequencies.keys():
+# 				word_frequencies[word] = 1
+# 			else:
+# 				word_frequencies[word] += 1
 
-	print(word_frequencies)
-	maximum_frequncy = max(word_frequencies.values())
+# 	print(word_frequencies)
+# 	maximum_frequncy = max(word_frequencies.values())
 
-	for word in word_frequencies.keys():  
-		word_frequencies[word] = (word_frequencies[word]/maximum_frequncy)
-	# Sentence Tokens
-	print(word_frequencies)
-	sentence_list = [ sentence for sentence in docx.text.split() ]
-	print(sentence_list)
-	#Calculate Sentence Scores
-	sentence_scores = {}  
-	for sent in sentence_list:  
-		for word in sent:
-			if word.lower() in word_frequencies.keys():
-				if len(sent.split(' ')) < 30:
-					if sent not in sentence_scores.keys():
-						sentence_scores[sent] = word_frequencies[word.lower()]
-					else:
-						sentence_scores[sent] += word_frequencies[word.lower()]
-	print(sentence_scores)
-	# Find N Largest and Join Sentences
-	summarized_sentences = nlargest(10, sentence_scores, key=sentence_scores.get)
-	final_sentences = [ w for w in summarized_sentences ]
-	print(summarized_sentences)
-	summary = ' '.join(final_sentences)
-	return summary
+# 	for word in word_frequencies.keys():  
+# 		word_frequencies[word] = (word_frequencies[word]/maximum_frequncy)
+# 	# Sentence Tokens
+# 	print(word_frequencies)
+# 	sentence_list = [ sentence for sentence in docx.text.split() ]
+# 	print(sentence_list)
+# 	#Calculate Sentence Scores
+# 	sentence_scores = {}  
+# 	for sent in sentence_list:  
+# 		for word in sent:
+# 			if word.lower() in word_frequencies.keys():
+# 				if len(sent.split(' ')) < 5:
+# 					if sent not in sentence_scores.keys():
+# 						sentence_scores[sent] = word_frequencies[word.lower()]
+# 					else:
+# 						sentence_scores[sent] += word_frequencies[word.lower()]
+# 	print(sentence_scores)
+# 	# Find N Largest and Join Sentences
+# 	summarized_sentences = nlargest(10, sentence_scores, key=sentence_scores.get)
+# 	final_sentences = [ w for w in summarized_sentences ]
+# 	print(final_sentences)
+# 	print(summarized_sentences)
+# 	summary = ' '.join(final_sentences)
+# 	return summary
 	
 
 
@@ -462,3 +474,75 @@ def fix_contractions(text):
 	text = re.sub(r"couldn't", "could not", text)
 	text = re.sub(r"have't", "have not", text)
 	return text
+
+
+def word_freq(text):
+	"""Returns a term/word frequency"""
+	stopwords = list(STOPWORDS)
+	# Build Word Frequency(bag) # word.text is tokenization in spacy
+	word_frequencies = {}  
+	for word in text.split():  
+		if word not in stopwords:
+			if word not in word_frequencies.keys():
+				word_frequencies[word] = 1
+			else:
+				word_frequencies[word] += 1
+
+	# print(word_frequencies)
+	maximum_frequency = max(word_frequencies.values())
+
+	for word in word_frequencies.keys():  
+		word_frequencies[word] = (word_frequencies[word]/maximum_frequency)
+	
+	return word_frequencies
+
+
+def term_freq(text):
+	""" Returns the Term Frequency of Words in a Sentence
+
+	Definition
+	---------
+	The number of times a word appears in a document divided by the total number of words in the document. 
+		
+	Formular
+	---------
+	TF = (Frequency of the word in the sentence) / (Total number of words in the sentence)
+
+	"""
+	stopwords = list(STOPWORDS)
+	# Build Bag of Words or Word Frequency(bag) # 
+	term_frequencies = {}  
+	for word in text.split():  
+		if word not in stopwords:
+			if word not in term_frequencies.keys():
+				term_frequencies[word] = 1
+			else:
+				term_frequencies[word] += 1
+
+	
+	maximum_frequency = max(term_frequencies.values())
+
+	for word in term_frequencies.keys():  
+		term_frequencies[word] = (term_frequencies[word]/maximum_frequency)
+	
+	return term_frequencies
+	
+def inverse_df(text):
+	"""IDF: log((Total number of sentences (documents))/(Number of sentences (documents) containing the word))
+
+	It is important to mention that to mitigate the effect of very rare and very common words on the corpus, the log of the IDF value can be calculated before multiplying it with the TF-IDF value.
+
+	"""
+	import math
+	word_idf_values = {}
+	total_num_sent = len(text)
+	tokenize_word_list = term_freq(text).keys()
+	doc_containing_word = 0
+	for token in tokenize_word_list:
+		for sentence in text:
+			if token in sentence.split(' '):
+				doc_containing_word +=1
+		word_idf_values[token] = math.log((total_num_sent)/(1 + doc_containing_word))
+
+	return word_idf_values
+	
