@@ -205,7 +205,8 @@ class TextCleaner(TextMetrics):
 	def remove_stopwords(self):
 		"""Returns A String with the stopwords removed """
 		result = [word for word in self.text.split() if word not in STOPWORDS]
-		return ' '.join(result)
+		self.text = ' '.join(result)
+		return self
 
 	def remove_urls(self):
 		"""Returns A String with URLS removed """
