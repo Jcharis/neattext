@@ -25,6 +25,12 @@ def remove_phone_numbers(text):
 	result = re.sub(PHONE_REGEX,"",text)
 	return result
 
+def remove_puncts(text):
+	"""Returns A String with punctuations remove"""
+	PUNCT_REGEX = re.compile(r"""[!"&'()*,-./:;?@[\\]^_`{|}]""")
+	result = re.sub(PUNCT_REGEX,"",text)
+	return result
+
 
 def remove_special_characters(text):
 	"""Returns A String with the specified characters removed """
@@ -172,6 +178,11 @@ def replace_currency_symbols(text,replace_with="<CURRENCY_SYMB>"):
 def replace_dates(text,replace_with="<DATE>"):
 	"""Replaces Dates in the text with custom label"""
 	result = re.sub(DATE_REGEX,replace_with,text)
+	return result
+
+def replace_term(text,old_term,new_term):
+	"""Replaces term in the text with another term"""
+	result = re.sub(old_term,new_term,text)
 	return result
 
 

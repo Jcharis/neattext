@@ -13,7 +13,7 @@ EMOJI_REGEX = re.compile("["
                        "]+", flags=re.UNICODE)
 
 DATE_REGEX = re.compile(r"([0-9]{2}\/[0-9]{2}\/[0-9]{4})|([0-9]{4}\/[0-9]{2}\/[0-9]{2})")
-
+PUNCT_REGEX = re.compile(r"""[!"&'()*,-./:;?@[\\]^_`{|}]""")
 # modified source :https://gist.github.com/dperini/729294
 URL_PATTERN = re.compile(
     r"(?:^|(?<![\w\/\.]))"

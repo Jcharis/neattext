@@ -39,6 +39,103 @@ Usage
    -  TextExtractor: extract unwanted text data
    -  TextMetrics: word stats and metrics
 
+Using TextFrame
+---------------
+
+-  Keeps the text as ``TextFrame`` object. This allows us to do more
+   with our text.
+-  It inherits the benefits of the TextCleaner and the TextMetrics out
+   of the box with some additional features for handling text data.
+-  This is the simplest way for text preprocessing with this library
+   alternatively you can utilize the other classes too.
+
+.. code:: python
+
+    >>> import neattext as nt 
+    >> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+    >>> docx = nt.TextFrame(text=mytext)
+    >>> docx.text 
+    "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+    >>>
+    >>> docx.describe()
+    Key      Value          
+    Length  : 73             
+    vowels  : 21             
+    consonants: 34             
+    stopwords: 4              
+    punctuations: 8              
+    special_char: 8              
+    tokens(whitespace): 10             
+    tokens(words): 14             
+    >>> 
+    >>> docx.length
+    73
+    >>> docs.head(16)
+    'This is the mail'
+    >>> docx.tail()
+    >>> docx.count_vowels()
+    >>> docx.count_stopwords()
+    >>> docx.count_consonants()
+    >>> docx.nlongest()
+    >>> docx.nshortest()
+
+Basic NLP Task (Tokenization,Ngram,Text Generation)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    >>> docx.word_tokens()
+    >>>
+    >>> docx.sent_tokens()
+    >>>
+    >>> docx.term_freq()
+    >>>
+    >>> docx.bow()
+
+Basic Text Preprocessing
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    >>> docx.normalize()
+    'this is the mail example@gmail.com ,our website is https://example.com 😊.'
+    >>> docx.normalize(level='deep')
+    'this is the mail examplegmailcom our website is httpsexamplecom '
+
+    >>> docx.remove_puncts()
+    >>> docx.remove_special_characters()
+    >>> docx.remove_emojis()
+    >>> docx.fix_contractions()
+
+Handling Files with NeatText
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+-  Read txt file directly into TextFrame
+
+   .. code:: python
+
+       >>> import neattext as nt 
+       >>> docx_df = nt.read_txt('file.txt')
+
+-  Alternatively you can instantiate a TextFrame and read a text file
+   into it
+
+   .. code:: python
+
+       >>> import neattext as nt 
+       >>> docx_df = nt.TextFrame().read_txt('file.txt')
+
+Chaining Methods on TextFrame
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code:: python
+
+    >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+    >>> docx = TextFrame(t1)
+    >>> result = docx.remove_emails().remove_urls().remove_emojis()
+    >>> print(result)
+    'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
+
 Clean Text
 ~~~~~~~~~~
 
@@ -172,67 +269,6 @@ Explainer
     >>> from neattext.explainer import unicode_2_emoji
     >>> unicode_2_emoji('0x1f49b')
         'FLUSHED FACE'
-
-Using TextFrame
----------------
-
--  Keeps the text as a Frame like object. This allows us to do more with
-   our text.
--  It inherits the benefits of the TextCleaner and the TextMetrics out
-   of the box with some additional features for handling text data.
-
-.. code:: python
-
-    >>> import neattext as nt 
-    >>> docx = nt.TextFrame(text='your_text')
-    >>> docx.describe()
-    >>> docx.length()
-    >>> docx.head()
-    >>> docx.tail()
-    >>> docx.count_vowels()
-    >>> docx.count_stopwords()
-    >>> docx.count_consonants()
-    >>> docx.nlongest()
-    >>> docx.nshortest()
-
-Basic NLP Task (Tokenization,Ngram,Text Generation)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    >>> docx.word_tokens()
-    >>> docx.sent_tokens()
-    >>> docx.bow()
-
-Basic Text Preprocessing
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    >>> docx.normalize(level='shallow')
-    >>> docx.normalize()
-    >>> docx.remove_punct()
-    >>> docx.remove_special_characters()
-    >>> docx.remove_emojis()
-    >>> docx.fix_contractions()
-
-Handling Files with NeatText
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
--  Read txt file directly into TextFrame
-
-   .. code:: python
-
-       >>> import neattext as nt 
-       >>> docx_df = nt.read_txt('file.txt')
-
--  Alternatively you can instantiate a TextFrame and read a text file
-   into it
-
-   .. code:: python
-
-       >>> import neattext as nt 
-       >>> docx_df = nt.TextFrame().read_txt('file.txt')
 
 Documentation
 -------------
