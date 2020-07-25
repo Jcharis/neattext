@@ -790,6 +790,36 @@ class TextFrame(TextCleaner):
 			# Remove emojis
 			text = re.sub(EMOJI_REGEX,"",text)
 
-
-
 		return text
+
+
+
+	def term_freq(self):
+		""" Returns the Term Frequency of Words in a Sentence
+
+		Definition
+		---------
+		The number of times a word appears in a document divided by the total number of words in the document. 
+			
+		Formular
+		---------
+		TF = (Frequency of the word in the sentence) / (Total number of words in the sentence)
+
+		"""
+		stopwords = list(STOPWORDS)
+		# Build Bag of Words or Word Frequency(bag) # 
+		term_frequencies = {}  
+		for word in self.text.split():  
+			if word not in stopwords:
+				if word not in term_frequencies.keys():
+					term_frequencies[word] = 1
+				else:
+					term_frequencies[word] += 1
+
+		
+		maximum_frequency = max(term_frequencies.values())
+
+		for word in term_frequencies.keys():  
+			term_frequencies[word] = (term_frequencies[word]/maximum_frequency)
+		
+		return term_frequencies
