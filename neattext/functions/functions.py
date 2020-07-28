@@ -62,6 +62,15 @@ def remove_currency_symbols(text):
 	result = re.sub(CURRENCY_SYMB_REGEX,"",text)
 	return result
 
+def remove_html_tags(text):
+		"""Returns A String with HTML Tags removed"""
+		result = re.sub('<[^<]+?>',"",text)
+		return result
+
+def remove_dates(text):
+		"""Returns A String with Dates Removed """
+		result = re.sub(DATE_REGEX,"",text)
+		return result
 
 def extract_emails(text):
 	"""Returns the emails extracted """
@@ -111,6 +120,11 @@ def extract_currency_symbols(text):
 def extract_dates(text):
 		"""Returns the dates extracted """
 		result = re.findall(DATE_REGEX,text)
+		return result
+
+def extract_html_tags(text):
+		"""Returns  the HTML Tags extracted """
+		result = re.findall(r'<[^<]+?>',text)
 		return result
 
 

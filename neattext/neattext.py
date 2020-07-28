@@ -89,6 +89,7 @@ class TextMetrics(object):
 	  t1.word_stats()
 	  t1.count_vowels()
 	  t1.count_consonants()
+	  t1.noise_scan()
 
 	"""
 	def __init__(self, text=None):
@@ -127,6 +128,29 @@ class TextMetrics(object):
 		}
 		return stats_dict
 
+	def noise_scan(self):
+		"""Returns a Percentage of Noise/Dirt in our Text
+
+		
+		Formula : (sum_of_noise)/length of text * 100%
+		noise: punctuations,special characters,stopwords,emojis,urls
+		--------
+
+	
+		"""
+		result_stopwords = [word for word in self.text.lower().split() if word in STOPWORDS]
+		result_punct = {v: self.text.lower().count(v) for v in """!"&'()*,-./:;?@[\\]^_`{|}"""}
+		punct_num = sum(result_punct.values())
+		stopwords_num = len(result_stopwords)
+		emoji_num = len(re.findall(EMOJI_REGEX,self.text))
+		url_num = len(re.findall(URL_PATTERN,self.text))
+		sum_of_noise = sum([punct_num + stopwords_num + emoji_num,url_num])
+		percentage_of_noise = sum_of_noise/self.length * 100
+		result_dict = {"text_noise":percentage_of_noise,"text_length":self.length,"noise_count":sum_of_noise}
+		return result_dict
+
+
+
 
 	@property
 	def vowels(self):
@@ -143,7 +167,7 @@ class TextMetrics(object):
 	@property 
 	def length(self):
 		return len(self.text.lower())
-		
+
 
 
 
@@ -227,6 +251,11 @@ class TextCleaner(TextMetrics):
 	def remove_dates(self):
 		"""Returns A String with Dates Removed """
 		self.text = re.sub(DATE_REGEX,"",self.text)
+		return self
+
+	def remove_html_tags(self):
+		"""Returns A String with HTML Tags removed"""
+		self.text = re.sub('<[^<]+?>',"",self.text)
 		return self
 
 	def replace_emails(self,replace_with="<EMAIL>"):
@@ -399,6 +428,11 @@ class TextExtractor(TextCleaner):
 		result = re.findall(URL_PATTERN,self.text)
 		return result
 
+	def extract_html_tags(self):
+		"""Returns A String with HTML Tags removed"""
+		result = re.findall(r'<[^<]+?>',self.text)
+		return result
+
 	def extract_currencies(self):
 		"""Returns the currencies extracted """
 		result = re.findall(CURRENCY_REGEX,self.text)
@@ -566,6 +600,29 @@ class TextFrame(TextCleaner):
 		"tokens(words)":tokens_num_by_words
 		}
 		return _pretty_table(stats_dict)
+
+	
+	def noise_scan(self):
+		"""Returns a Percentage of Noise/Dirt in our Text
+
+		
+		Formula : (sum_of_noise)/length of text * 100%
+		noise: punctuations,special characters,stopwords,emojis,urls
+		--------
+
+	
+		"""
+		result_stopwords = [word for word in self.text.lower().split() if word in STOPWORDS]
+		punct_num = sum(self.count_puncts().values())
+		stopwords_num = len(result_stopwords)
+		emoji_num = len(re.findall(EMOJI_REGEX,self.text))
+		url_num = len(re.findall(URL_PATTERN,self.text))
+		sum_of_noise = sum([punct_num + stopwords_num + emoji_num,url_num])
+		percentage_of_noise = sum_of_noise/self.length * 100
+		result_dict = {"text_noise":percentage_of_noise,"text_length":self.length,"noise_count":sum_of_noise}
+		return result_dict
+
+
 
 	def read_txt(self,filename):
 		"""
@@ -782,7 +839,9 @@ class TextFrame(TextCleaner):
 			text = self.text.lower() 
 			# Remove Txt in Square Bracket
 			text = re.sub('\\[.*?\\]', '', text) 
-			text = re.sub('\\w*\\d\\w*', '', text) 
+			text = re.sub('\\w*\\d\\w*', '', text)
+			# Strip html tags
+			text = re.sub('<[^<]+?>','',text) 
 
 		elif level == 'deep':
 			# Lowercase
@@ -794,6 +853,9 @@ class TextFrame(TextCleaner):
 
 			# Fix Contractions
 			text = self.fix_contractions()
+			# Strip html tags
+			text = re.sub('<[^<]+?>','',text) 
+			
 			# Remove Punct
 			text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
 			# Remove Bad Quotations
