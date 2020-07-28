@@ -54,6 +54,10 @@ tokens(words): 14
 >>> 
 >>> docx.length
 73
+>>> # Scan Percentage of Noise(Unclean data) in text
+>>> d.noise_scan()
+{'text_noise': 19.17808219178082, 'text_length': 73, 'noise_count': 14}
+>>> 
 >>> docs.head(16)
 'This is the mail'
 >>> docx.tail()
@@ -81,6 +85,7 @@ tokens(words): 14
 'this is the mail examplegmailcom our website is httpsexamplecom '
 
 >>> docx.remove_puncts()
+>>> docx.remove_html_tags()
 >>> docx.remove_special_characters()
 >>> docx.remove_emojis()
 >>> docx.fix_contractions()

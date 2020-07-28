@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.0.4'
+    assert __version__ == '0.0.5'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -151,4 +151,10 @@ def test_textframe():
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.word_tokens()
 	assert result == ['This', 'is', 'the', 'mail', 'examplegmailcom', 'our', 'WEBSITE', 'is', 'httpsexamplecom', '😊']
+
+def test_textframe():
+	docx = TextFrame()
+	docx.text = "This is the <h2>example for html tags</h2>"
+	result = docx.remove_html_tags()
+	assert result.text == "This is the example for html tags"
 

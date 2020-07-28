@@ -14,6 +14,7 @@ EMOJI_REGEX = re.compile("["
 
 DATE_REGEX = re.compile(r"([0-9]{2}\/[0-9]{2}\/[0-9]{4})|([0-9]{4}\/[0-9]{2}\/[0-9]{2})")
 PUNCT_REGEX = re.compile(r"""[!"&'()*,-./:;?@[\\]^_`{|}]""")
+HTML_TAGS_REGEX = re.compile(r'<[^<]+?>')
 # modified source :https://gist.github.com/dperini/729294
 URL_PATTERN = re.compile(
     r"(?:^|(?<![\w\/\.]))"
