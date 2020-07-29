@@ -145,7 +145,8 @@ class TextMetrics(object):
 		emoji_num = len(re.findall(EMOJI_REGEX,self.text))
 		url_num = len(re.findall(URL_PATTERN,self.text))
 		sum_of_noise = sum([punct_num + stopwords_num + emoji_num,url_num])
-		percentage_of_noise = sum_of_noise/self.length * 100
+		# Handle ZeroDivisionError
+		percentage_of_noise = (sum_of_noise/self.length * 100) if sum_of_noise != 0 else 0
 		result_dict = {"text_noise":percentage_of_noise,"text_length":self.length,"noise_count":sum_of_noise}
 		return result_dict
 
@@ -618,7 +619,9 @@ class TextFrame(TextCleaner):
 		emoji_num = len(re.findall(EMOJI_REGEX,self.text))
 		url_num = len(re.findall(URL_PATTERN,self.text))
 		sum_of_noise = sum([punct_num + stopwords_num + emoji_num,url_num])
-		percentage_of_noise = sum_of_noise/self.length * 100
+		# Handle ZeroDivisionError
+		percentage_of_noise = (sum_of_noise/self.length * 100) if sum_of_noise != 0 else 0
+		# percentage_of_noise = sum_of_noise/self.length * 100
 		result_dict = {"text_noise":percentage_of_noise,"text_length":self.length,"noise_count":sum_of_noise}
 		return result_dict
 
