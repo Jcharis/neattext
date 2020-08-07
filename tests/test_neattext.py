@@ -101,13 +101,13 @@ def test_single_fxn_extract_emails():
 
 def test_single_fxn_clean_text():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
-	result = clean_text(t1,True)
-	assert result == 'this is the mail <email> ,our website is <url> .'
+	result = clean_text(t1,stopwords=True)
+	assert result == 'this mail example@gmail.com ,our website https://example.com .'
 
-def test_single_fxn_clean_text_false():
+def test_single_fxn_clean_text_not():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-	result = clean_text(t1,False)
-	assert result == 'this is the mail  our website is  '
+	result = clean_text(t1)
+	assert result != 'this is the mail  our website is  '
 
 def test_single_fxn_replace_emails():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
