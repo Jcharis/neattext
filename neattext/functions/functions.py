@@ -25,12 +25,16 @@ def remove_phone_numbers(text):
 	result = re.sub(PHONE_REGEX,"",text)
 	return result
 
-def remove_puncts(text):
+def remove_punctuations(text):
 	"""Returns A String with punctuations remove"""
 	PUNCT_REGEX = re.compile(r"""[!"&'()*,-./:;?@[\\]^_`{|}]""")
 	result = re.sub(PUNCT_REGEX,"",text)
 	return result
 
+def remove_puncts(text):
+	"""Returns A String with punctuations remove"""
+	result = str(text).translate(str.maketrans('','',string.punctuation))
+	return result
 
 def remove_special_characters(text):
 	"""Returns A String with the specified characters removed """
@@ -70,6 +74,12 @@ def remove_html_tags(text):
 def remove_dates(text):
 		"""Returns A String with Dates Removed """
 		result = re.sub(DATE_REGEX,"",text)
+		return result
+
+def remove_non_ascii(text):
+		"""Returns A String with Non ASCII removed"""
+		import unicodedata
+		result = unicodedata.normalize('NFKD',text).encode('ascii','ignore').decode('utf-8','ignore')
 		return result
 
 def extract_emails(text):
@@ -128,25 +138,87 @@ def extract_html_tags(text):
 		return result
 
 
-def clean_text(text,preserve=False):
-	"""Clean Entire Text"""
-	if preserve == False:
-		email_result = re.sub(EMAIL_REGEX,"",text)
-		phone_result = re.sub(PHONE_REGEX,"",email_result)
-		number_result = re.sub(NUMBERS_REGEX,"",phone_result)
-		url_result = re.sub(URL_PATTERN,"",number_result)
-		emoji_result = re.sub(EMOJI_REGEX,"",url_result)
-		special_char_result = re.sub(SPECIAL_CHARACTERS_REGEX,"",emoji_result)
-		final_result = special_char_result.lower()
-	else:
-		email_result = re.sub(EMAIL_REGEX,"<EMAIL>",text)
-		phone_result = re.sub(PHONE_REGEX,"<PHONENUMBER>",email_result)
-		number_result = re.sub(NUMBERS_REGEX,"<NUMBERS>",phone_result)
-		url_result = re.sub(URL_PATTERN,"<URL>",number_result)
-		emoji_result = re.sub(EMOJI_REGEX,"<EMOJI>",url_result)
-		final_result = emoji_result.lower()
 
-	return final_result
+def clean_text(text,puncts=True,stopwords=True,urls=False,emails=False,numbers=False,emojis=True,special_char=False,phone_num=False,non_ascii=False):
+	"""
+	Clean entire text 
+		
+	Parameters
+	----------
+	text
+
+	puncts:Boolean(True/False) default is True
+	remove punctuations.
+	
+	stopwords:Boolean(True/False) default is False
+	remove stopwords
+
+	urls:Boolean(True/False) default is True
+	remove punctuations
+
+	emails:Boolean(True/False) default is True
+	remove emails
+
+	emojis:Boolean(True/False) default is True
+	remove emojis
+
+	numbers:Boolean(True/False) default is False
+	remove numbers
+
+	phone_num:Boolean(True/False) default is False
+	remove phone numbers
+
+	non_ascii:Boolean(True/False) default is False
+	remove non ascii characters
+
+	Returns
+	-------
+	string
+	
+	"""
+	
+	if puncts:
+		text = remove_puncts(text)
+	if stopwords:
+		text = remove_stopwords(text)
+	if emails:
+		text = remove_emails(text)
+	if phone_num:
+		text = remove_numbers(text)
+	if numbers:
+		text = remove_numbers(text)
+	if urls: 
+		text = remove_urls(text)
+	if emojis:
+		text = remove_emojis(text)
+	if non_ascii:
+		text = remove_non_ascii(text)	
+
+	if special_char:
+		text = remove_special_characters(text)
+		
+	return text.lower()	
+
+
+# def clean_text(text,preserve=False):
+# 	"""Clean Entire Text"""
+# 	if preserve == False:
+# 		email_result = re.sub(EMAIL_REGEX,"",text)
+# 		phone_result = re.sub(PHONE_REGEX,"",email_result)
+# 		number_result = re.sub(NUMBERS_REGEX,"",phone_result)
+# 		url_result = re.sub(URL_PATTERN,"",number_result)
+# 		emoji_result = re.sub(EMOJI_REGEX,"",url_result)
+# 		special_char_result = re.sub(SPECIAL_CHARACTERS_REGEX,"",emoji_result)
+# 		final_result = special_char_result.lower()
+# 	else:
+# 		email_result = re.sub(EMAIL_REGEX,"<EMAIL>",text)
+# 		phone_result = re.sub(PHONE_REGEX,"<PHONENUMBER>",email_result)
+# 		number_result = re.sub(NUMBERS_REGEX,"<NUMBERS>",phone_result)
+# 		url_result = re.sub(URL_PATTERN,"<URL>",number_result)
+# 		emoji_result = re.sub(EMOJI_REGEX,"<EMOJI>",url_result)
+# 		final_result = emoji_result.lower()
+
+# 	return final_result
 
 def replace_emails(text,replace_with="<EMAIL>"):
 	"""Replaces the emails in the text with custom label"""

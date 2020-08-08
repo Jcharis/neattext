@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="neattext",
-    version="0.0.3",
+    version="0.0.6",
     description="Neattext - a simple NLP package for cleaning text",
     long_description=readme(),
     long_description_content_type="text/x-rst",

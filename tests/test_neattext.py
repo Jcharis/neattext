@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.0.5'
+    assert __version__ == '0.0.6'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -101,13 +101,13 @@ def test_single_fxn_extract_emails():
 
 def test_single_fxn_clean_text():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
-	result = clean_text(t1,True)
-	assert result == 'this is the mail <email> ,our website is <url> .'
+	result = clean_text(t1,stopwords=True)
+	assert result == 'this mail examplegmailcom website httpsexamplecom'
 
-def test_single_fxn_clean_text_false():
+def test_single_fxn_clean_text_all():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-	result = clean_text(t1,False)
-	assert result == 'this is the mail  our website is  '
+	result = clean_text(t1)
+	assert result != 'this is the mail  our website is  '
 
 def test_single_fxn_replace_emails():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
@@ -123,6 +123,12 @@ def test_single_fxn_remove_currencies():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
 	result = remove_currencies(t1)
 	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
+
+def test_single_fxn_remove_non_ascii():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is Ø https://example.com . "
+	result = remove_non_ascii(t1)
+	assert result == 'This is the mail example@gmail.com ,our WEBSITE is  https://example.com . '
+
 
 def test_multiple_methods_chaining():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
@@ -152,7 +158,7 @@ def test_textframe():
 	result = docx.word_tokens()
 	assert result == ['This', 'is', 'the', 'mail', 'examplegmailcom', 'our', 'WEBSITE', 'is', 'httpsexamplecom', '😊']
 
-def test_textframe():
+def test_textframe_remove_html():
 	docx = TextFrame()
 	docx.text = "This is the <h2>example for html tags</h2>"
 	result = docx.remove_html_tags()

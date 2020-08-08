@@ -74,6 +74,7 @@ CURRENCY_SYMB_REGEX = re.compile(
 #     flags=re.UNICODE | re.IGNORECASE)
 
 STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+AUTOMATED_READ_INDEX = {"1":"5-6 years (Kindergarten)","2":"6-7 years (First/Second Grade)","3":"7-9 years (Third Grade)","4":"9-10 years (Fourth Grade)","5":"10-11 years (Fifth Grade)","6":"11-12 years (Sixth Grade)","7":"12-13 years (Seventh Grade)","8":"13-14 years (Eighth Grade)","9":"14-15 years (Ninth Grade)","10":"15-16 years (Tenth Grade)","11":"16-17 years (Eleventh Grade)","12":"17-18 years (Twelfth grade)","13":"18-24 years (College student)","14":"24+ years (Professor)"}
 
 # Metrics
 class TextMetrics(object):
@@ -145,7 +146,8 @@ class TextMetrics(object):
 		emoji_num = len(re.findall(EMOJI_REGEX,self.text))
 		url_num = len(re.findall(URL_PATTERN,self.text))
 		sum_of_noise = sum([punct_num + stopwords_num + emoji_num,url_num])
-		percentage_of_noise = sum_of_noise/self.length * 100
+		# Handle ZeroDivisionError
+		percentage_of_noise = (sum_of_noise/self.length * 100) if sum_of_noise != 0 else 0
 		result_dict = {"text_noise":percentage_of_noise,"text_length":self.length,"noise_count":sum_of_noise}
 		return result_dict
 
@@ -169,6 +171,20 @@ class TextMetrics(object):
 		return len(self.text.lower())
 
 
+	def readability(self):
+		"""Returns the readability indices of the text using Automated Readability index
+
+		------------
+		ARI is derived from ratios that represent word difficulty (number of letters per word) and sentence difficulty (number of words per sentence).
+		Automated Readability Index formula: 4.71 x (characters/words) + 0.5 x (words/sentences) - 21.43.
+
+		"""
+		num_of_characters = len(self.text)
+		num_of_words = len(self.text.split(' '))
+		num_of_sentences = len(self.text.split('.'))
+		ari = 4.71 * (num_of_characters/num_of_words) + 0.5 * (num_of_words/num_of_sentences) - 21.43
+		ari_desc = AUTOMATED_READ_INDEX.get(str(round(ari)))
+		return {'automated readability':ari,"description":ari_desc}
 
 
 # Remove Emails/Phone number/Emoji/Stopwords/etc
@@ -213,7 +229,7 @@ class TextCleaner(TextMetrics):
 
 	def remove_puncts(self):
 		"""Returns A String with punctuations remove"""
-		self.text = (self.text).translate(str.maketrans('','',string.punctuation))
+		self.text = str(self.text).translate(str.maketrans('','',string.punctuation))
 		return self
 
 	def remove_special_characters(self):
@@ -257,6 +273,13 @@ class TextCleaner(TextMetrics):
 		"""Returns A String with HTML Tags removed"""
 		self.text = re.sub('<[^<]+?>',"",self.text)
 		return self
+
+	def remove_non_ascii(self):
+		"""Returns A String with Non ASCII removed"""
+		import unicodedata
+		self.text = unicodedata.normalize('NFKD',self.text).encode('ascii','ignore').decode('utf-8','ignore')
+		return self 
+
 
 	def replace_emails(self,replace_with="<EMAIL>"):
 		"""Replaces the emails in the text with custom label"""
@@ -368,6 +391,8 @@ class TextCleaner(TextMetrics):
 			
 		return final_result
 
+
+	
 
 
 
@@ -618,7 +643,9 @@ class TextFrame(TextCleaner):
 		emoji_num = len(re.findall(EMOJI_REGEX,self.text))
 		url_num = len(re.findall(URL_PATTERN,self.text))
 		sum_of_noise = sum([punct_num + stopwords_num + emoji_num,url_num])
-		percentage_of_noise = sum_of_noise/self.length * 100
+		# Handle ZeroDivisionError
+		percentage_of_noise = (sum_of_noise/self.length * 100) if sum_of_noise != 0 else 0
+		# percentage_of_noise = sum_of_noise/self.length * 100
 		result_dict = {"text_noise":percentage_of_noise,"text_length":self.length,"noise_count":sum_of_noise}
 		return result_dict
 

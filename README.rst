@@ -70,6 +70,10 @@ Using TextFrame
     >>> 
     >>> docx.length
     73
+    >>> # Scan Percentage of Noise(Unclean data) in text
+    >>> d.noise_scan()
+    {'text_noise': 19.17808219178082, 'text_length': 73, 'noise_count': 14}
+    >>> 
     >>> docs.head(16)
     'This is the mail'
     >>> docx.tail()
@@ -78,6 +82,7 @@ Using TextFrame
     >>> docx.count_consonants()
     >>> docx.nlongest()
     >>> docx.nshortest()
+    >>> docx.readability()
 
 Basic NLP Task (Tokenization,Ngram,Text Generation)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,6 +108,7 @@ Basic Text Preprocessing
     'this is the mail examplegmailcom our website is httpsexamplecom '
 
     >>> docx.remove_puncts()
+    >>> docx.remove_html_tags()
     >>> docx.remove_special_characters()
     >>> docx.remove_emojis()
     >>> docx.fix_contractions()
@@ -238,8 +244,8 @@ Usage
 
     >>> from neattext.functions import clean_text,extract_emails
     >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
-    >>> clean_text(t1,True)
-    >>>'this is the mail <email> ,our website is <url> .'
+    >>> clean_text(t1,puncts=True,stopwords=True)
+    >>>'this mail examplegmailcom website httpsexamplecom'
     >>> extract_emails(t1)
     >>> ['example@gmail.com']
 
