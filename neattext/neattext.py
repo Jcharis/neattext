@@ -274,6 +274,13 @@ class TextCleaner(TextMetrics):
 		self.text = re.sub('<[^<]+?>',"",self.text)
 		return self
 
+	def remove_non_ascii(self):
+		"""Returns A String with Non ASCII removed"""
+		import unicodedata
+		self.text = unicodedata.normalize('NFKD',self.text).encode('ascii','ignore').decode('utf-8','ignore')
+		return self 
+
+
 	def replace_emails(self,replace_with="<EMAIL>"):
 		"""Replaces the emails in the text with custom label"""
 		result = re.sub(EMAIL_REGEX,replace_with,self.text)

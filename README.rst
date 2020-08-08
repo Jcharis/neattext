@@ -82,6 +82,7 @@ Using TextFrame
     >>> docx.count_consonants()
     >>> docx.nlongest()
     >>> docx.nshortest()
+    >>> docx.readability()
 
 Basic NLP Task (Tokenization,Ngram,Text Generation)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -243,8 +244,8 @@ Usage
 
     >>> from neattext.functions import clean_text,extract_emails
     >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
-    >>> clean_text(t1,True)
-    >>>'this is the mail <email> ,our website is <url> .'
+    >>> clean_text(t1,puncts=True,stopwords=True)
+    >>>'this mail examplegmailcom website httpsexamplecom'
     >>> extract_emails(t1)
     >>> ['example@gmail.com']
 

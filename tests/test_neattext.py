@@ -102,9 +102,9 @@ def test_single_fxn_extract_emails():
 def test_single_fxn_clean_text():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
 	result = clean_text(t1,stopwords=True)
-	assert result == 'this mail example@gmail.com ,our website https://example.com .'
+	assert result == 'this mail examplegmailcom website httpsexamplecom'
 
-def test_single_fxn_clean_text_not():
+def test_single_fxn_clean_text_all():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = clean_text(t1)
 	assert result != 'this is the mail  our website is  '
@@ -123,6 +123,12 @@ def test_single_fxn_remove_currencies():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
 	result = remove_currencies(t1)
 	assert result == 'This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost  to subscribe.'
+
+def test_single_fxn_remove_non_ascii():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is Ø https://example.com . "
+	result = remove_non_ascii(t1)
+	assert result == 'This is the mail example@gmail.com ,our WEBSITE is  https://example.com . '
+
 
 def test_multiple_methods_chaining():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
