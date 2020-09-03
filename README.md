@@ -27,6 +27,8 @@ pip install neattext
 	- TextExtractor: extract unwanted text data
 	- TextMetrics: word stats and metrics
 
+### Overall Components of NeatText
+![](images/neattext_features_jcharistech.png)
 
 ### Using TextFrame
 + Keeps the text as `TextFrame` object. This allows us to do more with our text. 
@@ -117,7 +119,7 @@ tokens(words): 14
 
 #### Clean Text
 + Clean text by removing emails,numbers,stopwords,emojis,etc
-+ A simplify method for cleaning text by specifying as True/False what to clean from a text
++ A simplified method for cleaning text by specifying as True/False what to clean from a text
 ```python
 >>> from neattext.functions import clean_text
 >>> 
