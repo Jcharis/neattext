@@ -146,16 +146,66 @@ Clean Text
 ~~~~~~~~~~
 
 -  Clean text by removing emails,numbers,stopwords,emojis,etc
+-  A simplify method for cleaning text by specifying as True/False what
+   to clean from a text
 
    .. code:: python
 
-       >>> from neattext import TextCleaner
-       >>> docx = TextCleaner()
-       >>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-       >>> docx.clean_text()
+       >>> from neattext.functions import clean_text
+       >>> 
+       >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+       >>> 
+       >>> clean_text(mytext)
+       'mail example@gmail.com ,our website https://example.com .'
 
-Remove Emails,Numbers,Phone Numbers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  You can remove
+   punctuations,stopwords,urls,emojis,multiple\_whitespaces,etc by
+   setting them to True.
+
+-  You can choose to remove or not remove punctuations by setting to
+   True/False respectively
+
+.. code:: python
+
+    >>> clean_text(mytext,puncts=True)
+    'mail example@gmailcom website https://examplecom '
+    >>> 
+    >>> clean_text(mytext,puncts=False)
+    'mail example@gmail.com ,our website https://example.com .'
+    >>> 
+    >>> clean_text(mytext,puncts=False,stopwords=False)
+    'this is the mail example@gmail.com ,our website is https://example.com .'
+    >>> 
+
+-  You can also remove the other non-needed items accordingly
+   \`\`\`python >>> clean\_text(mytext,stopwords=False) 'this is the
+   mail example@gmail.com ,our website is https://example.com .' >>> >>>
+   clean\_text(mytext,urls=False) 'mail example@gmail.com ,our website
+   https://example.com .' >>> >>> clean\_text(mytext,urls=True) 'mail
+   example@gmail.com ,our website .' >>>
+
+\`\`\`
+
+Remove Punctuations [A Very Common Text Preprocessing Step]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  You remove the most common punctuations such as
+   fullstop,comma,exclamation marks and question marks by setting
+   most\_common=True which is the default
+-  Alternatively you can also remove all known punctuations from a text.
+   \`\`\`python >>> import neattext as nt >>> mytext = "This is the mail
+   example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't
+   forget the email when you enter !!!!!" >>> docx =
+   nt.TextFrame(mytext) >>> docx.remove\_puncts() TextFrame(text="This
+   is the mail example@gmailcom our WEBSITE is https://examplecom 😊
+   Please dont forget the email when you enter ")
+
+            docx.remove\_puncts(most\_common=False) TextFrame(text="This
+            is the mail examplegmailcom our WEBSITE is httpsexamplecom 😊
+            Please dont forget the email when you enter ") \`\`\`
+
+Remove Emails,Numbers,Phone Numbers,Dates,etc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
