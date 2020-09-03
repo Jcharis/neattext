@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.0.6'
+    assert __version__ == '0.0.7'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -79,7 +79,7 @@ def test_remove_stopwords():
 	docx = TextCleaner()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.remove_stopwords()
-	assert str(result) == 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
+	assert str(result) == 'mail example@gmail.com ,our WEBSITE https://example.com 😊.'
 
 
 def test_extract_stopwords():
@@ -102,7 +102,16 @@ def test_single_fxn_extract_emails():
 def test_single_fxn_clean_text():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
 	result = clean_text(t1,stopwords=True)
-	assert result == 'this mail examplegmailcom website httpsexamplecom'
+	assert result == 'mail example@gmail.com ,our website https://example.com .'
+
+	
+
+def test_single_fxn_clean_text_no_stopword():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
+	result = clean_text(t1,stopwords=False)
+	assert result == 'this is the mail example@gmail.com ,our website is https://example.com .'
+
+
 
 def test_single_fxn_clean_text_all():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
@@ -129,6 +138,15 @@ def test_single_fxn_remove_non_ascii():
 	result = remove_non_ascii(t1)
 	assert result == 'This is the mail example@gmail.com ,our WEBSITE is  https://example.com . '
 
+def test_single_fxn_remove_bad_quotes():
+	t1 = """He “went” home yesterday really ’late’."""
+	result = remove_bad_quotes(t1)
+	assert result == 'He  went  home yesterday really  late .'
+
+def test_single_fxn_remove_multiple_spaces():
+	t1 = 'He  went  home yesterday really  late .'
+	result = remove_multiple_spaces(t1)
+	assert result == 'He went home yesterday really late .'
 
 def test_multiple_methods_chaining():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
