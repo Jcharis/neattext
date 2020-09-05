@@ -76,6 +76,7 @@ CURRENCY_SYMB_REGEX = re.compile(
 
 STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
 AUTOMATED_READ_INDEX = {"1":"5-6 years (Kindergarten)","2":"6-7 years (First/Second Grade)","3":"7-9 years (Third Grade)","4":"9-10 years (Fourth Grade)","5":"10-11 years (Fifth Grade)","6":"11-12 years (Sixth Grade)","7":"12-13 years (Seventh Grade)","8":"13-14 years (Eighth Grade)","9":"14-15 years (Ninth Grade)","10":"15-16 years (Tenth Grade)","11":"16-17 years (Eleventh Grade)","12":"17-18 years (Twelfth grade)","13":"18-24 years (College student)","14":"24+ years (Professor)"}
+FUNCTORS_WORDLIST = ["a","about", "above", "across", "after", "afterwards", "again", "against", "all", "almost", "alone", "along", "already", "also", "although", "always", "am", "among", "amongst", "amoungst", "an", "and", "another", "any", "anyhow", "anyone", "anything", "anyway", "anywhere", "are", "around", "as", "at", "be", "became", "because", "been", "before", "beforehand", "behind", "being", "below", "beside", "besides", "between", "beyond", "both", "but", "by", "can", "cannot", "could", "dare", "despite", "did", "do", "does", "done", "down", "during", "each", "eg", "either", "else", "elsewhere", "enough", "etc", "even", "ever", "every", "everyone", "everything", "everywhere", "except", "few", "first", "for", "former", "formerly", "from", "further", "furthermore", "had", "has", "have", "he", "hence", "her", "here", "hereabouts", "hereafter", "hereby", "herein", "hereinafter", "heretofore", "hereunder", "hereupon", "herewith", "hers", "herself", "him", "himself", "his", "how", "however", "i", "ie", "if", "in", "indeed", "inside", "instead", "into", "is", "it", "its", "itself", "last", "latter", "latterly", "least", "less", "lot", "lots", "many", "may", "me", "meanwhile", "might", "mine", "more", "moreover", "most", "mostly", "much", "must", "my", "myself", "namely", "near", "need", "neither", "never", "nevertheless", "next", "no", "nobody", "none", "noone", "nor", "not", "nothing", "now", "nowhere", "of", "off", "often", "oftentimes", "on", "once", "one", "only", "onto", "or", "other", "others", "otherwise", "ought", "our", "ours", "ourselves", "out", "outside", "over", "per", "perhaps", "rather", "re", "same", "second", "several", "shall", "she", "should", "since", "so", "some", "somehow", "someone", "something", "sometime", "sometimes", "somewhat", "somewhere", "still", "such", "than", "that", "the", "their", "theirs", "them", "themselves", "then", "thence", "there", "thereabouts", "thereafter", "thereby", "therefore", "therein", "thereof", "thereon", "thereupon", "these", "they", "third", "this", "those", "though", "through", "throughout", "thru", "thus", "to", "together", "too", "top", "toward", "towards", "under", "until", "up", "upon", "us", "used", "very", "via", "was", "we", "well", "were", "what", "whatever", "when", "whence", "whenever", "where", "whereafter", "whereas", "whereby", "wherein", "whereupon", "wherever", "whether", "which", "while", "whither", "who", "whoever", "whole", "whom", "whose", "why", "whyever", "will", "with", "within", "without", "would", "yes", "yet", "you", "your", "yours", "yourself", "yourselves"]
 
 # Metrics
 class TextMetrics(object):
@@ -186,6 +187,37 @@ class TextMetrics(object):
 		ari = 4.71 * (num_of_characters/num_of_words) + 0.5 * (num_of_words/num_of_sentences) - 21.43
 		ari_desc = AUTOMATED_READ_INDEX.get(str(round(ari)))
 		return {'automated readability':ari,"description":ari_desc}
+
+	def text_richness(self):
+		"""Returns A Dictionary of the Lexical/Text Richness of the text using Type/Token Ratio
+
+		------------
+		ttr: Type Token Ratio
+		rttr: Root Type Token Ratio
+		cttr: Corrected Type Token Ratio
+		httr: Herdan Type Token Ratio
+		mttr: Maas Type Token Ratio
+
+		"""
+		import math
+
+		# Tokenize Word using Words
+		tokenized_words = re.split(r'\W+', self.text)
+		num_of_word_types = len(set(tokenized_words))
+		num_of_word_tokens = len(tokenized_words)
+		# TTR typ/word_tokens
+		tt_ratio = num_of_word_types/num_of_word_tokens
+		# ROOT TTR typ/sqrt(word_tokens)
+		root_tt_ratio = num_of_word_types/math.sqrt(num_of_word_tokens)
+		# Corrected TTR typ/sqrt(2 * word_tokens)
+		corrected_tt_ratio = num_of_word_types/math.sqrt(2*num_of_word_tokens)
+		# Herdan TTR  log(typ)/log(word_tokens)
+		herdan_tt_ratio = math.log(num_of_word_types)/math.log(math.sqrt(num_of_word_tokens))
+		# Mass TTR (log(w) - log(typ)) / (log(word_tokens) * log(word_tokens)),
+		mass_ttr = (math.log(num_of_word_tokens) - math.log(num_of_word_types))/ (math.log(num_of_word_tokens) * math.log(num_of_word_tokens))
+		
+		result = {"ttr":tt_ratio,"rttr":root_tt_ratio,"cttr":corrected_tt_ratio,"httr":herdan_tt_ratio,"mttr":mass_ttr}
+		return result
 
 
 # Remove Emails/Phone number/Emoji/Stopwords/etc
@@ -300,6 +332,12 @@ class TextCleaner(TextMetrics):
 	def remove_bad_quotes(self):
 		"""Returns a string with bad quotes removed"""
 		self.text = re.sub('[‘’“”…]',' ', self.text)
+		return self
+
+	def remove_custom_words(self,custom_wordlist):
+		"""Returns A String with the custom wordlist removed """
+		result = [word for word in self.text.split() if word.lower() not in custom_wordlist]
+		self.text = ' '.join(result)
 		return self
 
 
@@ -1064,3 +1102,15 @@ class TextFrame(TextCleaner):
 			term_frequencies[word] = (term_frequencies[word]/maximum_frequency)
 		
 		return term_frequencies
+
+	def count_function_words(self):
+		"""Returns the Count of Function Words"""
+		result = [word for word in self.text.lower().split() if word in FUNCTORS_WORDLIST]
+		final_res = Counter(result)
+		return dict(final_res)
+
+	def count_content_words(self):
+		"""Returns the Count of Content Words"""
+		result = [word for word in self.text.lower().split() if word not in FUNCTORS_WORDLIST]
+		final_res = Counter(result)
+		return dict(final_res)

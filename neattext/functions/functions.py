@@ -84,20 +84,20 @@ def remove_currency_symbols(text):
 	return result
 
 def remove_html_tags(text):
-		"""Returns A String with HTML Tags removed"""
-		result = re.sub('<[^<]+?>',"",text)
-		return result
+	"""Returns A String with HTML Tags removed"""
+	result = re.sub('<[^<]+?>',"",text)
+	return result
 
 def remove_dates(text):
-		"""Returns A String with Dates Removed """
-		result = re.sub(DATE_REGEX,"",text)
-		return result
+	"""Returns A String with Dates Removed """
+	result = re.sub(DATE_REGEX,"",text)
+	return result
 
 def remove_non_ascii(text):
-		"""Returns A String with Non ASCII removed"""
-		import unicodedata
-		result = unicodedata.normalize('NFKD',text).encode('ascii','ignore').decode('utf-8','ignore')
-		return result
+	"""Returns A String with Non ASCII removed"""
+	import unicodedata
+	result = unicodedata.normalize('NFKD',text).encode('ascii','ignore').decode('utf-8','ignore')
+	return result
 
 
 def remove_multiple_spaces(text):
@@ -110,7 +110,11 @@ def remove_bad_quotes(text):
 	result = re.sub('[‘’“”…]',' ', text)
 	return result 
 
-
+def remove_custom_words(self,custom_wordlist):
+    """Returns A String with the custom wordlist removed """
+    result = [word for word in self.text.split() if word.lower() not in custom_wordlist]
+    return ' '.join(result)
+    
 
 def extract_emails(text):
 	"""Returns the emails extracted """
