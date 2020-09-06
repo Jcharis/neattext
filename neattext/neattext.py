@@ -8,6 +8,8 @@ from collections import Counter
 import string
 import csv
 import heapq
+from neattext.pattern_data import STOPWORDS_en,STOPWORDS_fr,STOPWORDS_es,STOPWORDS_ru,STOPWORDS_yo,STOPWORDS_de
+
 
 # PATTERNS
 EMAIL_REGEX =  re.compile(r"[\w\.-]+@[\w\.-]+")
@@ -73,8 +75,9 @@ CURRENCY_SYMB_REGEX = re.compile(
 #     r"(?:^|(?<=[^\w)]))(\+?1[ .-]?)?(\(?\d{3}\)?[ .-]?)?(\d{3}[ .-]?\d{4})"
 #     r"(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W))",
 #     flags=re.UNICODE | re.IGNORECASE)
+# STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
 
-STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+STOPWORDS = ['a', 'about', 'above', 'across', 'after', 'afterwards', 'again', 'against', 'ain', 'all', 'almost', 'alone', 'along', 'already', 'also', 'although', 'always', 'am', 'among', 'amongst', 'amount', 'an', 'and', 'another', 'any', 'anyhow', 'anyone', 'anything', 'anyway', 'anywhere', 'are', 'aren', "aren't", 'around', 'as', 'at', 'back', 'be', 'became', 'because', 'become', 'becomes', 'becoming', 'been', 'before', 'beforehand', 'behind', 'being', 'below', 'beside', 'besides', 'between', 'beyond', 'both', 'bottom', 'but', 'by', 'ca', 'call', 'can', 'cannot', 'could', 'couldn', "couldn't", 'd', 'did', 'didn', "didn't", 'do', 'does', 'doesn', "doesn't", 'doing', 'don', "don't", 'done', 'down', 'due', 'during', 'each', 'eight', 'either', 'eleven', 'else', 'elsewhere', 'empty', 'enough', 'even', 'ever', 'every', 'everyone', 'everything', 'everywhere', 'except', 'few', 'fifteen', 'fifty', 'first', 'five', 'for', 'former', 'formerly', 'forty', 'four', 'from', 'front', 'full', 'further', 'get', 'give', 'go', 'had', 'hadn', "hadn't", 'has', 'hasn', "hasn't", 'have', 'haven', "haven't", 'having', 'he', 'hence', 'her', 'here', 'hereafter', 'hereby', 'herein', 'hereupon', 'hers', 'herself', 'him', 'himself', 'his', 'how', 'however', 'hundred', 'i', 'if', 'in', 'indeed', 'into', 'is', 'isn', "isn't", 'it', "it's", 'its', 'itself', 'just', 'keep', 'last', 'latter', 'latterly', 'least', 'less', 'll', 'm', 'ma', 'made', 'make', 'many', 'may', 'me', 'meanwhile', 'might', 'mightn', "mightn't", 'mine', 'more', 'moreover', 'most', 'mostly', 'move', 'much', 'must', 'mustn', "mustn't", 'my', 'myself', 'name', 'namely', 'needn', "needn't", 'neither', 'never', 'nevertheless', 'next', 'nine', 'no', 'nobody', 'none', 'noone', 'nor', 'not', 'nothing', 'now', 'nowhere', 'o', 'of', 'off', 'often', 'on', 'once', 'one', 'only', 'onto', 'or', 'other', 'others', 'otherwise', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 'part', 'per', 'perhaps', 'please', 'put', 'quite', 'rather', 're', 'really', 'regarding', 's', 'same', 'say', 'see', 'seem', 'seemed', 'seeming', 'seems', 'serious', 'several', 'shan', "shan't", 'she', "she's", 'should', "should've", 'shouldn', "shouldn't", 'show', 'side', 'since', 'six', 'sixty', 'so', 'some', 'somehow', 'someone', 'something', 'sometime', 'sometimes', 'somewhere', 'still', 'such', 't', 'take', 'ten', 'than', 'that', "that'll", 'the', 'their', 'theirs', 'them', 'themselves', 'then', 'thence', 'there', 'thereafter', 'thereby', 'therefore', 'therein', 'thereupon', 'these', 'they', 'third', 'this', 'those', 'though', 'three', 'through', 'throughout', 'thru', 'thus', 'to', 'together', 'too', 'top', 'toward', 'towards', 'twelve', 'twenty', 'two', 'under', 'unless', 'until', 'up', 'upon', 'us', 'used', 'using', 'various', 've', 'very', 'via', 'was', 'wasn', "wasn't", 'we', 'well', 'were', 'weren', "weren't", 'what', 'whatever', 'when', 'whence', 'whenever', 'where', 'whereafter', 'whereas', 'whereby', 'wherein', 'whereupon', 'wherever', 'whether', 'which', 'while', 'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will', 'with', 'within', 'without', 'won', "won't", 'would', 'wouldn', "wouldn't", 'y', 'yet', 'you', "you'd", "you'll", "you're", "you've", 'your', 'yours', 'yourself', 'yourselves']
 AUTOMATED_READ_INDEX = {"1":"5-6 years (Kindergarten)","2":"6-7 years (First/Second Grade)","3":"7-9 years (Third Grade)","4":"9-10 years (Fourth Grade)","5":"10-11 years (Fifth Grade)","6":"11-12 years (Sixth Grade)","7":"12-13 years (Seventh Grade)","8":"13-14 years (Eighth Grade)","9":"14-15 years (Ninth Grade)","10":"15-16 years (Tenth Grade)","11":"16-17 years (Eleventh Grade)","12":"17-18 years (Twelfth grade)","13":"18-24 years (College student)","14":"24+ years (Professor)"}
 FUNCTORS_WORDLIST = ["a","about", "above", "across", "after", "afterwards", "again", "against", "all", "almost", "alone", "along", "already", "also", "although", "always", "am", "among", "amongst", "amoungst", "an", "and", "another", "any", "anyhow", "anyone", "anything", "anyway", "anywhere", "are", "around", "as", "at", "be", "became", "because", "been", "before", "beforehand", "behind", "being", "below", "beside", "besides", "between", "beyond", "both", "but", "by", "can", "cannot", "could", "dare", "despite", "did", "do", "does", "done", "down", "during", "each", "eg", "either", "else", "elsewhere", "enough", "etc", "even", "ever", "every", "everyone", "everything", "everywhere", "except", "few", "first", "for", "former", "formerly", "from", "further", "furthermore", "had", "has", "have", "he", "hence", "her", "here", "hereabouts", "hereafter", "hereby", "herein", "hereinafter", "heretofore", "hereunder", "hereupon", "herewith", "hers", "herself", "him", "himself", "his", "how", "however", "i", "ie", "if", "in", "indeed", "inside", "instead", "into", "is", "it", "its", "itself", "last", "latter", "latterly", "least", "less", "lot", "lots", "many", "may", "me", "meanwhile", "might", "mine", "more", "moreover", "most", "mostly", "much", "must", "my", "myself", "namely", "near", "need", "neither", "never", "nevertheless", "next", "no", "nobody", "none", "noone", "nor", "not", "nothing", "now", "nowhere", "of", "off", "often", "oftentimes", "on", "once", "one", "only", "onto", "or", "other", "others", "otherwise", "ought", "our", "ours", "ourselves", "out", "outside", "over", "per", "perhaps", "rather", "re", "same", "second", "several", "shall", "she", "should", "since", "so", "some", "somehow", "someone", "something", "sometime", "sometimes", "somewhat", "somewhere", "still", "such", "than", "that", "the", "their", "theirs", "them", "themselves", "then", "thence", "there", "thereabouts", "thereafter", "thereby", "therefore", "therein", "thereof", "thereon", "thereupon", "these", "they", "third", "this", "those", "though", "through", "throughout", "thru", "thus", "to", "together", "too", "top", "toward", "towards", "under", "until", "up", "upon", "us", "used", "very", "via", "was", "we", "well", "were", "what", "whatever", "when", "whence", "whenever", "where", "whereafter", "whereas", "whereby", "wherein", "whereupon", "wherever", "whether", "which", "while", "whither", "who", "whoever", "whole", "whom", "whose", "why", "whyever", "will", "with", "within", "without", "would", "yes", "yet", "you", "your", "yours", "yourself", "yourselves"]
 
@@ -113,8 +116,29 @@ class TextMetrics(object):
 		result = {v:words.count(v) for v in 'bcdfghjklmnpqrstvwxyz'}
 		return result
 
-	def count_stopwords(self):
-		result = [word for word in self.text.lower().split() if word in STOPWORDS]
+	def count_stopwords(self,lang='en'):
+		"""Returns a Count/Freq of Stopwords in the Text by Language
+		--------
+		Params:
+			lang: en|fr|es|ru|yo|de
+
+		"""
+		if lang == 'en':
+			stopwords_in_use = STOPWORDS_en
+		elif lang == 'es':
+			stopwords_in_use = STOPWORDS_es 
+		elif lang == 'fr':
+			stopwords_in_use = STOPWORDS_fr
+		elif lang == 'ru':
+			stopwords_in_use = STOPWORDS_ru
+		elif lang == 'yo':
+			stopwords_in_use = STOPWORDS_yo
+		elif lang == 'de':
+			stopwords_in_use = STOPWORDS_de
+		else:
+			stopwords_in_use = STOPWORDS_en
+
+		result = [word for word in self.text.lower().split() if word in stopwords_in_use]
 		final_res = Counter(result)
 		return final_res
 
@@ -188,7 +212,7 @@ class TextMetrics(object):
 		ari_desc = AUTOMATED_READ_INDEX.get(str(round(ari)))
 		return {'automated readability':ari,"description":ari_desc}
 
-	def text_richness(self):
+	def lexical_richness(self):
 		"""Returns A Dictionary of the Lexical/Text Richness of the text using Type/Token Ratio
 
 		------------
@@ -202,22 +226,35 @@ class TextMetrics(object):
 		import math
 
 		# Tokenize Word using Words
-		tokenized_words = re.split(r'\W+', self.text)
+		tokenized_words = re.split(r'\W+', self.text.lower())
 		num_of_word_types = len(set(tokenized_words))
 		num_of_word_tokens = len(tokenized_words)
+
 		# TTR typ/word_tokens
 		tt_ratio = num_of_word_types/num_of_word_tokens
 		# ROOT TTR typ/sqrt(word_tokens)
 		root_tt_ratio = num_of_word_types/math.sqrt(num_of_word_tokens)
 		# Corrected TTR typ/sqrt(2 * word_tokens)
 		corrected_tt_ratio = num_of_word_types/math.sqrt(2*num_of_word_tokens)
-		# Herdan TTR  log(typ)/log(word_tokens)
-		herdan_tt_ratio = math.log(num_of_word_types)/math.log(math.sqrt(num_of_word_tokens))
-		# Mass TTR (log(w) - log(typ)) / (log(word_tokens) * log(word_tokens)),
-		mass_ttr = (math.log(num_of_word_tokens) - math.log(num_of_word_types))/ (math.log(num_of_word_tokens) * math.log(num_of_word_tokens))
+		# # Herdan TTR  log(typ)/log(word_tokens)
+		# herdan_tt_ratio = math.log(num_of_word_types)/math.log(math.sqrt(num_of_word_tokens))
+		# # Mass TTR (log(w) - log(typ)) / (log(word_tokens) * log(word_tokens)),
+		# mass_ttr = (math.log(num_of_word_tokens) - math.log(num_of_word_types))/ (math.log(num_of_word_tokens) * math.log(num_of_word_tokens))
 		
-		result = {"ttr":tt_ratio,"rttr":root_tt_ratio,"cttr":corrected_tt_ratio,"httr":herdan_tt_ratio,"mttr":mass_ttr}
+		result = {"ttr":tt_ratio,"rttr":root_tt_ratio,"cttr":corrected_tt_ratio}
 		return result
+
+	def word_length_freq(self):
+		"""Returns the Count/Freq Distribution of Words by their length.
+		Useful for stylometric mendelhall curve
+
+		"""
+		all_tokens_length = [len(token) for token in self.text.split()]
+		count_of_n_length_word = Counter(all_tokens_length)
+		sorted_count_of_n_length_word = sorted(dict(count_of_n_length_word).items())
+		
+		return dict(sorted_count_of_n_length_word)
+
 
 
 # Remove Emails/Phone number/Emoji/Stopwords/etc
@@ -285,9 +322,31 @@ class TextCleaner(TextMetrics):
 		self.text = re.sub(EMOJI_REGEX,"",self.text)
 		return self
 
-	def remove_stopwords(self):
-		"""Returns A String with the stopwords removed """
-		result = [word for word in self.text.split() if word.lower() not in STOPWORDS]
+	def remove_stopwords(self,lang='en'):
+		"""Returns A String with the stopwords removed 
+		
+		Params:
+		lang: specify language to use [en|es|fr|ru|yo|de]
+		Support English(en),Spanish(es),French(fr)|Russian(ru)|Yoruba(yo)|German(de)
+		
+		"""
+
+		if lang == 'en':
+			stopwords_in_use = STOPWORDS_en
+		elif lang == 'es':
+			stopwords_in_use = STOPWORDS_es 
+		elif lang == 'fr':
+			stopwords_in_use = STOPWORDS_fr
+		elif lang == 'ru':
+			stopwords_in_use = STOPWORDS_ru
+		elif lang == 'yo':
+			stopwords_in_use = STOPWORDS_yo
+		elif lang == 'de':
+			stopwords_in_use = STOPWORDS_de
+		else:
+			stopwords_in_use = STOPWORDS_en
+
+		result = [word for word in self.text.split() if word.lower() not in stopwords_in_use]
 		self.text = ' '.join(result)
 		return self
 
@@ -622,9 +681,25 @@ class TextExtractor(TextCleaner):
 		result = re.findall(EMOJI_REGEX,self.text)
 		return result
 
-	def extract_stopwords(self):
+	def extract_stopwords(self,lang='en'):
 		"""Returns the stopwords as a list """
-		result = [word for word in self.text.split() if word in STOPWORDS]
+
+		if lang == 'en':
+			stopwords_in_use = STOPWORDS_en
+		elif lang == 'es':
+			stopwords_in_use = STOPWORDS_es 
+		elif lang == 'fr':
+			stopwords_in_use = STOPWORDS_fr
+		elif lang == 'ru':
+			stopwords_in_use = STOPWORDS_ru
+		elif lang == 'yo':
+			stopwords_in_use = STOPWORDS_yo
+		elif lang == 'de':
+			stopwords_in_use = STOPWORDS_de
+		else:
+			stopwords_in_use = STOPWORDS_en
+
+		result = [word for word in self.text.lower().split() if word in stopwords_in_use]
 		return result
 	
 	def extract_urls(self):
@@ -745,9 +820,29 @@ class TextFrame(TextCleaner):
 		result = {v:words.count(v) for v in 'bcdfghjklmnpqrstvwxyz'}
 		return result
 
-	def count_stopwords(self):
-		"""Returns the Count of Stopwords"""
-		result = [word for word in self.text.lower().split() if word in STOPWORDS]
+	def count_stopwords(self,lang='en'):
+		"""Returns a Count/Freq of Stopwords in the Text by Language
+		--------
+		Params:
+			lang: en|fr|es|ru|yo|de
+
+		"""
+		if lang == 'en':
+			stopwords_in_use = STOPWORDS_en
+		elif lang == 'es':
+			stopwords_in_use = STOPWORDS_es 
+		elif lang == 'fr':
+			stopwords_in_use = STOPWORDS_fr
+		elif lang == 'ru':
+			stopwords_in_use = STOPWORDS_ru
+		elif lang == 'yo':
+			stopwords_in_use = STOPWORDS_yo
+		elif lang == 'de':
+			stopwords_in_use = STOPWORDS_de
+		else:
+			stopwords_in_use = STOPWORDS_en
+
+		result = [word for word in self.text.lower().split() if word in stopwords_in_use]
 		final_res = Counter(result)
 		return dict(final_res)
 

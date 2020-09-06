@@ -88,6 +88,7 @@ tokens(words): 14
 'this is the mail examplegmailcom our website is httpsexamplecom '
 
 >>> docx.remove_puncts()
+>>> docx.remove_stopwords()
 >>> docx.remove_html_tags()
 >>> docx.remove_special_characters()
 >>> docx.remove_emojis()
@@ -157,7 +158,7 @@ tokens(words): 14
 
 ```
 
-#### Remove Punctuations [A Very Common Text Preprocessing Step]
+#### Removing Punctuations [A Very Common Text Preprocessing Step]
 + You remove the most common punctuations such as fullstop,comma,exclamation marks and question marks by setting most_common=True which is the default
 + Alternatively you can also remove all known punctuations from a text.
 ```python
@@ -169,6 +170,18 @@ TextFrame(text="This is the mail example@gmailcom our WEBSITE is https://example
 
 >>> docx.remove_puncts(most_common=False)
 TextFrame(text="This is the mail examplegmailcom our WEBSITE is httpsexamplecom 😊 Please dont forget the email when you enter ")
+```
+
+#### Removing Stopwords [A Very Common Text Preprocessing Step]
++ You can remove stopwords from a text by specifying the language. The default language is English
++ Supported Languages include English(en),Spanish(es),French(fr)|Russian(ru)|Yoruba(yo)|German(de)
+
+```python
+>>> import neattext as nt 
+>>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't forget the email when you enter !!!!!"
+>>> docx = nt.TextFrame(mytext)
+>>> docx.remove_stopwords(lang='en')
+TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. forget email enter !!!!!")
 ```
 
 
