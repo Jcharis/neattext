@@ -2,11 +2,11 @@
 # This file is part of the NEAT Project suite of libraries
 
 import re
-from neattext.pattern_data import EMAIL_REGEX,NUMBERS_REGEX,PHONE_REGEX,SPECIAL_CHARACTERS_REGEX,EMOJI_REGEX,URL_PATTERN,CURRENCY_REGEX,CURRENCY_SYMB_REGEX,STOPWORDS,DATE_REGEX,MOST_COMMON_PUNCT_REGEX
+from neattext.pattern_data import EMAIL_REGEX,NUMBERS_REGEX,PHONE_REGEX,SPECIAL_CHARACTERS_REGEX,EMOJI_REGEX,URL_PATTERN,CURRENCY_REGEX,CURRENCY_SYMB_REGEX,STOPWORDS,DATE_REGEX,MOST_COMMON_PUNCT_REGEX,STOPWORDS_en,STOPWORDS_fr,STOPWORDS_es,STOPWORDS_ru,STOPWORDS_yo,STOPWORDS_de
 from neattext import TextFrame
 from collections import defaultdict
 from heapq import nlargest
-import random,string
+import random,string,math
 
 
 # Individual Functions
@@ -63,9 +63,29 @@ def remove_emojis(text):
 	result = re.sub(EMOJI_REGEX,"",text)
 	return result
 
-def remove_stopwords(text):
-	"""Returns A String with the stopwords removed """
-	result = [word for word in text.split() if word.lower() not in STOPWORDS]
+def remove_stopwords(text,lang='en'):
+	"""Returns A String with the stopwords removed 
+
+	lang: specify language to use [en|es|fr|ru|yo|de]
+		Support English(en),Spanish(es),French(fr)|Russian(ru)|Yoruba(yo)|German(de)
+
+	"""
+	if lang == 'en':
+		stopwords_in_use = STOPWORDS_en
+	elif lang == 'es':
+		stopwords_in_use = STOPWORDS_es 
+	elif lang == 'fr':
+		stopwords_in_use = STOPWORDS_fr
+	elif lang == 'ru':
+		stopwords_in_use = STOPWORDS_ru
+	elif lang == 'yo':
+		stopwords_in_use = STOPWORDS_yo
+	elif lang == 'de':
+		stopwords_in_use = STOPWORDS_de
+	else:
+		stopwords_in_use = STOPWORDS_en
+
+	result = [word for word in text.split() if word.lower() not in stopwords_in_use]
 	return ' '.join(result)
 
 def remove_urls(text):
@@ -812,7 +832,6 @@ def inverse_df(text):
 	It is important to mention that to mitigate the effect of very rare and very common words on the corpus, the log of the IDF value can be calculated before multiplying it with the TF-IDF value.
 
 	"""
-	import math
 	word_idf_values = {}
 	total_num_sent = len(text)
 	tokenize_word_list = term_freq(text).keys()
@@ -825,3 +844,76 @@ def inverse_df(text):
 
 	return word_idf_values
 	
+def _lex_richness_herdan(text):
+	# Tokenize Word using Words
+	tokenized_words = re.split(r'\W+',str(text).lower())
+	num_of_word_types = len(set(tokenized_words))
+	num_of_word_tokens = len(tokenized_words)
+	if num_of_word_types == num_of_word_tokens:
+		result_httr = 0
+	else:
+		# Herdan TTR  log(typ)/log(word_tokens)
+		result_httr = math.log(num_of_word_types)/math.log(math.sqrt(num_of_word_tokens)) 
+	
+	return result_httr 
+
+def _lex_richness_maas_ttr(text):
+	# Tokenize Word using Words
+	tokenized_words = re.split(r'\W+',str(text).lower())
+	num_of_word_types = len(set(tokenized_words))
+	num_of_word_tokens = len(tokenized_words)
+	if num_of_word_types == num_of_word_tokens:
+		result_maas_ttr = 0
+	else:
+		# Maas TTR (log(w) - log(typ)) / (log(word_tokens) * log(word_tokens)),
+		result_maas_ttr = (math.log(num_of_word_tokens) - math.log(num_of_word_types))/ (math.log(num_of_word_tokens) * math.log(num_of_word_tokens))
+
+	return result_maas_ttr
+	
+
+def lexical_richness(text):
+	"""Returns A Dictionary of the Lexical/Text Richness of the text using Type/Token Ratio
+
+		------------
+	ttr: Type Token Ratio
+	rttr: Root Type Token Ratio
+	cttr: Corrected Type Token Ratio
+	httr: Herdan Type Token Ratio
+	mttr: Maas Type Token Ratio
+	
+	Usage:
+	>>> lexical_richness(mytext)
+
+	"""
+	
+	# Tokenize Word using Words
+	tokenized_words = re.split(r'\W+',str(text).lower())
+	num_of_word_types = len(set(tokenized_words))
+	num_of_word_tokens = len(tokenized_words)
+
+	# TTR typ/word_tokens
+	tt_ratio = num_of_word_types/num_of_word_tokens
+	# ROOT TTR typ/sqrt(word_tokens)
+	root_tt_ratio = num_of_word_types/math.sqrt(num_of_word_tokens)
+	# Corrected TTR typ/sqrt(2 * word_tokens)
+	corrected_tt_ratio = num_of_word_types/math.sqrt(2*num_of_word_tokens)
+	# Herdan TTR  log(typ)/log(word_tokens)
+	herdan_tt_ratio = _lex_richness_herdan(text)
+	# Mass TTR (log(w) - log(typ)) / (log(word_tokens) * log(word_tokens)),
+	mass_ttr = _lex_richness_maas_ttr(text)
+
+	result = {"ttr":tt_ratio,"rttr":root_tt_ratio,"cttr":corrected_tt_ratio,"httr":herdan_tt_ratio,"mttr":mass_ttr}
+	return result
+
+def word_length_freq(text):
+	"""Returns the Count/Freq Distribution of Words by their length.
+	Useful for stylometric mendelhall curve
+
+	>>> word_length_freq(mytext)
+
+	"""
+	all_tokens_length = [len(token) for token in text.split()]
+	count_of_n_length_word = Counter(all_tokens_length)
+	sorted_count_of_n_length_word = sorted(dict(count_of_n_length_word).items())
+		
+	return dict(sorted_count_of_n_length_word)

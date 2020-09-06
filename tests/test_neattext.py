@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.0.7'
+    assert __version__ == '0.0.8'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -86,7 +86,7 @@ def test_extract_stopwords():
 	docx = TextExtractor()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.extract_stopwords()
-	assert result == ['is', 'the', 'is']
+	assert result == ['this', 'is', 'the', 'is']
 
 def test_single_fxn_remove_emails():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
@@ -182,3 +182,14 @@ def test_textframe_remove_html():
 	result = docx.remove_html_tags()
 	assert result.text == "This is the example for html tags"
 
+def test_textframe_remove_stopwords():
+	docx = TextFrame()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = docx.remove_stopwords(lang='en')
+	assert result.text == "mail example@gmail.com ,our WEBSITE https://example.com 😊."
+
+def test_textframe_remove_puncts():
+	docx = TextFrame()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = docx.remove_puncts()
+	assert result.text == "This is the mail example@gmailcom our WEBSITE is https://examplecom 😊"

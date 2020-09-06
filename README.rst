@@ -39,6 +39,12 @@ Usage
    -  TextExtractor: extract unwanted text data
    -  TextMetrics: word stats and metrics
 
+Overall Components of NeatText
+------------------------------
+
+.. figure:: images/neattext_features_jcharistech.png
+   :alt: 
+
 Using TextFrame
 ---------------
 
@@ -108,6 +114,7 @@ Basic Text Preprocessing
     'this is the mail examplegmailcom our website is httpsexamplecom '
 
     >>> docx.remove_puncts()
+    >>> docx.remove_stopwords()
     >>> docx.remove_html_tags()
     >>> docx.remove_special_characters()
     >>> docx.remove_emojis()
@@ -146,8 +153,8 @@ Clean Text
 ~~~~~~~~~~
 
 -  Clean text by removing emails,numbers,stopwords,emojis,etc
--  A simplify method for cleaning text by specifying as True/False what
-   to clean from a text
+-  A simplified method for cleaning text by specifying as True/False
+   what to clean from a text
 
    .. code:: python
 
@@ -186,8 +193,8 @@ Clean Text
 
 \`\`\`
 
-Remove Punctuations [A Very Common Text Preprocessing Step]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Removing Punctuations [A Very Common Text Preprocessing Step]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  You remove the most common punctuations such as
    fullstop,comma,exclamation marks and question marks by setting
@@ -203,6 +210,22 @@ Remove Punctuations [A Very Common Text Preprocessing Step]
             docx.remove\_puncts(most\_common=False) TextFrame(text="This
             is the mail examplegmailcom our WEBSITE is httpsexamplecom 😊
             Please dont forget the email when you enter ") \`\`\`
+
+Removing Stopwords [A Very Common Text Preprocessing Step]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  You can remove stopwords from a text by specifying the language. The
+   default language is English
+-  Supported Languages include
+   English(en),Spanish(es),French(fr)\|Russian(ru)\|Yoruba(yo)\|German(de)
+
+.. code:: python
+
+    >>> import neattext as nt 
+    >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't forget the email when you enter !!!!!"
+    >>> docx = nt.TextFrame(mytext)
+    >>> docx.remove_stopwords(lang='en')
+    TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. forget email enter !!!!!")
 
 Remove Emails,Numbers,Phone Numbers,Dates,etc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
