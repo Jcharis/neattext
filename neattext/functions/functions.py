@@ -2,9 +2,9 @@
 # This file is part of the NEAT Project suite of libraries
 
 import re
-from neattext.pattern_data import EMAIL_REGEX,NUMBERS_REGEX,PHONE_REGEX,SPECIAL_CHARACTERS_REGEX,EMOJI_REGEX,URL_PATTERN,CURRENCY_REGEX,CURRENCY_SYMB_REGEX,STOPWORDS,DATE_REGEX,MOST_COMMON_PUNCT_REGEX,STOPWORDS_en,STOPWORDS_fr,STOPWORDS_es,STOPWORDS_ru,STOPWORDS_yo,STOPWORDS_de
+from neattext.pattern_data import EMAIL_REGEX,NUMBERS_REGEX,PHONE_REGEX,SPECIAL_CHARACTERS_REGEX,EMOJI_REGEX,URL_PATTERN,CURRENCY_REGEX,CURRENCY_SYMB_REGEX,STOPWORDS,DATE_REGEX,MOST_COMMON_PUNCT_REGEX,STOPWORDS_en,STOPWORDS_fr,STOPWORDS_es,STOPWORDS_ru,STOPWORDS_yo,STOPWORDS_de,HASTAG_REGEX,USER_HANDLES_REGEX
 from neattext import TextFrame
-from collections import defaultdict
+from collections import defaultdict,Counter
 from heapq import nlargest
 import random,string,math
 
@@ -130,11 +130,32 @@ def remove_bad_quotes(text):
 	result = re.sub('[‘’“”…]',' ', text)
 	return result 
 
-def remove_custom_words(self,custom_wordlist):
+def remove_custom_words(text,custom_wordlist):
     """Returns A String with the custom wordlist removed """
-    result = [word for word in self.text.split() if word.lower() not in custom_wordlist]
+    result = [word for word in text.split() if word.lower() not in custom_wordlist]
     return ' '.join(result)
-    
+
+def remove_hashtags(text):
+	"""Returns a string with hashtags removed"""
+	result = re.sub(HASTAG_REGEX,' ', text)
+	return result
+
+def remove_userhandles(text):
+	"""Returns a string with @userhandles removed"""
+	result = re.sub(USER_HANDLES_REGEX,' ', text)
+	return result
+
+def remove_custom_pattern(text,term_pattern):
+	"""Remove Custom Pattern
+	
+	Params
+	------
+	text: string
+	term_pattern:pattern or term to remove
+
+	"""
+	result = re.sub(term_pattern,' ',text)
+	return result 
 
 def extract_emails(text):
 	"""Returns the emails extracted """
@@ -182,20 +203,40 @@ def extract_currency_symbols(text):
 	return result
 
 def extract_dates(text):
-		"""Returns the dates extracted """
-		result = re.findall(DATE_REGEX,text)
-		return result
+	"""Returns the dates extracted """
+	result = re.findall(DATE_REGEX,text)
+	return result
 
 def extract_html_tags(text):
-		"""Returns  the HTML Tags extracted """
-		result = re.findall(r'<[^<]+?>',text)
-		return result
+	"""Returns  the HTML Tags extracted """
+	result = re.findall(r'<[^<]+?>',text)
+	return result
 
+def extract_hashtags(text):
+	"""Returns the hashtags extracted"""
+	result = re.findall(HASTAG_REGEX, text)
+	return result
+
+def extract_userhandles(text):
+	"""Returns the @userhandles extracted """
+	result = re.findall(USER_HANDLES_REGEX, text)
+	return result
+
+def extract_pattern(text,term_pattern):
+	"""Returns  a list all terms found extracted 
+	
+	--------
+	text: string
+	term_pattern: pattern or term to extract(you can also use r'' for raw regex pattern)
+
+	"""
+	result = re.findall(term_pattern,text)
+	return result
 
 
 def clean_text(text,puncts=False,stopwords=True,urls=False,
 	emails=False,numbers=False,emojis=True,special_char=False,
-	phone_num=False,non_ascii=False,multiple_whitespaces=True,contractions=False,currency_symbols=False):
+	phone_num=False,non_ascii=False,multiple_whitespaces=True,contractions=False,currency_symbols=False,custom_pattern=None):
 	"""
 	Clean entire text
 
@@ -238,6 +279,10 @@ def clean_text(text,puncts=False,stopwords=True,urls=False,
 	currency_symbols:Boolean(True/False) default is False
 	remove currency symbols
 
+	custom_pattern:Specify Pattern to remove from text,default is None
+	 example:
+	 >>> clean_text(mytext,custom_pattern='hello##')
+
 	Returns
 	-------
 	string
@@ -268,6 +313,8 @@ def clean_text(text,puncts=False,stopwords=True,urls=False,
 		text = remove_currency_symbols(text)
 	if special_char:
 		text = remove_special_characters(text)
+	if custom_pattern is not None:
+		text = remove_custom_pattern(text,custom_pattern)
 		
 	return text.lower()	
 

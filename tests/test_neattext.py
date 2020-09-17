@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.0.8'
+    assert __version__ == '0.0.9'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -193,3 +193,30 @@ def test_textframe_remove_puncts():
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.remove_puncts()
 	assert result.text == "This is the mail example@gmailcom our WEBSITE is https://examplecom 😊"
+
+
+def test_textframe_remove_hashtags():
+	docx = TextFrame()
+	docx.text = "This is the tag #jesuslives use wisely "
+	result = docx.remove_hashtags()
+	assert result.text == "This is the tag   use wisely "
+
+
+def test_textframe_remove_userhandles():
+	docx = TextFrame()
+	docx.text = "This is the tag @jesuslives use wisely "
+	result = docx.remove_userhandles()
+	assert result.text == "This is the tag   use wisely "
+
+
+def test_single_fxn_extract_pattern():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is Ø https://example.com  #hello. "
+	result = extract_pattern(t1,r'#\S+')
+	assert result == ['#hello.']
+
+
+
+def test_single_fxn_clean_text_custom_pattern():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
+	result = clean_text(t1,stopwords=False,custom_pattern=r'@\w+')
+	assert result == 'this is the mail example .com ,our website is https://example.com .'

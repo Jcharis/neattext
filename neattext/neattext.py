@@ -71,6 +71,9 @@ CURRENCY_SYMB_REGEX = re.compile(
 	r"[$¢£¤¥ƒ֏؋৲৳૱௹฿៛ℳ元円圆圓﷼\u20A0-\u20C0]",
 	flags=re.UNICODE)
 
+HASTAG_REGEX = re.compile(r"#\S+")
+USER_HANDLES_REGEX = re.compile(r"@\S+")
+
 # PHONE_REGEX = re.compile(
 #     r"(?:^|(?<=[^\w)]))(\+?1[ .-]?)?(\(?\d{3}\)?[ .-]?)?(\d{3}[ .-]?\d{4})"
 #     r"(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W))",
@@ -399,6 +402,16 @@ class TextCleaner(TextMetrics):
 		self.text = ' '.join(result)
 		return self
 
+	def remove_hashtags(self):
+		"""Returns a string with hashtags removed"""
+		self.text = re.sub(HASTAG_REGEX,' ', self.text)
+		return self
+
+	def remove_userhandles(self):
+		"""Returns a string with @userhandles removed"""
+		self.text = re.sub(USER_HANDLES_REGEX,' ', self.text)
+		return self
+
 
 	def replace_emails(self,replace_with="<EMAIL>"):
 		"""Replaces the emails in the text with custom label"""
@@ -448,6 +461,11 @@ class TextCleaner(TextMetrics):
 	def replace_term(self,old_term,new_term):
 		"""Replaces term in the text with another term"""
 		result = re.sub(old_term,new_term,self.text)
+		return result
+
+	def replace_userhandles(self,replace_with="<USER>"):
+		"""Replaces User handles and mention in the text with custom label"""
+		result = re.sub(USER_HANDLES_REGEX,replace_with,self.text)
 		return result
 
 	def fix_contractions(self):
@@ -761,6 +779,21 @@ class TextExtractor(TextCleaner):
 		"""
 		return re.findall('\\(([^)]+)',self.text)
 
+	def extract_hashtags(self):
+		"""Returns  a list all hashtags extractedffrom text """
+		result = re.findall(HASTAG_REGEX,self.text)
+		return result
+
+
+	def extract_userhandles(self):
+		"""Returns  a list all Userhandle """
+		result = re.findall(USER_HANDLES_REGEX,self.text)
+		return result
+
+	def extract_pattern(self,term_pattern):
+		"""Returns  a list all terms found that match pattern/term """
+		result = re.findall(term_pattern,self.text)
+		return result
 
 
 

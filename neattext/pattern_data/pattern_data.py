@@ -61,6 +61,8 @@ CURRENCY_SYMB_REGEX = re.compile(
     r"[$¢£¤¥ƒ֏؋৲৳૱௹฿៛ℳ元円圆圓﷼\u20A0-\u20C0]",
     flags=re.UNICODE)
 
+HASTAG_REGEX = re.compile(r"#\S+")
+USER_HANDLES_REGEX = re.compile(r"@\S+")
 # PHONE_REGEX = re.compile(
 #     r"(?:^|(?<=[^\w)]))(\+?1[ .-]?)?(\(?\d{3}\)?[ .-]?)?(\d{3}[ .-]?\d{4})"
 #     r"(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W))",
