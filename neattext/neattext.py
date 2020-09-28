@@ -412,6 +412,22 @@ class TextCleaner(TextMetrics):
 		self.text = re.sub(USER_HANDLES_REGEX,' ', self.text)
 		return self
 
+	def remove_shortwords(self,length=3):
+		"""Returns a string with all short words of a particular length removed 
+
+		params:
+		length: Specify the length of words you want to remove
+		default is 3 letter word length
+		
+		"""
+		token_words = re.split(r'\W+', self.text)
+		long_words_list = [ i for i in token_words if len(i) > int(length)]
+		self.text = ' '.join(long_words_list)
+		return self
+
+
+
+
 
 	def replace_emails(self,replace_with="<EMAIL>"):
 		"""Replaces the emails in the text with custom label"""
@@ -794,6 +810,19 @@ class TextExtractor(TextCleaner):
 		"""Returns  a list all terms found that match pattern/term """
 		result = re.findall(term_pattern,self.text)
 		return result
+
+	def extract_shortwords(self,length=3):
+		"""Returns a list with all short words of a particular length or less 
+
+		params:
+		length: Specify the length of words you want to remove
+		default is 3 letter word length
+		
+		"""
+		token_words = re.split(r'\W+', self.text)
+		short_words_list = [ i for i in token_words if len(i) <= int(length)]
+		return short_words_list
+
 
 
 
