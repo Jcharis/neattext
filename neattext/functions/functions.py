@@ -157,6 +157,18 @@ def remove_custom_pattern(text,term_pattern):
 	result = re.sub(term_pattern,' ',text)
 	return result 
 
+def remove_shortwords(text,length=3):
+	"""Returns a string with all short words of a particular length or less removed 
+
+	params:
+	length: Specify the length of words you want to remove
+	default is 3 letter word length or less
+	
+	"""
+	token_words = re.split(r'\W+',text)
+	long_words_list = [ i for i in token_words if len(i) > int(length)]
+	return ' '.join(long_words_list)
+
 def extract_emails(text):
 	"""Returns the emails extracted """
 	result = re.findall(EMAIL_REGEX,text)
@@ -232,6 +244,18 @@ def extract_pattern(text,term_pattern):
 	"""
 	result = re.findall(term_pattern,text)
 	return result
+
+def extract_shortwords(text,length=3):
+	"""Returns a list with all short words of a particular length 
+
+	params:
+	length: Specify the length of words you want to remove
+	default is 3 letter word length
+	
+	"""
+	token_words = re.split(r'\W+',text)
+	short_words_list = [ i for i in token_words if len(i) <= int(length)]
+	return short_words_list
 
 
 def clean_text(text,puncts=False,stopwords=True,urls=False,

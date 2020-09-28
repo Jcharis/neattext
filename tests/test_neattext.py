@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.0.9'
+    assert __version__ == '0.1.0'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -207,6 +207,26 @@ def test_textframe_remove_userhandles():
 	docx.text = "This is the tag @jesuslives use wisely "
 	result = docx.remove_userhandles()
 	assert result.text == "This is the tag   use wisely "
+
+
+def test_textframe_remove_shortwords():
+	docx = TextFrame()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = docx.remove_shortwords(length=3)
+	assert result.text == "This mail example gmail WEBSITE https example"
+
+
+def test_single_fxn_remove_shortwords():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = remove_shortwords(t1,length=3)
+	assert result == "This mail example gmail WEBSITE https example"
+
+
+def test_single_fxn_extract_shortwords():
+	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = extract_shortwords(t1,length=3)
+	assert result == ['is', 'the', 'com', 'our', 'is', 'com', '']
+
 
 
 def test_single_fxn_extract_pattern():

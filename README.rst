@@ -1,3 +1,7 @@
+.. role:: raw-latex(raw)
+   :format: latex
+..
+
 neattext
 ========
 
@@ -256,6 +260,18 @@ Remove Emojis
     >>> print(docx.remove_emojis())
     >>> 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
 
+Remove Custom Pattern
+~~~~~~~~~~~~~~~~~~~~~
+
+-  You can also specify your own custom pattern, incase you cannot find
+   what you need in the functions using the ``remove_custom_pattern()``
+   function \`\`\`python >>> import neattext.functions as nfx >>> ex =
+   "Last !RT tweeter multiple &#7777" >>> >>>
+   nfx.remove\_custom\_pattern(e,r'&#:raw-latex:`\d`+') 'Last !RT
+   tweeter multiple '
+
+\`\`\`
+
 Replace Emails,Numbers,Phone Numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -321,6 +337,17 @@ Usage
     >>>'this mail examplegmailcom website httpsexamplecom'
     >>> extract_emails(t1)
     >>> ['example@gmail.com']
+
+-  Alternatively you can also use this approach
+
+   .. code:: python
+
+       >>> import neattext.functions as nfx 
+       >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
+       >>> nfx.clean_text(t1,puncts=True,stopwords=True)
+       >>>'this mail examplegmailcom website httpsexamplecom'
+       >>> nfx.extract_emails(t1)
+       >>> ['example@gmail.com']
 
 Explainer
 ---------
