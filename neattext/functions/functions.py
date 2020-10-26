@@ -119,6 +119,14 @@ def remove_non_ascii(text):
 	result = unicodedata.normalize('NFKD',text).encode('ascii','ignore').decode('utf-8','ignore')
 	return result
 
+def remove_accents(text):
+	"""Returns A String with Accents/Diacritics Remove"""
+	import unicodedata
+	nfkd_text = unicodedata.normalize('NFKD',text)
+	result = "".join([ch for ch in nfkd_text if not unicodedata.combining(ch)])
+	return result
+
+
 
 def remove_multiple_spaces(text):
 	"""Returns A String with Multiple Whitespaces removed"""
@@ -260,7 +268,7 @@ def extract_shortwords(text,length=3):
 
 def clean_text(text,puncts=False,stopwords=True,urls=False,
 	emails=False,numbers=False,emojis=True,special_char=False,
-	phone_num=False,non_ascii=False,multiple_whitespaces=True,contractions=False,currency_symbols=False,custom_pattern=None):
+	phone_num=False,non_ascii=False,multiple_whitespaces=True,contractions=False,currency_symbols=False,accents=False,custom_pattern=None):
 	"""
 	Clean entire text
 
@@ -303,6 +311,10 @@ def clean_text(text,puncts=False,stopwords=True,urls=False,
 	currency_symbols:Boolean(True/False) default is False
 	remove currency symbols
 
+	accents:Boolean(True/False) default is False
+	remove accents and diacritics
+
+
 	custom_pattern:Specify Pattern to remove from text,default is None
 	 example:
 	 >>> clean_text(mytext,custom_pattern='hello##')
@@ -337,6 +349,9 @@ def clean_text(text,puncts=False,stopwords=True,urls=False,
 		text = remove_currency_symbols(text)
 	if special_char:
 		text = remove_special_characters(text)
+	if accents:
+		text = remove_accents(text)
+
 	if custom_pattern is not None:
 		text = remove_custom_pattern(text,custom_pattern)
 		

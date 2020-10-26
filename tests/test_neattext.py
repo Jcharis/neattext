@@ -148,6 +148,11 @@ def test_single_fxn_remove_multiple_spaces():
 	result = remove_multiple_spaces(t1)
 	assert result == 'He went home yesterday really late .'
 
+def test_single_fxn_remove_accents():
+	t1 = "He and Noël drove an über with Mère to Françoise اُس"
+	result = remove_accents(t1)
+	assert result == 'He and Noel drove an uber with Mere to Francoise اس'
+
 def test_multiple_methods_chaining():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
 	docx = TextCleaner(t1)

@@ -123,6 +123,8 @@ Basic Text Preprocessing
     >>> docx.remove_special_characters()
     >>> docx.remove_emojis()
     >>> docx.fix_contractions()
+    >>> docx.remove_accents()
+    >>> docx.remove_non_ascii()
 
 Handling Files with NeatText
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

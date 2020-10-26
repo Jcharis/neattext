@@ -385,6 +385,13 @@ class TextCleaner(TextMetrics):
 		self.text = unicodedata.normalize('NFKD',self.text).encode('ascii','ignore').decode('utf-8','ignore')
 		return self 
 
+	def remove_accents(self):
+		"""Returns A String with Accents/Diacritics Remove"""
+		import unicodedata
+		nfkd_text = unicodedata.normalize('NFKD',self.text)
+		self.text = "".join([ch for ch in nfkd_text if not unicodedata.combining(ch)])
+		return self
+
 	def remove_multiple_spaces(self):
 		"""Returns A String with multiple whitespaces removed"""
 		self.text = re.sub('\\s{2,}',' ',self.text)
