@@ -1,7 +1,3 @@
-.. role:: raw-latex(raw)
-   :format: latex
-..
-
 neattext
 ========
 
@@ -30,7 +26,7 @@ Installation
 
 .. code:: bash
 
-    pip install neattext
+   pip install neattext
 
 Usage
 -----
@@ -46,8 +42,7 @@ Usage
 Overall Components of NeatText
 ------------------------------
 
-.. figure:: images/neattext_features_jcharistech.png
-   :alt: 
+|image2|
 
 Using TextFrame
 ---------------
@@ -61,97 +56,97 @@ Using TextFrame
 
 .. code:: python
 
-    >>> import neattext as nt 
-    >> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-    >>> docx = nt.TextFrame(text=mytext)
-    >>> docx.text 
-    "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-    >>>
-    >>> docx.describe()
-    Key      Value          
-    Length  : 73             
-    vowels  : 21             
-    consonants: 34             
-    stopwords: 4              
-    punctuations: 8              
-    special_char: 8              
-    tokens(whitespace): 10             
-    tokens(words): 14             
-    >>> 
-    >>> docx.length
-    73
-    >>> # Scan Percentage of Noise(Unclean data) in text
-    >>> d.noise_scan()
-    {'text_noise': 19.17808219178082, 'text_length': 73, 'noise_count': 14}
-    >>> 
-    >>> docs.head(16)
-    'This is the mail'
-    >>> docx.tail()
-    >>> docx.count_vowels()
-    >>> docx.count_stopwords()
-    >>> docx.count_consonants()
-    >>> docx.nlongest()
-    >>> docx.nshortest()
-    >>> docx.readability()
+   >>> import neattext as nt 
+   >> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+   >>> docx = nt.TextFrame(text=mytext)
+   >>> docx.text 
+   "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+   >>>
+   >>> docx.describe()
+   Key      Value          
+   Length  : 73             
+   vowels  : 21             
+   consonants: 34             
+   stopwords: 4              
+   punctuations: 8              
+   special_char: 8              
+   tokens(whitespace): 10             
+   tokens(words): 14             
+   >>> 
+   >>> docx.length
+   73
+   >>> # Scan Percentage of Noise(Unclean data) in text
+   >>> d.noise_scan()
+   {'text_noise': 19.17808219178082, 'text_length': 73, 'noise_count': 14}
+   >>> 
+   >>> docs.head(16)
+   'This is the mail'
+   >>> docx.tail()
+   >>> docx.count_vowels()
+   >>> docx.count_stopwords()
+   >>> docx.count_consonants()
+   >>> docx.nlongest()
+   >>> docx.nshortest()
+   >>> docx.readability()
 
 Basic NLP Task (Tokenization,Ngram,Text Generation)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> docx.word_tokens()
-    >>>
-    >>> docx.sent_tokens()
-    >>>
-    >>> docx.term_freq()
-    >>>
-    >>> docx.bow()
+   >>> docx.word_tokens()
+   >>>
+   >>> docx.sent_tokens()
+   >>>
+   >>> docx.term_freq()
+   >>>
+   >>> docx.bow()
 
 Basic Text Preprocessing
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> docx.normalize()
-    'this is the mail example@gmail.com ,our website is https://example.com 😊.'
-    >>> docx.normalize(level='deep')
-    'this is the mail examplegmailcom our website is httpsexamplecom '
+   >>> docx.normalize()
+   'this is the mail example@gmail.com ,our website is https://example.com 😊.'
+   >>> docx.normalize(level='deep')
+   'this is the mail examplegmailcom our website is httpsexamplecom '
 
-    >>> docx.remove_puncts()
-    >>> docx.remove_stopwords()
-    >>> docx.remove_html_tags()
-    >>> docx.remove_special_characters()
-    >>> docx.remove_emojis()
-    >>> docx.fix_contractions()
+   >>> docx.remove_puncts()
+   >>> docx.remove_stopwords()
+   >>> docx.remove_html_tags()
+   >>> docx.remove_special_characters()
+   >>> docx.remove_emojis()
+   >>> docx.fix_contractions()
 
 Handling Files with NeatText
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Read txt file directly into TextFrame
 
-   .. code:: python
+.. code:: python
 
-       >>> import neattext as nt 
-       >>> docx_df = nt.read_txt('file.txt')
+   >>> import neattext as nt 
+   >>> docx_df = nt.read_txt('file.txt')
 
 -  Alternatively you can instantiate a TextFrame and read a text file
    into it
 
-   .. code:: python
+.. code:: python
 
-       >>> import neattext as nt 
-       >>> docx_df = nt.TextFrame().read_txt('file.txt')
+   >>> import neattext as nt 
+   >>> docx_df = nt.TextFrame().read_txt('file.txt')
 
 Chaining Methods on TextFrame
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
-    >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
-    >>> docx = TextFrame(t1)
-    >>> result = docx.remove_emails().remove_urls().remove_emojis()
-    >>> print(result)
-    'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
+   >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+   >>> docx = TextFrame(t1)
+   >>> result = docx.remove_emails().remove_urls().remove_emojis()
+   >>> print(result)
+   'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
 
 Clean Text
 ~~~~~~~~~~
@@ -160,17 +155,17 @@ Clean Text
 -  A simplified method for cleaning text by specifying as True/False
    what to clean from a text
 
-   .. code:: python
+.. code:: python
 
-       >>> from neattext.functions import clean_text
-       >>> 
-       >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-       >>> 
-       >>> clean_text(mytext)
-       'mail example@gmail.com ,our website https://example.com .'
+   >>> from neattext.functions import clean_text
+   >>> 
+   >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+   >>> 
+   >>> clean_text(mytext)
+   'mail example@gmail.com ,our website https://example.com .'
 
 -  You can remove
-   punctuations,stopwords,urls,emojis,multiple\_whitespaces,etc by
+   punctuations,stopwords,urls,emojis,multiple_whitespaces,etc by
    setting them to True.
 
 -  You can choose to remove or not remove punctuations by setting to
@@ -178,42 +173,48 @@ Clean Text
 
 .. code:: python
 
-    >>> clean_text(mytext,puncts=True)
-    'mail example@gmailcom website https://examplecom '
-    >>> 
-    >>> clean_text(mytext,puncts=False)
-    'mail example@gmail.com ,our website https://example.com .'
-    >>> 
-    >>> clean_text(mytext,puncts=False,stopwords=False)
-    'this is the mail example@gmail.com ,our website is https://example.com .'
-    >>> 
+   >>> clean_text(mytext,puncts=True)
+   'mail example@gmailcom website https://examplecom '
+   >>> 
+   >>> clean_text(mytext,puncts=False)
+   'mail example@gmail.com ,our website https://example.com .'
+   >>> 
+   >>> clean_text(mytext,puncts=False,stopwords=False)
+   'this is the mail example@gmail.com ,our website is https://example.com .'
+   >>> 
 
 -  You can also remove the other non-needed items accordingly
-   \`\`\`python >>> clean\_text(mytext,stopwords=False) 'this is the
-   mail example@gmail.com ,our website is https://example.com .' >>> >>>
-   clean\_text(mytext,urls=False) 'mail example@gmail.com ,our website
-   https://example.com .' >>> >>> clean\_text(mytext,urls=True) 'mail
-   example@gmail.com ,our website .' >>>
 
-\`\`\`
+.. code:: python
+
+   >>> clean_text(mytext,stopwords=False)
+   'this is the mail example@gmail.com ,our website is https://example.com .'
+   >>>
+   >>> clean_text(mytext,urls=False)
+   'mail example@gmail.com ,our website https://example.com .'
+   >>> 
+   >>> clean_text(mytext,urls=True)
+   'mail example@gmail.com ,our website .'
+   >>> 
 
 Removing Punctuations [A Very Common Text Preprocessing Step]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  You remove the most common punctuations such as
    fullstop,comma,exclamation marks and question marks by setting
-   most\_common=True which is the default
+   most_common=True which is the default
 -  Alternatively you can also remove all known punctuations from a text.
-   \`\`\`python >>> import neattext as nt >>> mytext = "This is the mail
-   example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't
-   forget the email when you enter !!!!!" >>> docx =
-   nt.TextFrame(mytext) >>> docx.remove\_puncts() TextFrame(text="This
-   is the mail example@gmailcom our WEBSITE is https://examplecom 😊
-   Please dont forget the email when you enter ")
 
-            docx.remove\_puncts(most\_common=False) TextFrame(text="This
-            is the mail examplegmailcom our WEBSITE is httpsexamplecom 😊
-            Please dont forget the email when you enter ") \`\`\`
+.. code:: python
+
+   >>> import neattext as nt 
+   >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't forget the email when you enter !!!!!"
+   >>> docx = nt.TextFrame(mytext)
+   >>> docx.remove_puncts()
+   TextFrame(text="This is the mail example@gmailcom our WEBSITE is https://examplecom 😊 Please dont forget the email when you enter ")
+
+   >>> docx.remove_puncts(most_common=False)
+   TextFrame(text="This is the mail examplegmailcom our WEBSITE is httpsexamplecom 😊 Please dont forget the email when you enter ")
 
 Removing Stopwords [A Very Common Text Preprocessing Step]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,92 +222,97 @@ Removing Stopwords [A Very Common Text Preprocessing Step]
 -  You can remove stopwords from a text by specifying the language. The
    default language is English
 -  Supported Languages include
-   English(en),Spanish(es),French(fr)\|Russian(ru)\|Yoruba(yo)\|German(de)
+   English(en),Spanish(es),French(fr)|Russian(ru)|Yoruba(yo)|German(de)
 
 .. code:: python
 
-    >>> import neattext as nt 
-    >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't forget the email when you enter !!!!!"
-    >>> docx = nt.TextFrame(mytext)
-    >>> docx.remove_stopwords(lang='en')
-    TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. forget email enter !!!!!")
+   >>> import neattext as nt 
+   >>> mytext = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't forget the email when you enter !!!!!"
+   >>> docx = nt.TextFrame(mytext)
+   >>> docx.remove_stopwords(lang='en')
+   TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. forget email enter !!!!!")
 
-Remove Emails,Numbers,Phone Numbers,Dates,etc
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Remove Emails,Numbers,Phone Numbers,Dates,Btc Address,VisaCard Address,etc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> print(docx.remove_emails())
-    >>> 'This is the mail  ,our WEBSITE is https://example.com 😊.'
-    >>>
-    >>> print(docx.remove_stopwords())
-    >>> 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
-    >>>
-    >>> print(docx.remove_numbers())
-    >>> docx.remove_phone_numbers()
+   >>> print(docx.remove_emails())
+   >>> 'This is the mail  ,our WEBSITE is https://example.com 😊.'
+   >>>
+   >>> print(docx.remove_stopwords())
+   >>> 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
+   >>>
+   >>> print(docx.remove_numbers())
+   >>> docx.remove_phone_numbers()
+   >>> docx.remove_btc_address()
 
 Remove Special Characters
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> docx.remove_special_characters()
+   >>> docx.remove_special_characters()
 
 Remove Emojis
 ~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> print(docx.remove_emojis())
-    >>> 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
+   >>> print(docx.remove_emojis())
+   >>> 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
 
 Remove Custom Pattern
 ~~~~~~~~~~~~~~~~~~~~~
 
 -  You can also specify your own custom pattern, incase you cannot find
    what you need in the functions using the ``remove_custom_pattern()``
-   function \`\`\`python >>> import neattext.functions as nfx >>> ex =
-   "Last !RT tweeter multiple &#7777" >>> >>>
-   nfx.remove\_custom\_pattern(e,r'&#:raw-latex:`\d`+') 'Last !RT
-   tweeter multiple '
+   function
 
-\`\`\`
+.. code:: python
+
+   >>> import neattext.functions as nfx 
+   >>> ex = "Last !RT tweeter multiple &#7777"
+   >>> 
+   >>> nfx.remove_custom_pattern(e,r'&#\d+')
+   'Last !RT tweeter multiple  '
+
 
 Replace Emails,Numbers,Phone Numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> docx.replace_emails()
-    >>> docx.replace_numbers()
-    >>> docx.replace_phone_numbers()
+   >>> docx.replace_emails()
+   >>> docx.replace_numbers()
+   >>> docx.replace_phone_numbers()
 
 Chain Multiple Methods
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
-    >>> docx = TextCleaner(t1)
-    >>> result = docx.remove_emails().remove_urls().remove_emojis()
-    >>> print(result)
-    'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
+   >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊 and it will cost $100 to subscribe."
+   >>> docx = TextCleaner(t1)
+   >>> result = docx.remove_emails().remove_urls().remove_emojis()
+   >>> print(result)
+   'This is the mail  ,our WEBSITE is   and it will cost $100 to subscribe.'
 
 Using TextExtractor
 -------------------
 
 -  To Extract emails,phone numbers,numbers,urls,emojis from text
 
-   .. code:: python
+.. code:: python
 
-       >>> from neattext import TextExtractor
-       >>> docx = TextExtractor()
-       >>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-       >>> docx.extract_emails()
-       >>> ['example@gmail.com']
-       >>>
-       >>> docx.extract_emojis()
-       >>> ['😊']
+   >>> from neattext import TextExtractor
+   >>> docx = TextExtractor()
+   >>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+   >>> docx.extract_emails()
+   >>> ['example@gmail.com']
+   >>>
+   >>> docx.extract_emojis()
+   >>> ['😊']
 
 Using TextMetrics
 -----------------
@@ -314,15 +320,17 @@ Using TextMetrics
 -  To Find the Words Stats such as counts of
    vowels,consonants,stopwords,word-stats
 
-   .. code:: python
+.. code:: python
 
-       >>> from neattext import TextMetrics
-       >>> docx = TextMetrics()
-       >>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
-       >>> docx.count_vowels()
-       >>> docx.count_consonants()
-       >>> docx.count_stopwords()
-       >>> docx.word_stats()
+   >>> from neattext import TextMetrics
+   >>> docx = TextMetrics()
+   >>> docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+   >>> docx.count_vowels()
+   >>> docx.count_consonants()
+   >>> docx.count_stopwords()
+   >>> docx.word_stats()
+
+.. _usage-1:
 
 Usage
 -----
@@ -331,50 +339,50 @@ Usage
 
 .. code:: python
 
-    >>> from neattext.functions import clean_text,extract_emails
-    >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
-    >>> clean_text(t1,puncts=True,stopwords=True)
-    >>>'this mail examplegmailcom website httpsexamplecom'
-    >>> extract_emails(t1)
-    >>> ['example@gmail.com']
+   >>> from neattext.functions import clean_text,extract_emails
+   >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
+   >>> clean_text(t1,puncts=True,stopwords=True)
+   >>>'this mail examplegmailcom website httpsexamplecom'
+   >>> extract_emails(t1)
+   >>> ['example@gmail.com']
 
 -  Alternatively you can also use this approach
 
-   .. code:: python
+.. code:: python
 
-       >>> import neattext.functions as nfx 
-       >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
-       >>> nfx.clean_text(t1,puncts=True,stopwords=True)
-       >>>'this mail examplegmailcom website httpsexamplecom'
-       >>> nfx.extract_emails(t1)
-       >>> ['example@gmail.com']
+   >>> import neattext.functions as nfx 
+   >>> t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
+   >>> nfx.clean_text(t1,puncts=True,stopwords=True)
+   >>>'this mail examplegmailcom website httpsexamplecom'
+   >>> nfx.extract_emails(t1)
+   >>> ['example@gmail.com']
 
 Explainer
 ---------
 
 -  Explain an emoji or unicode for emoji
 
-   -  emoji\_explainer()
+   -  emoji_explainer()
    -  emojify()
-   -  unicode\_2\_emoji()
+   -  unicode_2_emoji()
 
 .. code:: python
 
-    >>> from neattext.explainer import emojify
-    >>> emojify('Smiley')
-    >>> '😃'
+   >>> from neattext.explainer import emojify
+   >>> emojify('Smiley')
+   >>> '😃'
 
 .. code:: python
 
-    >>> from neattext.explainer import emoji_explainer
-    >>> emoji_explainer('😃')
-    >>> 'SMILING FACE WITH OPEN MOUTH'
+   >>> from neattext.explainer import emoji_explainer
+   >>> emoji_explainer('😃')
+   >>> 'SMILING FACE WITH OPEN MOUTH'
 
 .. code:: python
 
-    >>> from neattext.explainer import unicode_2_emoji
-    >>> unicode_2_emoji('0x1f49b')
-        'FLUSHED FACE'
+   >>> from neattext.explainer import unicode_2_emoji
+   >>> unicode_2_emoji('0x1f49b')
+       'FLUSHED FACE'
 
 Documentation
 -------------
@@ -412,3 +420,4 @@ By
    :target: https://travis-ci.org/Jcharis/neattext
 .. |GitHub license| image:: https://img.shields.io/github/license/Jcharis/neattext
    :target: https://github.com/Jcharis/neattext/blob/master/LICENSE
+.. |image2| image:: images/neattext_features_jcharistech.png

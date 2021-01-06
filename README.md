@@ -185,7 +185,7 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 ```
 
 
-#### Remove Emails,Numbers,Phone Numbers,Dates,etc 
+#### Remove Emails,Numbers,Phone Numbers,Dates,Btc Address,VisaCard Address,etc 
 ```python
 >>> print(docx.remove_emails())
 >>> 'This is the mail  ,our WEBSITE is https://example.com 😊.'
@@ -195,6 +195,7 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 >>>
 >>> print(docx.remove_numbers())
 >>> docx.remove_phone_numbers()
+>>> docx.remove_btc_address()
 ```
 
 

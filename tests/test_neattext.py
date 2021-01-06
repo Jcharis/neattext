@@ -240,3 +240,33 @@ def test_single_fxn_clean_text_custom_pattern():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
 	result = clean_text(t1,stopwords=False,custom_pattern=r'@\w+')
 	assert result == 'this is the mail example .com ,our website is https://example.com .'
+
+def test_single_fxn_extract_btc_address():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result = extract_btc_address(t2)
+	assert result == ['1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2']
+
+def test_single_fxn_extract_mastercard_address():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result = extract_mastercard_addr(t2)
+	assert result == ['5500 0000 0000 0004']
+
+def test_single_fxn_extract_visacard_address():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result = extract_visacard_addr(t2)
+	assert result == ['4111 1111 1111 1111']
+	result2 = extract_postoffice_box(t2)
+	assert result2 == ['PO Box 555']
+
+def test_single_fxn_extract_postoffice_box():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result2 = extract_postoffice_box(t2)
+	assert result2 == ['PO Box 555']
+
+def test_single_fxn_remove_postoffice_box():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result2 = remove_postoffice_box(t2)
+	assert result2 != "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.\nThis is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to  , KNU"
+
+
+
