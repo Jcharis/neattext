@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://example.com/</loc>
+         <loc>https://github.com/jcharis/</loc>
          <lastmod>2021-08-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://example.com/about/</loc>
+         <loc>https://github.com/jcharis/about/</loc>
          <lastmod>2021-08-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://example.com/apireference/</loc>
+         <loc>https://github.com/jcharis/apireference/</loc>
          <lastmod>2021-08-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://example.com/contributing/</loc>
+         <loc>https://github.com/jcharis/contributing/</loc>
          <lastmod>2021-08-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://example.com/userguide/</loc>
+         <loc>https://github.com/jcharis/userguide/</loc>
          <lastmod>2021-08-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
