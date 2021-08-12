@@ -22,13 +22,14 @@ pip install neattext
 ### Usage
 + The OOP Way(Object Oriented Way)
 + NeatText offers 4 main classes for working with text data
-	- TextFrame : a frame-like object for cleaning text
-	- TextCleaner: remove or replace specifics
-	- TextExtractor: extract unwanted text data
-	- TextMetrics: word stats and metrics
+    - TextFrame : a frame-like object for cleaning text
+    - TextCleaner: remove or replace specifics
+    - TextExtractor: extract unwanted text data
+    - TextMetrics: word stats and metrics
 
 ### Overall Components of NeatText
-![](images/neattext_features_jcharistech.png)
+<!-- ![](images/neattext_features_jcharistech.png) -->
+![NeatText](https://raw.githubusercontent.com/Jcharis/neattext/master/images/neattext_features_jcharistech.png)
 
 ### Using TextFrame
 + Keeps the text as `TextFrame` object. This allows us to do more with our text. 
@@ -291,9 +292,9 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 
 ### Explainer
 + Explain an emoji or unicode for emoji 
-	- emoji_explainer()
-	- emojify()
-	- unicode_2_emoji()
+    - emoji_explainer()
+    - emojify()
+    - unicode_2_emoji()
 
 
 ```python
@@ -311,7 +312,7 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 ```python
 >>> from neattext.explainer import unicode_2_emoji
 >>> unicode_2_emoji('0x1f49b')
-	'FLUSHED FACE'
+    'FLUSHED FACE'
 ```
 
 
@@ -319,7 +320,6 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 ### Documentation
 Please read the [documentation](https://github.com/Jcharis/neattext/wiki) for more information on what neattext does and how to use is for your needs.You can also check 
 out our readthedocs page [here](https://jcharis.github.io/neattext/)
-
 
 ### More Features To Add
 + basic nlp task
