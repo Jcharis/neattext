@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="canonical" href="https://example.com/userguide/">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>User Guide - NeatText</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "User Guide";
+    var mkdocs_page_input_path = "userguide.md";
+    var mkdocs_page_url = "/userguide/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> NeatText</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">User Guide</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../apireference/">API Guide</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">NeatText</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>User Guide</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="the-user-guide">The User Guide</h2>
+<p>The User Guide documentation begins with some background information about NeatText, then focuses on step-by-step instructions for getting the most out of NeatText.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="installation-of-neattext">Installation of NeatText</h3>
+<ul>
+<li>Neattext is availble on PyPI hence you can use pip to install it as follows</li>
+</ul>
+<pre><code class="language-bash">pip install neattext
+</code></pre>
+<p>or specifically for a python version as such</p>
+<pre><code class="language-bash">python3 -m pip install neattext
+
+</code></pre>
+<h2 id="quick-start">Quick Start</h2>
+<p>After install neattext with pypi, you can use neattext in two main ways - the OOP way 
+or the Method Oriented way.
+Neattext is designed to be used either via an object oriented approach or a functional/method oriented approach.</p>
+<h3 id="usage-via-the-oop-wayobject-oriented-way">Usage via The OOP Way(Object Oriented Way)</h3>
+<ul>
+<li>Neattext comes with 3 main class or objects for cleaning text and doing your text preprocessing.These classes include:</li>
+</ul>
+<p><strong>TextCleaner</strong>: For cleaning text by either removing or replacing the specific noise eg. emails,special characters,numbers,urls,emojis</p>
+<p><strong>TextExtractor</strong>: For extracting certain terms from a text or document</p>
+<p><strong>TextMetrics</strong>: For checking some basic word statics or metrics such as the count of vowels,consonants,stopwords,etc</p>
+<pre><code class="language-Python">&gt;&gt;&gt; from neattext import TextCleaner,TextExtractor,TextMetrics
+&gt;&gt;&gt; docx = TextCleaner()
+&gt;&gt;&gt; docx.text = &quot;your text goes here&quot;
+&gt;&gt;&gt; docx.clean_text()
+</code></pre>
+<h2 id="usage-via-the-oop-way-object-oriented-way-general-usage">Usage via the OOP way - Object Oriented Way (General usage)</h2>
+<h4 id="text-preprocessing">Text Preprocessing</h4>
+<ul>
+<li>Preprocess texts and clean text</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; import neattext as nt
+&gt;&gt;&gt; mytext = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; docx = nt.TextFrame(mytext)
+&gt;&gt;&gt; docx.describe()
+Key      Value          
+Length  : 73             
+vowels  : 21             
+consonants: 34             
+stopwords: 4              
+punctuations: 8              
+special_char: 8              
+tokens(whitespace): 10             
+tokens(words): 14 
+&gt;&gt;&gt;
+&gt;&gt;&gt; docx.head(16)
+'This is the mail'
+&gt;&gt;&gt; docx.tail(16)
+'//example.com 😊.'
+&gt;&gt;&gt; 
+&gt;&gt;&gt; docx.normalize()
+'this is the mail example@gmail.com ,our website is https://example.com 😊.'
+&gt;&gt;&gt; docx.normalize(level='deep')
+'this is the mail examplegmailcom our website is httpsexamplecom '
+&gt;&gt;&gt; docx.remove_emojis()
+
+</code></pre>
+<h4 id="simple-nlp-task">Simple NLP Task</h4>
+<p>You can also do some basic Natural Language Preprocessing task such as tokenization,ngrams,text generation,etc</p>
+<pre><code class="language-python">&gt;&gt;&gt; docx.word_tokens()
+
+</code></pre>
+<h4 id="clean-text-using-the-method-oriented-approach">Clean Text using the Method Oriented Approach</h4>
+<ul>
+<li>Clean text by removing emails,numbers,stopwords,emojis,etc</li>
+<li>A simple method for cleaning text by specifying as True/False what to clean from a text.</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext.functions import clean_text
+&gt;&gt;&gt; 
+&gt;&gt;&gt; mytext = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; 
+&gt;&gt;&gt; clean_text(mytext)
+'mail example@gmail.com ,our website https://example.com .'
+</code></pre>
+<ul>
+<li>You can remove punctuations,stopwords,urls,emojis,multiple_whitespaces,etc by setting them to True.</li>
+<li>You can choose to remove or not remove punctuations by setting to True/False respectively</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; clean_text(mytext,puncts=True)
+'mail example@gmailcom website https://examplecom '
+&gt;&gt;&gt; 
+&gt;&gt;&gt; clean_text(mytext,puncts=False)
+'mail example@gmail.com ,our website https://example.com .'
+&gt;&gt;&gt; 
+&gt;&gt;&gt; clean_text(mytext,puncts=False,stopwords=False)
+'this is the mail example@gmail.com ,our website is https://example.com .'
+&gt;&gt;&gt; 
+</code></pre>
+<ul>
+<li>You can also remove the other non-needed items accordingly</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; clean_text(mytext,stopwords=False)
+'this is the mail example@gmail.com ,our website is https://example.com .'
+&gt;&gt;&gt;
+&gt;&gt;&gt; clean_text(mytext,urls=False)
+'mail example@gmail.com ,our website https://example.com .'
+&gt;&gt;&gt; 
+&gt;&gt;&gt; clean_text(mytext,urls=True)
+'mail example@gmail.com ,our website .'
+&gt;&gt;&gt; 
+
+</code></pre>
+<h4 id="remove-punctuations-a-very-common-text-preprocessing-step">Remove Punctuations [A Very Common Text Preprocessing Step]</h4>
+<ul>
+<li>You remove the most common punctuations such as fullstop,comma,exclamation marks and question marks by setting most_common=True which is the default</li>
+<li>Alternatively you can also remove all known punctuations from a text.</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; import neattext as nt 
+&gt;&gt;&gt; mytext = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. Please don't forget the email when you enter !!!!!&quot;
+&gt;&gt;&gt; docx = nt.TextFrame(mytext)
+&gt;&gt;&gt; docx.remove_puncts()
+TextFrame(text=&quot;This is the mail example@gmailcom our WEBSITE is https://examplecom 😊 Please dont forget the email when you enter &quot;)
+
+&gt;&gt;&gt; docx.remove_puncts(most_common=False)
+TextFrame(text=&quot;This is the mail examplegmailcom our WEBSITE is httpsexamplecom 😊 Please dont forget the email when you enter &quot;)
+</code></pre>
+<h4 id="remove-emailsnumbersphone-numbers">Remove Emails,Numbers,Phone Numbers</h4>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext import TextCleaner
+&gt;&gt;&gt; docx = TextCleaner()
+&gt;&gt;&gt; docx.text = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; docx.remove_emails()
+&gt;&gt;&gt; 'This is the mail  ,our WEBSITE is https://example.com 😊.'
+&gt;&gt;&gt;
+&gt;&gt;&gt; docx.remove_stopwords()
+&gt;&gt;&gt; 'This mail example@gmail.com ,our WEBSITE https://example.com 😊.'
+&gt;&gt;&gt;
+&gt;&gt;&gt; docx.remove_numbers()
+&gt;&gt;&gt; docx.remove_phone_numbers()
+</code></pre>
+<h4 id="remove-special-characters">Remove Special Characters</h4>
+<pre><code class="language-python">&gt;&gt;&gt; docx.remove_special_characters()
+</code></pre>
+<h4 id="remove-emojis">Remove Emojis</h4>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext import TextCleaner
+&gt;&gt;&gt; docx = TextCleaner()
+&gt;&gt;&gt; docx.text = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; docx.remove_emojis()
+&gt;&gt;&gt; 'This is the mail example@gmail.com ,our WEBSITE is https://example.com .'
+</code></pre>
+<h4 id="replace-emailsnumbersphone-numbers">Replace Emails,Numbers,Phone Numbers</h4>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext import TextCleaner
+&gt;&gt;&gt; docx = TextCleaner()
+&gt;&gt;&gt; docx.text = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; docx.replace_emails()
+&gt;&gt;&gt; docx.replace_numbers()
+&gt;&gt;&gt; docx.replace_phone_numbers()
+</code></pre>
+<h3 id="using-textextractor">Using TextExtractor</h3>
+<ul>
+<li>To Extract emails,phone numbers,numbers,urls,emojis from text</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext import TextExtractor
+&gt;&gt;&gt; docx = TextExtractor()
+&gt;&gt;&gt; docx.text = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; docx.extract_emails()
+&gt;&gt;&gt; ['example@gmail.com']
+&gt;&gt;&gt;
+&gt;&gt;&gt; docx.extract_emojis()
+&gt;&gt;&gt; ['😊']
+</code></pre>
+<h3 id="using-textmetrics">Using TextMetrics</h3>
+<ul>
+<li>To Find the Words Stats such as counts of vowels,consonants,stopwords,word-stats</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext import TextMetrics
+&gt;&gt;&gt; docx = TextMetrics()
+&gt;&gt;&gt; docx.text = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.&quot;
+&gt;&gt;&gt; docx.count_vowels()
+&gt;&gt;&gt; docx.count_consonants()
+&gt;&gt;&gt; docx.count_stopwords()
+&gt;&gt;&gt; docx.word_stats()
+</code></pre>
+<h3 id="usage-via-the-mopmethodfunction-oriented-way">Usage via the MOP(Method/Function Oriented Way)</h3>
+<p>If you are a fun of functions you can also use <code>neattext</code> in such a manner using the <code>functions</code> sub-package. In that case you will have to import as this</p>
+<pre><code class="language-Python">&gt;&gt;&gt; from neattext.functions import remove_emails,remove_emojis,clean_text
+</code></pre>
+<p>You can also use the import as feature.</p>
+<pre><code class="language-Python">&gt;&gt;&gt; import neattext.functions as ntf
+&gt;&gt;&gt; ntf.remove_emails(your_text)
+&gt;&gt;&gt;
+</code></pre>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext.functions import clean_text,extract_emails
+&gt;&gt;&gt; t1 = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com .&quot;
+&gt;&gt;&gt; clean_text(t1,puncts=True,stopwords=True)
+&gt;&gt;&gt;'this mail examplegmailcom website httpsexamplecom'
+&gt;&gt;&gt; extract_emails(t1)
+&gt;&gt;&gt; ['example@gmail.com']
+</code></pre>
+<ul>
+<li>Alternatively you can also use this approach</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; import neattext.functions as nfx 
+&gt;&gt;&gt; t1 = &quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com .&quot;
+&gt;&gt;&gt; nfx.clean_text(t1,puncts=True,stopwords=True)
+&gt;&gt;&gt;'this mail examplegmailcom website httpsexamplecom'
+&gt;&gt;&gt; nfx.extract_emails(t1)
+&gt;&gt;&gt; ['example@gmail.com']
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../apireference/" class="btn btn-neutral float-right" title="API Guide">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../apireference/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

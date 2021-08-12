@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="canonical" href="https://example.com/apireference/">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>API Guide - NeatText</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "API Guide";
+    var mkdocs_page_input_path = "apireference.md";
+    var mkdocs_page_url = "/apireference/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> NeatText</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../userguide/">User Guide</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">API Guide</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#main-class">Main Class</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#general-functions">General Functions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#for-textcleaner-remove">For TextCleaner : remove</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#for-textcleaner-replace">For TextCleaner : replace</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#for-textextract-extract">For TextExtract : extract</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#for-textmetrics-word-statistics-and-counts">For TextMetrics : word statistics and counts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#textcleaner-remove-methods">TextCleaner remove methods</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#textcleaner-replace-methods">TextCleaner replace methods</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#textextractor-methods">TextExtractor Methods</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#textframe-basics">TextFrame Basics</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">NeatText</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>API Guide</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="api-reference">API reference</h2>
+<p>This page gives an overview of all <code>neattext</code> objects,functions and methods.</p>
+<h3 id="main-class">Main Class</h3>
+<ul>
+<li><a href="#textframe">TextFrame</a></li>
+<li><a href="#textcleaner">TextCleaner</a></li>
+<li><a href="#textextractor">TextExtractor</a></li>
+<li><a href="#textmetrics">TextMetrics</a></li>
+</ul>
+<h3 id="general-functions">General Functions</h3>
+<h4 id="for-textcleaner-remove">For TextCleaner : remove</h4>
+<ul>
+<li><a href="#remove_emails">remove_emails</a></li>
+<li><a href="#remove_emails">remove_emails</a></li>
+<li><a href="#remove_numbers">remove_numbers</a></li>
+<li><a href="#remove_phone_numbers">remove_phone_numbers</a></li>
+<li><a href="#remove_urls">remove_urls</a></li>
+<li><a href="#remove_special_characters">remove_special_characters</a></li>
+<li><a href="#remove_emojis">remove_emojis</a></li>
+<li><a href="#remove_stopwords">remove_stopwords</a></li>
+</ul>
+<h4 id="for-textcleaner-replace">For TextCleaner : replace</h4>
+<ul>
+<li><a href="#replace_emails">replace_emails</a></li>
+<li><a href="#replace_numbers">replace_numbers</a></li>
+<li><a href="#replace_phone_numbers">replace_phone_numbers</a></li>
+<li><a href="#replace_urls">replace_urls</a></li>
+<li><a href="#replace_special_characters">replace_special_characters</a></li>
+<li><a href="#replace_emojis">replace_emojis</a></li>
+<li><a href="#replace_stopwords">replace_stopwords</a></li>
+</ul>
+<h4 id="for-textextract-extract">For TextExtract : extract</h4>
+<ul>
+<li><a href="#extract_emails">extract_emails</a></li>
+<li><a href="#extract_numbers">extract_numbers</a></li>
+<li><a href="#extract_phone_numbers">extract_phone_numbers</a></li>
+<li><a href="#extract_urls">extract_urls</a></li>
+<li><a href="#extract_special_characters">extract_special_characters</a></li>
+<li><a href="#extract_emojis">extract_emojis</a></li>
+<li><a href="#extract_stopwords">extract_stopwords</a></li>
+</ul>
+<h4 id="for-textmetrics-word-statistics-and-counts">For TextMetrics : word statistics and counts</h4>
+<ul>
+<li><a href="#count_vowels">count_vowels</a></li>
+<li><a href="#count_consonants">count_consonants</a></li>
+<li><a href="#count_stopwords">count_stopwords</a></li>
+<li><a href="#word_stats">word_stats</a></li>
+</ul>
+<p><strong>TextFrame</strong><a name="textframe"><a></p>
+<p>The neattext TextFrame API is a frame-like class useful for cleaning text.It inherits all the methods of the TextCleaner hence it can be used for removing or replacing emails,numbers,phone numbers,special characters,emojis,etc </p>
+<p>It can receive a text file and process it for a better output.</p>
+<pre><code class="language-Python">TextFrame(text=None)
+</code></pre>
+<p><strong>TextCleaner</strong><a name="textcleaner"><a></p>
+<p>The neattext TextCleaner API is a class useful for cleaning text by either removing or replacing emails,numbers,phone numbers,special characters,emojis,etc </p>
+<pre><code class="language-Python">TextCleaner(text=None)
+</code></pre>
+<p><strong>TextExtractor</strong><a name="textextractor"><a></p>
+<p>The neattext TextExtractor API is a class useful for extracting as a list emails,numbers,phone numbers,special characters,emojis,etc . In other word the same things that you would want cleaned or removed.In that case when you use the TextExtractor class you inherit all the methods of the TextCleaning class.</p>
+<pre><code class="language-Python">TextExtractor(text=None)
+</code></pre>
+<p><strong>TextMetrics</strong><a name="textmetrics"><a></p>
+<p>The neattext TextMetrics API is a class useful for cleaning text by either removing or replacing emails,numbers,phone numbers,special characters,emojis,etc </p>
+<pre><code class="language-Python">TextMetrics(text=None)
+</code></pre>
+<h4 id="textcleaner-remove-methods">TextCleaner remove methods</h4>
+<p><strong><em>remove_emails</em></strong><a name="remove_emails"></a></p>
+<p>Clean text by using custom regex to remove emails</p>
+<p><strong><em>remove_numbers</em></strong><a name="remove_numbers"></a></p>
+<p>Clean text by using custom regex to remove numbers and digits</p>
+<p><strong><em>remove_phone_numbers</em></strong><a name="remove_phone_numbers"></a></p>
+<p>Clean text by using custom regex to remove phone numbers</p>
+<p><strong><em>remove_urls</em></strong><a name="remove_urls"></a></p>
+<p>Clean text by using custom regex to remove urls and websites</p>
+<p><strong><em>remove_special_characters</em></strong><a name="remove_special_characters"></a></p>
+<p>Clean text by using custom regex to remove special characters</p>
+<p><strong><em>remove_emojis</em></strong><a name="remove_emojis"></a></p>
+<p>Clean text by using custom regex to remove emojis and unicode representing emojis</p>
+<p><strong><em>remove_stopwords</em></strong><a name="remove_stopwords"></a></p>
+<p>Clean text by using custom regex to remove english stopwords</p>
+<h4 id="textcleaner-replace-methods">TextCleaner replace methods</h4>
+<p><strong><em>replace_emails</em></strong><a name="replace_emails"></a></p>
+<p>Processes text by using custom regex to replace emails</p>
+<p><strong><em>replace_numbers</em></strong><a name="replace_numbers"></a></p>
+<p>Processes text by using custom regex to replace numbers and digits</p>
+<p><strong><em>replace_phone_numbers</em></strong><a name="replace_phone_numbers"></a></p>
+<p>Processes text by using custom regex to replace phone numbers</p>
+<p><strong><em>replace_urls</em></strong><a name="replace_urls"></a></p>
+<p>Processes text by using custom regex to replace urls and websites</p>
+<p><strong><em>replace_special_characters</em></strong><a name="replace_special_characters"></a></p>
+<p>Processes text by using custom regex to replace special characters</p>
+<p><strong><em>replace_emojis</em></strong><a name="replace_emojis"></a></p>
+<p>Processes text by using custom regex to replace emojis and unicode representing emojis</p>
+<p><strong><em>replace_stopwords</em></strong><a name="replace_stopwords"></a></p>
+<p>Processes text by using custom regex to replace english stopwords</p>
+<h4 id="textextractor-methods">TextExtractor Methods</h4>
+<p><strong><em>extract_emails</em></strong><a name="extract_emails"></a></p>
+<p>Works on text by using custom regex to extract emails</p>
+<p><strong><em>extract_numbers</em></strong><a name="extract_numbers"></a></p>
+<p>Works on text by using custom regex to extract numbers and digits</p>
+<p><strong><em>extract_phone_numbers</em></strong><a name="extract_phone_numbers"></a></p>
+<p>Works on text by using custom regex to extract phone numbers</p>
+<p><strong><em>extract_urls</em></strong><a name="extract_urls"></a></p>
+<p>Works on text by using custom regex to extract urls and websites</p>
+<p><strong><em>extract_special_characters</em></strong><a name="extract_special_characters"></a></p>
+<p>Works on text by using custom regex to extract special characters</p>
+<p><strong><em>extract_emojis</em></strong><a name="extract_emojis"></a></p>
+<p>Works on text by using custom regex to extract emojis and unicode representing emojis</p>
+<p><strong><em>extract_stopwords</em></strong><a name="extract_stopwords"></a></p>
+<p>Works on text by using custom regex to extract english stopwords</p>
+<h4 id="textframe-basics">TextFrame Basics</h4>
+<p><strong><em>read_text</em></strong><a name="read_text"></a></p>
+<p>Reads a text file and Creates A TextFrame for cleaning text</p>
+<p><strong><em>describe</em></strong><a name="describe"></a></p>
+<p>Gives a basic description of the text which includes length,tokens,vowel and consonant count,etc</p>
+<p><strong><em>head</em></strong><a name="head"></a></p>
+<p>Returns the first N characters in a text</p>
+<p><strong><em>tail</em></strong><a name="tail"></a></p>
+<p>Returns the last N characters in a text</p>
+<p><strong><em>normalize</em></strong><a name="normalize"></a></p>
+<p>Normalizes a text using two levels(shallow and deep) that removes all necessary noise to generate a clean text </p>
+<p><strong><em>word_tokens</em></strong><a name="word_tokens"></a></p>
+<p>Generate a word token of the text supplied using white-space or words</p>
+<p><strong><em>sent_tokens</em></strong><a name="sent_tokens"></a></p>
+<p>Generate a sentence token of the text supplied </p>
+<p><strong><em>ngrams</em></strong><a name="ngrams"></a></p>
+<p>Generate an N-gram of the text supplied</p>
+<p><strong><em>bow</em></strong><a name="bow"></a></p>
+<p>Generate a simple bag of words of text</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../contributing/" class="btn btn-neutral float-right" title="Contributing">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../userguide/" class="btn btn-neutral" title="User Guide"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../userguide/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../contributing/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
