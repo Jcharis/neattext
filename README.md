@@ -13,6 +13,8 @@ NeatText:a simple NLP package for cleaning textual data and text preprocessing
 #### Solution
 + convert the already known solution for cleaning text into a reuseable package
 
+#### Docs
++ Check out the full docs [here](https://jcharis.github.io/neattext/)
 
 #### Installation
 ```bash
