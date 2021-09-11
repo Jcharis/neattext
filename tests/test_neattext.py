@@ -7,7 +7,7 @@ from neattext.explainer import *
 
 
 def test_version():
-    assert __version__ == '0.1.0'
+    assert __version__ == '0.1.1'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -269,4 +269,19 @@ def test_single_fxn_remove_postoffice_box():
 	assert result2 != "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.\nThis is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to  , KNU"
 
 
+def test_single_fxn_remove_terms_in_bracket():
+	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
+	result2 = remove_terms_in_bracket(t2)
+	assert result2 ==  'This is the mail of   different from [Berlin] [Germany] '
 
+
+def test_single_fxn_remove_terms_in_bracket_square():
+	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
+	result2 = remove_terms_in_bracket(t2,"[]")
+	assert result2 ==  'This is the mail of {London} {Accra} different from   '
+
+
+def test_single_fxn_extract_terms_in_bracket():
+	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
+	result2 = extract_terms_in_bracket(t2)
+	assert result2 ==  ['London', 'Accra']

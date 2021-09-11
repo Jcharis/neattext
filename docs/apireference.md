@@ -17,6 +17,7 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [remove_special_characters](#remove_special_characters)
 + [remove_emojis](#remove_emojis)
 + [remove_stopwords](#remove_stopwords)
++ [remove_terms_in_bracket](#remove_terms_in_bracket)
 
 #### For TextCleaner : replace
 + [replace_emails](#replace_emails)
@@ -35,6 +36,7 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [extract_special_characters](#extract_special_characters)
 + [extract_emojis](#extract_emojis)
 + [extract_stopwords](#extract_stopwords)
++ [extract_terms_in_bracket](#extract_terms_in_bracket)
 
 #### For TextMetrics : word statistics and counts
 + [count_vowels](#count_vowels)
@@ -104,6 +106,16 @@ Clean text by using custom regex to remove emojis and unicode representing emoji
 
 Clean text by using custom regex to remove english stopwords
 
+***remove_dates***<a name="remove_dates"></a>
+
+Clean text by using custom regex to remove dates
+
+***remove_terms_in_bracket***<a name="remove_terms_in_bracket"></a>
+
+Clean text by using custom regex to remove terms in the specified bracket either [] or {}
+
+
+
 #### TextCleaner replace methods
 ***replace_emails***<a name="replace_emails"></a>
 
@@ -164,6 +176,10 @@ Works on text by using custom regex to extract emojis and unicode representing e
 ***extract_stopwords***<a name="extract_stopwords"></a>
 
 Works on text by using custom regex to extract english stopwords
+
+***extract_terms_in_bracket***<a name="extract_terms_in_bracket"></a>
+
+Works on text by using custom regex to extract terms inside bracket ([] or {})
 
 
 #### TextFrame Basics
