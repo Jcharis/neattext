@@ -256,6 +256,26 @@ def remove_street_address(text):
     result = re.sub(STREET_ADDRESS_REGEX, " ", text)
     return result
 
+
+
+def remove_terms_in_bracket(text,bracket_form="curly"):
+    """Returns a string with terms/words in bracket together with the bracket removed
+    
+    Params:
+        - bracket_form: string or symbol about whether is it  curly({) or square([])
+        or etc
+    """
+    CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}") 
+    SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]") 
+    NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)") 
+    if bracket_form == "curly" or bracket_form == "{}":
+        result = re.sub(CURLY_BRACKET_REGEX,"",text)
+    elif bracket_form == "square" or bracket_form == "[]":
+        result = re.sub(SQUARE_BRACKET_REGEX,"",text)
+    elif bracket_form == "normal" or bracket_form == "()":
+        result = re.sub(NORMAL_BRACKET_REGEX,"",text)
+    return result
+
     # EXTRACTION FUNCTIONS
 
 
@@ -395,6 +415,25 @@ def extract_postoffice_box(text):
 def extract_street_address(text):
     """Returns a list with Street Addresses """
     result = re.findall(STREET_ADDRESS_REGEX, text)
+    return result
+
+def extract_terms_in_bracket(text,bracket_form="curly"):
+    """Returns  a list of a string within bracket 
+    
+    Params:
+        - bracket_form: string or symbol about whether is it  curly({) or square([])
+        or etc
+    """
+    CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}") 
+    SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]") 
+    NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)") 
+    if bracket_form == "curly" or bracket_form == "{}":
+        result = re.findall(CURLY_BRACKET_REGEX,text)
+    elif bracket_form == "square" or bracket_form == "[]":
+        result = re.findall(SQUARE_BRACKET_REGEX,text)
+    elif bracket_form == "normal" or bracket_form == "()":
+        result = re.findall(NORMAL_BRACKET_REGEX,text)
+
     return result
 
 
