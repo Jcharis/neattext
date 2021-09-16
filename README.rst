@@ -21,6 +21,12 @@ Solution
 -  convert the already known solution for cleaning text into a reuseable
    package
 
+Docs
+----
+
+-  Check out the full docs
+   `here <https://jcharis.github.io/neattext/>`__
+
 Installation
 ------------
 
@@ -42,7 +48,7 @@ Usage
 Overall Components of NeatText
 ------------------------------
 
-|image2|
+.. image:: images/neattext_features_jcharistech.png
 
 Using TextFrame
 ---------------
@@ -277,7 +283,6 @@ Remove Custom Pattern
    >>> nfx.remove_custom_pattern(e,r'&#\d+')
    'Last !RT tweeter multiple  '
 
-
 Replace Emails,Numbers,Phone Numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -384,12 +389,39 @@ Explainer
    >>> unicode_2_emoji('0x1f49b')
        'FLUSHED FACE'
 
+.. _usage-2:
+
+Usage
+-----
+
+-  The Pipeline Way
+
+.. code:: python
+
+   >>> from neattext.pipeline import Pipeline
+   >>> t1 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+
+   >>> p = Pipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+   >>> p.fit(t1)
+   'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
+-  Check For steps and named steps
+
+.. code:: python
+
+   >>> p.steps
+   >>> p.named_steps
+
+-  Alternatively you can also use this approach
+
 Documentation
 -------------
 
 Please read the
 `documentation <https://github.com/Jcharis/neattext/wiki>`__ for more
-information on what neattext does and how to use is for your needs.
+information on what neattext does and how to use is for your needs.You
+can also check out our readthedocs page
+`here <https://jcharis.github.io/neattext/>`__
 
 More Features To Add
 --------------------
@@ -420,4 +452,3 @@ By
    :target: https://travis-ci.org/Jcharis/neattext
 .. |GitHub license| image:: https://img.shields.io/github/license/Jcharis/neattext
    :target: https://github.com/Jcharis/neattext/blob/master/LICENSE
-.. |image2| image:: images/neattext_features_jcharistech.png

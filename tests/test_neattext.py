@@ -3,11 +3,12 @@ from neattext import TextCleaner,TextExtractor,TextMetrics,TextFrame
 # from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls,remove_currencies,remove_currency_symbols,extract_currencies
 from neattext.functions import *
 from neattext.explainer import *
+from neattext.pipeline import Pipeline
 
 
 
 def test_version():
-    assert __version__ == '0.1.1'
+    assert __version__ == '0.1.2'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -285,3 +286,11 @@ def test_single_fxn_extract_terms_in_bracket():
 	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
 	result2 = extract_terms_in_bracket(t2)
 	assert result2 ==  ['London', 'Accra']
+
+def test_txt_cleaning_pipeline():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	p = Pipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+	results2 = p.fit(t2)
+	assert results2 == 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
+
