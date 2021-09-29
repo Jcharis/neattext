@@ -45,6 +45,11 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [word_stats](#word_stats)
 
 
+#### For TextPipeline : combine neattext function in a pipeline
++ [TextPipeline.fit](#TextPipeline.fit)
++ [named_steps](#named_steps)
+
+
 **TextFrame**<a name="textframe"><a>
 
 The neattext TextFrame API is a frame-like class useful for cleaning text.It inherits all the methods of the TextCleaner hence it can be used for removing or replacing emails,numbers,phone numbers,special characters,emojis,etc 
@@ -226,3 +231,14 @@ Generate an N-gram of the text supplied
 ***bow***<a name="bow"></a>
 
 Generate a simple bag of words of text
+
+
+
+#### TextPipeline
+***TextPipeline.fit***<a name="TextPipeline.fit"></a>
+
+Fit a group of neattext functions on a given text
+
+***named_steps***<a name="named_steps"></a>
+
+Returns all the functions/steps in a given TextPipeline

@@ -229,3 +229,23 @@ You can also use the import as feature.
 >>> nfx.extract_emails(t1)
 >>> ['example@gmail.com']
 ```
+
+### Pipeline Approach using TextPipeline
++ This is a new feature(from version 1.1.2) that introduces the concept of pipeline. 
++ TextPipeline operates like the `clean_text` function but in this case you specify
+according as steps a group of functions you need to use to clean a given text.
+
+```python
+>>> from neattext.pipeline import TextPipeline
+>>> t1 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+
+>>> p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+>>> p.fit(t1)
+'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
+```
++ Check For steps and named steps
+```python
+>>> p.steps
+>>> p.named_steps
+```

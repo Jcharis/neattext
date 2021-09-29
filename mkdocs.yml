@@ -1,5 +1,5 @@
 site_name: NeatText
-site_url: https://example.com/
+site_url: https://jcharis.github.io/neattext/
 nav:
     - Home: index.md
     - User Guide: userguide.md
