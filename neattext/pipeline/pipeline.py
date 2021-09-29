@@ -3,7 +3,7 @@
 from typing import List,Tuple,Callable
 
 
-class Pipeline:
+class TextPipeline:
 	"""
     Pipeline of functions for cleaning text.
     Sequentially apply a list of functions to a given text.
@@ -21,9 +21,9 @@ class Pipeline:
 
     Usage
     -----
-    >>> from neattext.pipeline import Pipeline
+    >>> from neattext.pipeline import TextPipeline
     >>> import neattext.functions as nfx
-    >>> p = Pipeline(steps=[nfx.remove_emails,nfx.remove_puncts])
+    >>> p = TextPipeline(steps=[nfx.remove_emails,nfx.remove_puncts])
     >>> p.steps
     >>> mytext = "your text here"
     >>> p.fit(mytext)
@@ -38,10 +38,10 @@ class Pipeline:
 		
 
 	def __repr__(self):
-		return 'Pipeline(steps={})'.format(self.steps)
+		return 'TextPipeline(steps={})'.format(self.steps)
 
 	def __str__(self):
-		return 'Pipeline(steps={})'.format(self.steps)
+		return 'TextPipeline(steps={})'.format(self.steps)
 
 
 	def fit(self,text):
