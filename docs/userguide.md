@@ -231,7 +231,7 @@ You can also use the import as feature.
 ```
 
 ### Pipeline Approach using TextPipeline
-+ This is a new feature(from version 1.1.2) that introduces the concept of pipeline. 
++ This is a new feature(from version 0.1.2) that introduces the concept of pipeline. 
 + TextPipeline operates like the `clean_text` function but in this case you specify
 according as steps a group of functions you need to use to clean a given text.
 
