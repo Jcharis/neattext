@@ -43,6 +43,8 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [count_consonants](#count_consonants)
 + [count_stopwords](#count_stopwords)
 + [word_stats](#word_stats)
++ [unique](#unique)
++ [nunique](#nunique)
 
 
 #### For TextPipeline : combine neattext function in a pipeline
@@ -231,6 +233,16 @@ Generate an N-gram of the text supplied
 ***bow***<a name="bow"></a>
 
 Generate a simple bag of words of text
+
+
+***unique***<a name="unique"></a>
+
+Returns a list of unique tokens/values in a text
+
+
+***nunique***<a name="nunique"></a>
+
+Returns the count/number of unique tokens in a text
 
 
 

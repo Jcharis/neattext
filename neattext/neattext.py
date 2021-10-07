@@ -956,6 +956,21 @@ class TextMetrics(object):
 
         return dict(sorted_count_of_n_length_word)
 
+    def unique(self):
+        """Returns A List of Unique Tokens in a Text"""
+        token_words = re.split(r"\W+", self.text.lower())
+        results = list(set(token_words))
+        return results 
+
+    def nunique(self):
+        """Returns The Count of Unique Tokens in a Text"""
+        token_words = re.split(r"\W+", self.text.lower())
+        results = len(set(token_words))
+        return results 
+
+
+
+
 
 # Remove Emails/Phone number/Emoji/Stopwords/etc
 
@@ -2102,3 +2117,7 @@ class TextFrame(TextCleaner):
         ]
         final_res = Counter(result)
         return dict(final_res)
+
+
+
+
