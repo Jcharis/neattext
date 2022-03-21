@@ -6,6 +6,7 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [TextCleaner](#textcleaner)
 + [TextExtractor](#textextractor)
 + [TextMetrics](#textmetrics)
++ [TextPipeline](#textpipeline)
 
 ### General Functions
 #### For TextCleaner : remove
@@ -84,6 +85,15 @@ The neattext TextMetrics API is a class useful for cleaning text by either remov
 ```Python
 TextMetrics(text=None)
 ```
+
+
+**TextPipeline**<a name="textpipeline"><a>
+
+The neattext TextPipeline API is a class useful for combining or chaining several text cleaning functions as one in a format of a pipeline that implement the `fit` method on a given text. 
+```Python
+TextPipeline(steps=[fxns])
+```
+
 #### TextCleaner remove methods
 ***remove_emails***<a name="remove_emails"></a>
 

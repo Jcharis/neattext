@@ -2,7 +2,7 @@ neattext
 ========
 
 NeatText:a simple NLP package for cleaning textual data and text
-preprocessing
+preprocessing. Simplifying Text Cleaning For NLP & ML
 
 |Build Status|
 
@@ -38,12 +38,13 @@ Usage
 -----
 
 -  The OOP Way(Object Oriented Way)
--  NeatText offers 4 main classes for working with text data
+-  NeatText offers 5 main classes for working with text data
 
    -  TextFrame : a frame-like object for cleaning text
    -  TextCleaner: remove or replace specifics
    -  TextExtractor: extract unwanted text data
    -  TextMetrics: word stats and metrics
+   -  TextPipeline: combine multiple functions in a pipeline
 
 Overall Components of NeatText
 ------------------------------
