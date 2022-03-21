@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://github.com/jcharis/userguide/">
+  <link rel="canonical" href="https://jcharis.github.io/neattext/userguide/">
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>User Guide - NeatText</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
@@ -20,7 +20,7 @@
     // Current page data
     var mkdocs_page_name = "User Guide";
     var mkdocs_page_input_path = "userguide.md";
-    var mkdocs_page_url = "/jcharis/userguide/";
+    var mkdocs_page_url = "/neattext/userguide/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
@@ -301,6 +301,26 @@ TextFrame(text=&quot;This is the mail examplegmailcom our WEBSITE is httpsexampl
 &gt;&gt;&gt;'this mail examplegmailcom website httpsexamplecom'
 &gt;&gt;&gt; nfx.extract_emails(t1)
 &gt;&gt;&gt; ['example@gmail.com']
+</code></pre>
+<h3 id="pipeline-approach-using-textpipeline">Pipeline Approach using TextPipeline</h3>
+<ul>
+<li>This is a new feature(from version 0.1.2) that introduces the concept of pipeline. </li>
+<li>TextPipeline operates like the <code>clean_text</code> function but in this case you specify
+according as steps a group of functions you need to use to clean a given text.</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; from neattext.pipeline import TextPipeline
+&gt;&gt;&gt; t1 = &quot;&quot;&quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU&quot;&quot;&quot;
+
+&gt;&gt;&gt; p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+&gt;&gt;&gt; p.fit(t1)
+'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
+</code></pre>
+<ul>
+<li>Check For steps and named steps</li>
+</ul>
+<pre><code class="language-python">&gt;&gt;&gt; p.steps
+&gt;&gt;&gt; p.named_steps
 </code></pre>
               
             </div>

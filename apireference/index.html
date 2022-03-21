@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://github.com/jcharis/apireference/">
+  <link rel="canonical" href="https://jcharis.github.io/neattext/apireference/">
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>API Guide - NeatText</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
@@ -20,7 +20,7 @@
     // Current page data
     var mkdocs_page_name = "API Guide";
     var mkdocs_page_input_path = "apireference.md";
-    var mkdocs_page_url = "/jcharis/apireference/";
+    var mkdocs_page_url = "/neattext/apireference/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#for-textmetrics-word-statistics-and-counts">For TextMetrics : word statistics and counts</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#for-textpipeline-combine-neattext-function-in-a-pipeline">For TextPipeline : combine neattext function in a pipeline</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#textcleaner-remove-methods">TextCleaner remove methods</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#textcleaner-replace-methods">TextCleaner replace methods</a>
@@ -76,6 +78,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#textextractor-methods">TextExtractor Methods</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#textframe-basics">TextFrame Basics</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#textpipeline">TextPipeline</a>
     </li>
         </ul>
     </li>
@@ -131,6 +135,7 @@
 <li><a href="#textcleaner">TextCleaner</a></li>
 <li><a href="#textextractor">TextExtractor</a></li>
 <li><a href="#textmetrics">TextMetrics</a></li>
+<li><a href="#textpipeline">TextPipeline</a></li>
 </ul>
 <h3 id="general-functions">General Functions</h3>
 <h4 id="for-textcleaner-remove">For TextCleaner : remove</h4>
@@ -143,6 +148,7 @@
 <li><a href="#remove_special_characters">remove_special_characters</a></li>
 <li><a href="#remove_emojis">remove_emojis</a></li>
 <li><a href="#remove_stopwords">remove_stopwords</a></li>
+<li><a href="#remove_terms_in_bracket">remove_terms_in_bracket</a></li>
 </ul>
 <h4 id="for-textcleaner-replace">For TextCleaner : replace</h4>
 <ul>
@@ -163,6 +169,7 @@
 <li><a href="#extract_special_characters">extract_special_characters</a></li>
 <li><a href="#extract_emojis">extract_emojis</a></li>
 <li><a href="#extract_stopwords">extract_stopwords</a></li>
+<li><a href="#extract_terms_in_bracket">extract_terms_in_bracket</a></li>
 </ul>
 <h4 id="for-textmetrics-word-statistics-and-counts">For TextMetrics : word statistics and counts</h4>
 <ul>
@@ -170,6 +177,13 @@
 <li><a href="#count_consonants">count_consonants</a></li>
 <li><a href="#count_stopwords">count_stopwords</a></li>
 <li><a href="#word_stats">word_stats</a></li>
+<li><a href="#unique">unique</a></li>
+<li><a href="#nunique">nunique</a></li>
+</ul>
+<h4 id="for-textpipeline-combine-neattext-function-in-a-pipeline">For TextPipeline : combine neattext function in a pipeline</h4>
+<ul>
+<li><a href="#TextPipeline.fit">TextPipeline.fit</a></li>
+<li><a href="#named_steps">named_steps</a></li>
 </ul>
 <p><strong>TextFrame</strong><a name="textframe"><a></p>
 <p>The neattext TextFrame API is a frame-like class useful for cleaning text.It inherits all the methods of the TextCleaner hence it can be used for removing or replacing emails,numbers,phone numbers,special characters,emojis,etc </p>
@@ -188,6 +202,10 @@
 <p>The neattext TextMetrics API is a class useful for cleaning text by either removing or replacing emails,numbers,phone numbers,special characters,emojis,etc </p>
 <pre><code class="language-Python">TextMetrics(text=None)
 </code></pre>
+<p><strong>TextPipeline</strong><a name="textpipeline"><a></p>
+<p>The neattext TextPipeline API is a class useful for combining or chaining several text cleaning functions as one in a format of a pipeline that implement the <code>fit</code> method on a given text. </p>
+<pre><code class="language-Python">TextPipeline(steps=[fxns])
+</code></pre>
 <h4 id="textcleaner-remove-methods">TextCleaner remove methods</h4>
 <p><strong><em>remove_emails</em></strong><a name="remove_emails"></a></p>
 <p>Clean text by using custom regex to remove emails</p>
@@ -203,6 +221,10 @@
 <p>Clean text by using custom regex to remove emojis and unicode representing emojis</p>
 <p><strong><em>remove_stopwords</em></strong><a name="remove_stopwords"></a></p>
 <p>Clean text by using custom regex to remove english stopwords</p>
+<p><strong><em>remove_dates</em></strong><a name="remove_dates"></a></p>
+<p>Clean text by using custom regex to remove dates</p>
+<p><strong><em>remove_terms_in_bracket</em></strong><a name="remove_terms_in_bracket"></a></p>
+<p>Clean text by using custom regex to remove terms in the specified bracket either [] or {}</p>
 <h4 id="textcleaner-replace-methods">TextCleaner replace methods</h4>
 <p><strong><em>replace_emails</em></strong><a name="replace_emails"></a></p>
 <p>Processes text by using custom regex to replace emails</p>
@@ -233,6 +255,8 @@
 <p>Works on text by using custom regex to extract emojis and unicode representing emojis</p>
 <p><strong><em>extract_stopwords</em></strong><a name="extract_stopwords"></a></p>
 <p>Works on text by using custom regex to extract english stopwords</p>
+<p><strong><em>extract_terms_in_bracket</em></strong><a name="extract_terms_in_bracket"></a></p>
+<p>Works on text by using custom regex to extract terms inside bracket ([] or {})</p>
 <h4 id="textframe-basics">TextFrame Basics</h4>
 <p><strong><em>read_text</em></strong><a name="read_text"></a></p>
 <p>Reads a text file and Creates A TextFrame for cleaning text</p>
@@ -252,6 +276,15 @@
 <p>Generate an N-gram of the text supplied</p>
 <p><strong><em>bow</em></strong><a name="bow"></a></p>
 <p>Generate a simple bag of words of text</p>
+<p><strong><em>unique</em></strong><a name="unique"></a></p>
+<p>Returns a list of unique tokens/values in a text</p>
+<p><strong><em>nunique</em></strong><a name="nunique"></a></p>
+<p>Returns the count/number of unique tokens in a text</p>
+<h4 id="textpipeline">TextPipeline</h4>
+<p><strong><em>TextPipeline.fit</em></strong><a name="TextPipeline.fit"></a></p>
+<p>Fit a group of neattext functions on a given text</p>
+<p><strong><em>named_steps</em></strong><a name="named_steps"></a></p>
+<p>Returns all the functions/steps in a given TextPipeline</p>
               
             </div>
           </div>
