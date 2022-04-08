@@ -294,3 +294,8 @@ def test_txt_cleaning_pipeline():
 	assert results2 == 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
 
 
+def test_textframe_memory_usage():
+	docx = TextFrame()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = docx.memory_usage()['memory']
+	assert result == 368
