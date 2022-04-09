@@ -149,6 +149,7 @@
 <li><a href="#remove_emojis">remove_emojis</a></li>
 <li><a href="#remove_stopwords">remove_stopwords</a></li>
 <li><a href="#remove_terms_in_bracket">remove_terms_in_bracket</a></li>
+<li><a href="#remove_accents">remove_accents</a></li>
 </ul>
 <h4 id="for-textcleaner-replace">For TextCleaner : replace</h4>
 <ul>
@@ -179,10 +180,12 @@
 <li><a href="#word_stats">word_stats</a></li>
 <li><a href="#unique">unique</a></li>
 <li><a href="#nunique">nunique</a></li>
+<li><a href="#memory_usage">memory_usage</a></li>
 </ul>
 <h4 id="for-textpipeline-combine-neattext-function-in-a-pipeline">For TextPipeline : combine neattext function in a pipeline</h4>
 <ul>
 <li><a href="#TextPipeline.fit">TextPipeline.fit</a></li>
+<li><a href="#TextPipeline.transform">TextPipeline.transform</a></li>
 <li><a href="#named_steps">named_steps</a></li>
 </ul>
 <p><strong>TextFrame</strong><a name="textframe"><a></p>
@@ -225,6 +228,8 @@
 <p>Clean text by using custom regex to remove dates</p>
 <p><strong><em>remove_terms_in_bracket</em></strong><a name="remove_terms_in_bracket"></a></p>
 <p>Clean text by using custom regex to remove terms in the specified bracket either [] or {}</p>
+<p><strong><em>remove_accents</em></strong><a name="remove_accents"></a></p>
+<p>Clean text by removing diacritics and accents from a given text</p>
 <h4 id="textcleaner-replace-methods">TextCleaner replace methods</h4>
 <p><strong><em>replace_emails</em></strong><a name="replace_emails"></a></p>
 <p>Processes text by using custom regex to replace emails</p>
@@ -280,11 +285,15 @@
 <p>Returns a list of unique tokens/values in a text</p>
 <p><strong><em>nunique</em></strong><a name="nunique"></a></p>
 <p>Returns the count/number of unique tokens in a text</p>
+<p><strong><em>memory_usage</em></strong><a name="memory_usage"></a></p>
+<p>Returns the amount of memory/bytes used by a given text</p>
 <h4 id="textpipeline">TextPipeline</h4>
 <p><strong><em>TextPipeline.fit</em></strong><a name="TextPipeline.fit"></a></p>
 <p>Fit a group of neattext functions on a given text</p>
 <p><strong><em>named_steps</em></strong><a name="named_steps"></a></p>
 <p>Returns all the functions/steps in a given TextPipeline</p>
+<p><strong><em>TextPipeline.transform</em></strong><a name="TextPipeline.transform"></a></p>
+<p>Transform a given text using a group of neattext functions to a cleaner text</p>
               
             </div>
           </div>

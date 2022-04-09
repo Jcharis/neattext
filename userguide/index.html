@@ -275,6 +275,7 @@ TextFrame(text=&quot;This is the mail examplegmailcom our WEBSITE is httpsexampl
 &gt;&gt;&gt; docx.count_consonants()
 &gt;&gt;&gt; docx.count_stopwords()
 &gt;&gt;&gt; docx.word_stats()
+&gt;&gt;&gt; docx.memory_usage()
 </code></pre>
 <h3 id="usage-via-the-mopmethodfunction-oriented-way">Usage via the MOP(Method/Function Oriented Way)</h3>
 <p>If you are a fun of functions you can also use <code>neattext</code> in such a manner using the <code>functions</code> sub-package. In that case you will have to import as this</p>
@@ -312,7 +313,7 @@ according as steps a group of functions you need to use to clean a given text.</
 &gt;&gt;&gt; t1 = &quot;&quot;&quot;This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU&quot;&quot;&quot;
 
 &gt;&gt;&gt; p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
-&gt;&gt;&gt; p.fit(t1)
+&gt;&gt;&gt; p.transform(t1)
 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
 
 </code></pre>
