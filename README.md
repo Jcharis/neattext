@@ -269,6 +269,7 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 >>> docx.count_consonants()
 >>> docx.count_stopwords()
 >>> docx.word_stats()
+>>> docx.memory_usage()
 ```
 
 ### Usage 

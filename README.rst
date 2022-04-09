@@ -335,6 +335,7 @@ Using TextMetrics
    >>> docx.count_consonants()
    >>> docx.count_stopwords()
    >>> docx.word_stats()
+   >>> docx.memory_usage()
 
 .. _usage-1:
 

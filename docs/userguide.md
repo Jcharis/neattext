@@ -194,6 +194,7 @@ TextFrame(text="This is the mail examplegmailcom our WEBSITE is httpsexamplecom 
 >>> docx.count_consonants()
 >>> docx.count_stopwords()
 >>> docx.word_stats()
+>>> docx.memory_usage()
 ```
 
 
@@ -240,7 +241,7 @@ according as steps a group of functions you need to use to clean a given text.
 >>> t1 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
 
 >>> p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
->>> p.fit(t1)
+>>> p.transform(t1)
 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
 
 ```

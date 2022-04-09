@@ -19,6 +19,7 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [remove_emojis](#remove_emojis)
 + [remove_stopwords](#remove_stopwords)
 + [remove_terms_in_bracket](#remove_terms_in_bracket)
++ [remove_accents](#remove_accents)
 
 #### For TextCleaner : replace
 + [replace_emails](#replace_emails)
@@ -46,10 +47,12 @@ This page gives an overview of all `neattext` objects,functions and methods.
 + [word_stats](#word_stats)
 + [unique](#unique)
 + [nunique](#nunique)
++ [memory_usage](#memory_usage)
 
 
 #### For TextPipeline : combine neattext function in a pipeline
 + [TextPipeline.fit](#TextPipeline.fit)
++ [TextPipeline.transform](#TextPipeline.transform)
 + [named_steps](#named_steps)
 
 
@@ -130,6 +133,10 @@ Clean text by using custom regex to remove dates
 ***remove_terms_in_bracket***<a name="remove_terms_in_bracket"></a>
 
 Clean text by using custom regex to remove terms in the specified bracket either [] or {}
+
+***remove_accents***<a name="remove_accents"></a>
+
+Clean text by removing diacritics and accents from a given text
 
 
 
@@ -254,6 +261,10 @@ Returns a list of unique tokens/values in a text
 
 Returns the count/number of unique tokens in a text
 
+***memory_usage***<a name="memory_usage"></a>
+
+Returns the amount of memory/bytes used by a given text
+
 
 
 #### TextPipeline
@@ -264,3 +275,9 @@ Fit a group of neattext functions on a given text
 ***named_steps***<a name="named_steps"></a>
 
 Returns all the functions/steps in a given TextPipeline
+
+
+***TextPipeline.transform***<a name="TextPipeline.transform"></a>
+
+Transform a given text using a group of neattext functions to a cleaner text
+

@@ -293,9 +293,21 @@ def test_txt_cleaning_pipeline():
 	results2 = p.fit(t2)
 	assert results2 == 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
 
+def test_txt_cleaning_pipeline_transform():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+	results2 = p.transform(t2)
+	assert results2 == 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
 
 def test_textframe_memory_usage():
 	docx = TextFrame()
 	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
 	result = docx.memory_usage()['memory']
 	assert result == 368
+
+
+def test_remove_diacritics_n_accents():
+	t2 = "Ma Mère, Françoise, was singing the noël song."
+	result2 = remove_accents(t2)
+	assert result2 == "Ma Mere, Francoise, was singing the noel song."

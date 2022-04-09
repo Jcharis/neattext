@@ -33,7 +33,7 @@ from neattext.pattern_data import (
 from neattext import TextFrame
 from collections import defaultdict, Counter
 from heapq import nlargest
-import random, string, math
+import random, string, math,unicodedata
 
 
 # Individual Functions
@@ -275,6 +275,17 @@ def remove_terms_in_bracket(text,bracket_form="curly"):
     elif bracket_form == "normal" or bracket_form == "()":
         result = re.sub(NORMAL_BRACKET_REGEX,"",text)
     return result
+
+def remove_accents(text):
+    """Returns a string with diacritics/accents removed
+
+    Params:
+        - text: string or sequence of text
+    """
+    nfkd_form = unicodedata.normalize("NFKD", text)
+    result = "".join([char for char in nfkd_form if not unicodedata.combining(char)])
+    return result
+   
 
     # EXTRACTION FUNCTIONS
 

@@ -26,7 +26,7 @@ class TextPipeline:
     >>> p = TextPipeline(steps=[nfx.remove_emails,nfx.remove_puncts])
     >>> p.steps
     >>> mytext = "your text here"
-    >>> p.fit(mytext)
+    >>> p.transform(mytext)
     >>> 
     >>> p.named_steps
 
@@ -46,6 +46,15 @@ class TextPipeline:
 
 	def fit(self,text):
 		"""Fit the pipeline to the given text
+		This applies all the functions to the text
+		"""
+		for fxn in self.steps:
+			text = fxn(text)
+
+		return text 
+		 
+	def transform(self,text):
+		"""Transform the given text using the pipeline
 		This applies all the functions to the text
 		"""
 		for fxn in self.steps:

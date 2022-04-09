@@ -1215,6 +1215,18 @@ class TextCleaner(TextMetrics):
             result = re.sub(NORMAL_BRACKET_REGEX,"",self.text)
         return result
 
+
+    def remove_accents(self):
+        """Returns a string with diacritics/accents removed
+
+        Params:
+            - text: string or sequence of text
+        """
+        import unicodedata
+        nfkd_form = unicodedata.normalize("NFKD",self.text)
+        result = "".join([char for char in nfkd_form if not unicodedata.combining(char)])
+        return result
+
     # FUNCTIONS TO REPLACE
     def replace_emails(self, replace_with="<EMAIL>"):
         """Replaces the emails in the text with custom label"""
