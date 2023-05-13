@@ -18,33 +18,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      # cache the installation of Poetry itself to prevent slow  workflow due to everytime install 
-      - name: cache poetry install
-        uses: actions/cache@v2
-        with:
-          path: ~/.local
-          key: poetry-1.1.14-0
-      # Install poetry and create a virtualenv .venv
-      - uses: snok/install-poetry@v1
-        with:
-          version: 1.1.12
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          
-     # cache dependencies
-      - name: cache deps
-        id: cache-deps
-        uses: actions/cache@v2
-        with:
-            path: .venv
-            key: pydeps-${{ hashFiles('**/poetry.lock') }}
-
-      # Install dependencies. `--no-root` means "install all dependencies but not the project
-      # itself", which is what you want to avoid caching _your_ code. The `if` statement
-      # ensures this only runs on a cache miss.
-      - run: poetry install --no-interaction --no-root
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-      - name: Install project
-        run: poetry install --no-interaction
+      - name: Install pytest
+        run: python -m pip install pytest
       - name: Test with pytest
-        run: poetry run pytest
+        run: pytest
