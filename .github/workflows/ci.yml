@@ -21,4 +21,12 @@ jobs:
       - name: Install pytest
         run: python -m pip install pytest
       - name: Test with pytest
-        run: pytest
+        run: pytest --junit-xml=test-results.xml
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            test-results/**/*.xml
+            test-results/**/*.trx
+            test-results/**/*.json
