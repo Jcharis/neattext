@@ -350,6 +350,7 @@ out our readthedocs page [here](https://jcharis.github.io/neattext/)
 ### More Features To Add
 + basic nlp task
 + currency normalizer
++ neattext-cli
 
 #### Acknowledgements
 + Inspired by packages like `clean-text` from Johannes Fillter and `textify` by JCharisTech

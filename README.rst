@@ -430,6 +430,7 @@ More Features To Add
 
 -  basic nlp task
 -  currency normalizer
+-  neattext-cli
 
 Acknowledgements
 ~~~~~~~~~~~~~~~~
