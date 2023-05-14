@@ -40,8 +40,8 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
-      - name: Install dependencies
-        run: poetry install
+      - name: Check version
+        run: poetry version
       - name: Run Check
         run: poetry check
       - name: Run Test
