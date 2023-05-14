@@ -48,7 +48,7 @@ jobs:
         run: poetry run pytest
       - name: Publish
         env:
-          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN_NEATTEXT }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          poetry config pypi-token.pypi $PYPI_API_TOKEN_NEATTEXT
+          poetry config pypi-token.pypi $PYPI_TOKEN
           poetry publish --build --dry-run
