@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
-        poetry-version: [1.1.2]
+        poetry-version: [1.1.14]
 
     steps:
       - uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Check version
-        run: poetry version
+        run: poetry -V 
       - name: Run Check
         run: poetry check
       - name: Run Test
