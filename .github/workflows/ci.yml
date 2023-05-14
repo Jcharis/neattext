@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
+        poetry-version: [1.1.2]
 
     steps:
       - uses: actions/checkout@v3
@@ -30,3 +31,24 @@ jobs:
             test-results.xml
             test-results/**/*.xml
             test-results/**/*.json
+
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install dependencies
+        run: poetry install
+      - name: Run Check
+        run: poetry check
+      - name: Run Test
+        run: poetry run pytest
+      - name: Publish
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN_NEATTEXT }}
+        run: |
+          poetry config pypi-token.pypi $PYPI_API_TOKEN_NEATTEXT
+          poetry publish --build --dry-run
