@@ -55,6 +55,8 @@ jobs:
         run: poetry -V 
       - name: Run Check
         run: poetry check
+      - name: Install Pytest for Poetry
+        run: poetry add pytest --dev
       - name: Run Test
         run: poetry run pytest
       # - name: Publish
