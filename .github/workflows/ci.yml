@@ -57,12 +57,12 @@ jobs:
         run: poetry check
       - name: Run Test
         run: poetry run pytest
-      - name: Publish
-        env:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-        run: |
+      # - name: Publish
+      #   env:
+      #     PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+      #   run: |
           
-          poetry publish --build --dry-run
+      #     poetry publish --build --dry-run
 
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.17
