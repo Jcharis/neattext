@@ -58,9 +58,10 @@ jobs:
       - name: Build
         run: |
           poetry build 
-      - name: Build and publish to pypi
-        uses: JRubics/poetry-publish@v1.17
-        with:
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
-          repository_name: "testpypi"
-          repository_url: "https://test.pypi.org/legacy/"
+      - name: Check Name on Pypi
+        run: twine check dist/*
+      - name: Publish to pypi
+        run: |
+          twine upload -r testpypi dist/*
+        env:
+            TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
