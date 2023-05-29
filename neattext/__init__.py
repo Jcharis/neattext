@@ -1,4 +1,4 @@
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 from .neattext import TextCleaner
 from .neattext import TextExtractor
 from .neattext import TextMetrics
