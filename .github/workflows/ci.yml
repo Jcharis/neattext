@@ -58,7 +58,7 @@ jobs:
       - name: Install Pytest for Poetry
         run: poetry add pytest --dev
       - name: Run Test
-        run: poetry run pytest
+        run: poetry run python -m pytest
       # - name: Publish
       #   env:
       #     PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
