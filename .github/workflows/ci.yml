@@ -55,17 +55,12 @@ jobs:
         run: poetry -V 
       - name: Run Check
         run: poetry check
-      - name: Install Pytest for Poetry
-        run: poetry add pytest --dev
-      - name: Run Test
-        run: poetry run python -m pytest
-      # - name: Publish
-      #   env:
-      #     PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      #   run: |
+      - name: Publish
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
           
-      #     poetry publish --build --dry-run
-
+          poetry publish --build --dry-run
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.17
         with:
