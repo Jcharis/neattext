@@ -311,3 +311,10 @@ def test_remove_diacritics_n_accents():
 	t2 = "Ma Mère, Françoise, was singing the noël song."
 	result2 = remove_accents(t2)
 	assert result2 == "Ma Mere, Francoise, was singing the noel song."
+
+
+def test_dasherize():
+	t1 = "scikit_learn"
+	result1 = dasherize(t1)
+	assert result1 == "scikit-learn"
+	assert t1 == underscorize("scikit-learn")

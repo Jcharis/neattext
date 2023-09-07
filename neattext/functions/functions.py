@@ -1252,3 +1252,22 @@ def word_length_freq(text):
     sorted_count_of_n_length_word = sorted(dict(count_of_n_length_word).items())
 
     return dict(sorted_count_of_n_length_word)
+
+
+def dasherize(text: str) -> str:
+    """Converts underscores to dashes 
+    
+    >>> ex = "scikit_learn"
+    >>> dasherize(ex)
+    scikit_learn
+    """
+    return text.replace('_','-')
+
+def underscorize(text: str) -> str:
+    """Converts dashes to underscores
+    
+    >>> ex = "scikit-learn"
+    >>> underscorize(ex)
+    scikit-learn
+    """
+    return text.replace('-','_')
