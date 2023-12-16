@@ -26,12 +26,12 @@ MOST_COMMON_PUNCT_REGEX = re.compile(r"""[!"&',-.;?_`]""")
 SPECIAL_CHARACTERS_REGEX = re.compile(r"[^A-Za-z0-9 ]+")
 EMOJI_REGEX = re.compile(
     "["
-    u"\U0001F600-\U0001F64F"  # for emoticons
-    u"\U0001F300-\U0001F5FF"  # for symbols & pictographs
-    u"\U0001F680-\U0001F6FF"  # for transport & map symbols
-    u"\U0001F1E0-\U0001F1FF"  # for flags (iOS)
-    u"\U00002702-\U000027B0"
-    u"\U000024C2-\U0001F251"
+    "\U0001F600-\U0001F64F"  # for emoticons
+    "\U0001F300-\U0001F5FF"  # for symbols & pictographs
+    "\U0001F680-\U0001F6FF"  # for transport & map symbols
+    "\U0001F1E0-\U0001F1FF"  # for flags (iOS)
+    "\U00002702-\U000027B0"
+    "\U000024C2-\U0001F251"
     "]+",
     flags=re.UNICODE,
 )
@@ -960,18 +960,17 @@ class TextMetrics(object):
         """Returns A List of Unique Tokens in a Text"""
         token_words = re.split(r"\W+", self.text.lower())
         results = list(set(token_words))
-        return results 
+        return results
 
     def nunique(self):
         """Returns The Count of Unique Tokens in a Text"""
         token_words = re.split(r"\W+", self.text.lower())
         results = len(set(token_words))
-        return results 
+        return results
 
-
-
-    def __convert_size(self,size_bytes):
+    def __convert_size(self, size_bytes):
         import math
+
         if size_bytes == 0:
             return "0B"
         size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
@@ -981,13 +980,11 @@ class TextMetrics(object):
         return "%s %s" % (s, size_name[i])
 
     def memory_usage(self):
-        import sys 
+        import sys
+
         mem = sys.getsizeof(self.text)
         result = self.__convert_size(mem)
-        return {'memory':mem,'human_readable':result}
-
-
-
+        return {"memory": mem, "human_readable": result}
 
 
 # Remove Emails/Phone number/Emoji/Stopwords/etc
@@ -1017,17 +1014,17 @@ class TextCleaner(TextMetrics):
         return 'TextCleaner(text="{}")'.format(self.text)
 
     def remove_emails(self):
-        """Returns A String with the emails removed """
+        """Returns A String with the emails removed"""
         self.text = re.sub(EMAIL_REGEX, "", self.text)
         return self
 
     def remove_numbers(self):
-        """Returns A String with the numbers/digits removed """
+        """Returns A String with the numbers/digits removed"""
         self.text = re.sub(NUMBERS_REGEX, "", self.text)
         return self
 
     def remove_phone_numbers(self):
-        """Returns A String with the phone numbers removed """
+        """Returns A String with the phone numbers removed"""
         self.text = re.sub(PHONE_REGEX, "", self.text)
         return self
 
@@ -1049,12 +1046,12 @@ class TextCleaner(TextMetrics):
         return self
 
     def remove_special_characters(self):
-        """Returns A String with the specified characters removed """
+        """Returns A String with the specified characters removed"""
         self.text = re.sub(SPECIAL_CHARACTERS_REGEX, "", self.text)
         return self
 
     def remove_emojis(self):
-        """Returns A String with the emojis removed """
+        """Returns A String with the emojis removed"""
         self.text = re.sub(EMOJI_REGEX, "", self.text)
         return self
 
@@ -1089,22 +1086,22 @@ class TextCleaner(TextMetrics):
         return self
 
     def remove_urls(self):
-        """Returns A String with URLS removed """
+        """Returns A String with URLS removed"""
         self.text = re.sub(URL_PATTERN, "", self.text)
         return self
 
     def remove_currencies(self):
-        """Returns A String with Currencies removed """
+        """Returns A String with Currencies removed"""
         self.text = re.sub(CURRENCY_REGEX, "", self.text)
         return self
 
     def remove_currency_symbols(self):
-        """Returns A String with Currency Symbols removed """
+        """Returns A String with Currency Symbols removed"""
         self.text = re.sub(CURRENCY_SYMB_REGEX, "", self.text)
         return self
 
     def remove_dates(self):
-        """Returns A String with Dates Removed """
+        """Returns A String with Dates Removed"""
         self.text = re.sub(DATE_REGEX, "", self.text)
         return self
 
@@ -1135,7 +1132,7 @@ class TextCleaner(TextMetrics):
         return self
 
     def remove_custom_words(self, custom_wordlist):
-        """Returns A String with the custom wordlist removed """
+        """Returns A String with the custom wordlist removed"""
         result = [
             word for word in self.text.split() if word.lower() not in custom_wordlist
         ]
@@ -1195,26 +1192,23 @@ class TextCleaner(TextMetrics):
         self.text = re.sub(STREET_ADDRESS_REGEX, " ", self.text)
         return self
 
-
-
-    def remove_terms_in_bracket(self,bracket_form="curly"):
+    def remove_terms_in_bracket(self, bracket_form="curly"):
         """Returns a string with terms/words in bracket together with the bracket removed
-        
+
         Params:
             - bracket_form: string or symbol about whether is it  curly({) or square([])
             or etc
         """
-        CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}") 
-        SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]") 
-        NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)") 
+        CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}")
+        SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]")
+        NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)")
         if bracket_form == "curly" or bracket_form == "{}":
-            result = re.sub(CURLY_BRACKET_REGEX,"",self.text)
+            result = re.sub(CURLY_BRACKET_REGEX, "", self.text)
         elif bracket_form == "square" or bracket_form == "[]":
-            result = re.sub(SQUARE_BRACKET_REGEX,"",self.text)
+            result = re.sub(SQUARE_BRACKET_REGEX, "", self.text)
         elif bracket_form == "normal" or bracket_form == "()":
-            result = re.sub(NORMAL_BRACKET_REGEX,"",self.text)
+            result = re.sub(NORMAL_BRACKET_REGEX, "", self.text)
         return result
-
 
     def remove_accents(self):
         """Returns a string with diacritics/accents removed
@@ -1223,8 +1217,11 @@ class TextCleaner(TextMetrics):
             - text: string or sequence of text
         """
         import unicodedata
-        nfkd_form = unicodedata.normalize("NFKD",self.text)
-        result = "".join([char for char in nfkd_form if not unicodedata.combining(char)])
+
+        nfkd_form = unicodedata.normalize("NFKD", self.text)
+        result = "".join(
+            [char for char in nfkd_form if not unicodedata.combining(char)]
+        )
         return result
 
     # FUNCTIONS TO REPLACE
@@ -1514,32 +1511,32 @@ class TextExtractor(TextCleaner):
         return 'TextExtractor(text="{}")'.format(self.text)
 
     def extract_emails(self):
-        """Returns the emails extracted """
+        """Returns the emails extracted"""
         result = re.findall(EMAIL_REGEX, self.text)
         return result
 
     def extract_numbers(self):
-        """Returns the numbers/digits extracted """
+        """Returns the numbers/digits extracted"""
         result = re.findall(NUMBERS_REGEX, self.text)
         return result
 
     def extract_phone_numbers(self):
-        """Returns the phone number extracted """
+        """Returns the phone number extracted"""
         result = re.findall(PHONE_REGEX, self.text)
         return result
 
     def extract_special_characters(self):
-        """Returns the specified characters extracted """
+        """Returns the specified characters extracted"""
         result = re.findall(SPECIAL_CHARACTERS_REGEX, self.text)
         return result
 
     def extract_emojis(self):
-        """Returns the emojis extracted """
+        """Returns the emojis extracted"""
         result = re.findall(EMOJI_REGEX, self.text)
         return result
 
     def extract_stopwords(self, lang="en"):
-        """Returns the stopwords as a list """
+        """Returns the stopwords as a list"""
 
         if lang == "en":
             stopwords_in_use = STOPWORDS_en
@@ -1562,7 +1559,7 @@ class TextExtractor(TextCleaner):
         return result
 
     def extract_urls(self):
-        """Returns the URLS extracted """
+        """Returns the URLS extracted"""
         result = re.findall(URL_PATTERN, self.text)
         return result
 
@@ -1572,17 +1569,17 @@ class TextExtractor(TextCleaner):
         return result
 
     def extract_currencies(self):
-        """Returns the currencies extracted """
+        """Returns the currencies extracted"""
         result = re.findall(CURRENCY_REGEX, self.text)
         return result
 
     def extract_currency_symbols(self):
-        """Returns the currency symbols extracted """
+        """Returns the currency symbols extracted"""
         result = re.findall(CURRENCY_SYMB_REGEX, self.text)
         return result
 
     def extract_dates(self):
-        """Returns the dates extracted """
+        """Returns the dates extracted"""
         result = re.findall(DATE_REGEX, self.text)
         return result
 
@@ -1621,17 +1618,17 @@ class TextExtractor(TextCleaner):
         return re.findall("\\(([^)]+)", self.text)
 
     def extract_hashtags(self):
-        """Returns  a list all hashtags extractedffrom text """
+        """Returns  a list all hashtags extractedffrom text"""
         result = re.findall(HASTAG_REGEX, self.text)
         return result
 
     def extract_userhandles(self):
-        """Returns  a list all Userhandle """
+        """Returns  a list all Userhandle"""
         result = re.findall(USER_HANDLES_REGEX, self.text)
         return result
 
     def extract_pattern(self, term_pattern):
-        """Returns  a list all terms found that match pattern/term """
+        """Returns  a list all terms found that match pattern/term"""
         result = re.findall(term_pattern, self.text)
         return result
 
@@ -1648,51 +1645,51 @@ class TextExtractor(TextCleaner):
         return short_words_list
 
     def extract_btc_address(self):
-        """Returns a list with Bitcoin Addresses """
+        """Returns a list with Bitcoin Addresses"""
         result = re.findall(BTC_ADDRESS_REGEX, self.text)
         return result
 
     def extract_visacard_addr(self):
-        """Returns a list with VISA Card Addresses """
+        """Returns a list with VISA Card Addresses"""
         result = re.findall(VISACard_REGEX, self.text)
         return result
 
     def extract_mastercard_addr(self):
-        """Returns a list with MasterCard Addresses """
+        """Returns a list with MasterCard Addresses"""
         result = re.findall(MASTERCard_REGEX, self.text)
         return result
 
     def extract_md5sha(self):
-        """Returns a list with MD5 & SHA Hash """
+        """Returns a list with MD5 & SHA Hash"""
         result = re.findall(MD5_SHA_REGEX, self.text)
         return result
 
     def extract_postoffice_box(self):
-        """Returns a list with Post Office Box """
+        """Returns a list with Post Office Box"""
         result = re.findall(PoBOX_REGEX, self.text)
         return result
 
     def extract_street_address(self):
-        """Returns a list with Street Addresses """
+        """Returns a list with Street Addresses"""
         result = re.findall(STREET_ADDRESS_REGEX, self.text)
         return result
 
-    def extract_terms_in_bracket(self,bracket_form="curly"):
-        """Returns  a list of a string within bracket 
-        
+    def extract_terms_in_bracket(self, bracket_form="curly"):
+        """Returns  a list of a string within bracket
+
         Params:
             - bracket_form: string or symbol about whether is it  curly({) or square([])
             or etc
         """
-        CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}") 
-        SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]") 
-        NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)") 
+        CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}")
+        SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]")
+        NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)")
         if bracket_form == "curly" or bracket_form == "{}":
-            result = re.findall(CURLY_BRACKET_REGEX,self.text)
+            result = re.findall(CURLY_BRACKET_REGEX, self.text)
         elif bracket_form == "square" or bracket_form == "[]":
-            result = re.findall(SQUARE_BRACKET_REGEX,self.text)
+            result = re.findall(SQUARE_BRACKET_REGEX, self.text)
         elif bracket_form == "normal" or bracket_form == "()":
-            result = re.findall(NORMAL_BRACKET_REGEX,self.text)
+            result = re.findall(NORMAL_BRACKET_REGEX, self.text)
 
         return result
 
@@ -1961,7 +1958,7 @@ class TextFrame(TextCleaner):
         return sum_of_bow
 
     def ngrams(self, n_number=3):
-        """Returns N-gram of a text """
+        """Returns N-gram of a text"""
 
         # Tokenize
         token_words = self.text.split()
@@ -2147,7 +2144,3 @@ class TextFrame(TextCleaner):
         ]
         final_res = Counter(result)
         return dict(final_res)
-
-
-
-

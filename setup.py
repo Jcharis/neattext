@@ -1,7 +1,8 @@
 from setuptools import setup
 
+
 def readme():
-    with open('README.rst') as f:
+    with open("README.rst") as f:
         README = f.read()
     return README
 
@@ -16,7 +17,7 @@ setup(
     author="Jesse E.Agbe(JCharis)",
     author_email="jcharistech@gmail.com",
     license="MIT",
-    keywords='neattext cleantext NLP tidytext textpreprocessing text cleaning jcharistech textify ',
+    keywords="neattext cleantext NLP tidytext textpreprocessing text cleaning jcharistech textify ",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
@@ -27,7 +28,6 @@ setup(
     ],
     packages=["neattext"],
     include_package_data=True,
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4'
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
     # install_requires=["collections"]
-    
 )
