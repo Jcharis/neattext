@@ -33,29 +33,29 @@ from neattext.pattern_data import (
 from neattext import TextFrame
 from collections import defaultdict, Counter
 from heapq import nlargest
-import random, string, math,unicodedata
-
+import random, string, math, unicodedata
+from enum import Enum
 
 # Individual Functions
-def remove_emails(text):
-    """Returns A String with the emails removed """
+def remove_emails(text: str):
+    """Returns A String with the emails removed"""
     result = re.sub(EMAIL_REGEX, "", text)
     return result
 
 
-def remove_numbers(text):
-    """Returns A String with the numbers/digits removed """
+def remove_numbers(text: str):
+    """Returns A String with the numbers/digits removed"""
     result = re.sub(NUMBERS_REGEX, "", text)
     return result
 
 
-def remove_phone_numbers(text):
-    """Returns A String with the phone numbers removed """
+def remove_phone_numbers(text: str):
+    """Returns A String with the phone numbers removed"""
     result = re.sub(PHONE_REGEX, "", text)
     return result
 
 
-def remove_punctuations(text, most_common=True):
+def remove_punctuations(text: str, most_common=True):
     """Returns A String with punctuations remove
     Params:
             most_common:boolen(True/False)
@@ -71,7 +71,7 @@ def remove_punctuations(text, most_common=True):
     return result
 
 
-def remove_puncts(text, most_common=True):
+def remove_puncts(text: str, most_common=True):
     """Returns A String with punctuations remove
     Params:
             most_common:boolen(True/False)
@@ -85,19 +85,19 @@ def remove_puncts(text, most_common=True):
     return result
 
 
-def remove_special_characters(text):
-    """Returns A String with the specified characters removed """
+def remove_special_characters(text: str):
+    """Returns A String with the specified characters removed"""
     result = re.sub(SPECIAL_CHARACTERS_REGEX, "", text)
     return result
 
 
-def remove_emojis(text):
-    """Returns A String with the emojis removed """
+def remove_emojis(text: str):
+    """Returns A String with the emojis removed"""
     result = re.sub(EMOJI_REGEX, "", text)
     return result
 
 
-def remove_stopwords(text, lang="en"):
+def remove_stopwords(text: str, lang="en"):
     """Returns A String with the stopwords removed
 
     lang: specify language to use [en|es|fr|ru|yo|de]
@@ -123,37 +123,37 @@ def remove_stopwords(text, lang="en"):
     return " ".join(result)
 
 
-def remove_urls(text):
-    """Returns A String with URLS removed """
+def remove_urls(text: str):
+    """Returns A String with URLS removed"""
     result = re.sub(URL_PATTERN, "", text)
     return result
 
 
-def remove_currencies(text):
-    """Returns A String with Currencies removed """
+def remove_currencies(text: str):
+    """Returns A String with Currencies removed"""
     result = re.sub(CURRENCY_REGEX, "", text)
     return result
 
 
-def remove_currency_symbols(text):
-    """Returns A String with Currency Symbols removed """
+def remove_currency_symbols(text: str):
+    """Returns A String with Currency Symbols removed"""
     result = re.sub(CURRENCY_SYMB_REGEX, "", text)
     return result
 
 
-def remove_html_tags(text):
+def remove_html_tags(text: str):
     """Returns A String with HTML Tags removed"""
     result = re.sub("<[^<]+?>", "", text)
     return result
 
 
-def remove_dates(text):
-    """Returns A String with Dates Removed """
+def remove_dates(text: str):
+    """Returns A String with Dates Removed"""
     result = re.sub(DATE_REGEX, "", text)
     return result
 
 
-def remove_non_ascii(text):
+def remove_non_ascii(text: str):
     """Returns A String with Non ASCII removed"""
     import unicodedata
 
@@ -165,37 +165,37 @@ def remove_non_ascii(text):
     return result
 
 
-def remove_multiple_spaces(text):
+def remove_multiple_spaces(text: str):
     """Returns A String with Multiple Whitespaces removed"""
     result = re.sub("\\s{2,}", " ", text)
     return result
 
 
-def remove_bad_quotes(text):
+def remove_bad_quotes(text: str):
     """Returns a string with bad quotes removed"""
     result = re.sub("[‘’“”…]", " ", text)
     return result
 
 
-def remove_custom_words(text, custom_wordlist):
-    """Returns A String with the custom wordlist removed """
+def remove_custom_words(text: str, custom_wordlist):
+    """Returns A String with the custom wordlist removed"""
     result = [word for word in text.split() if word.lower() not in custom_wordlist]
     return " ".join(result)
 
 
-def remove_hashtags(text):
+def remove_hashtags(text: str):
     """Returns a string with hashtags removed"""
     result = re.sub(HASTAG_REGEX, " ", text)
     return result
 
 
-def remove_userhandles(text):
+def remove_userhandles(text: str):
     """Returns a string with @userhandles removed"""
     result = re.sub(USER_HANDLES_REGEX, " ", text)
     return result
 
 
-def remove_custom_pattern(text, term_pattern):
+def remove_custom_pattern(text: str, term_pattern):
     """Remove Custom Pattern
 
     Params
@@ -208,7 +208,7 @@ def remove_custom_pattern(text, term_pattern):
     return result
 
 
-def remove_shortwords(text, length=3):
+def remove_shortwords(text: str, length=3):
     """Returns a string with all short words of a particular length or less removed
 
     params:
@@ -221,62 +221,62 @@ def remove_shortwords(text, length=3):
     return " ".join(long_words_list)
 
 
-def remove_btc_address(text):
+def remove_btc_address(text: str):
     """Returns a string with Bitcoin Addresses Removed removed"""
     result = re.sub(BTC_ADDRESS_REGEX, " ", text)
     return result
 
 
-def remove_visacard_addr(text):
+def remove_visacard_addr(text: str):
     """Returns a string with VISA Card Addresses removed"""
     result = re.sub(VISACard_REGEX, " ", text)
     return result
 
 
-def remove_mastercard_addr(text):
+def remove_mastercard_addr(text: str):
     """Returns a string with MasterCard Addresses removed"""
     result = re.sub(MASTERCard_REGEX, " ", text)
     return result
 
 
-def remove_md5sha(text):
+def remove_md5sha(text: str):
     """Returns a string with MD5 & SHA Hash removed"""
     result = re.sub(MD5_SHA_REGEX, " ", text)
     return result
 
 
-def remove_postoffice_box(text):
+def remove_postoffice_box(text: str):
     """Returns a string with Post Office Box removed"""
     result = re.sub(PoBOX_REGEX, " ", text)
     return result
 
 
-def remove_street_address(text):
+def remove_street_address(text: str):
     """Returns a string with Street Addresses removed"""
     result = re.sub(STREET_ADDRESS_REGEX, " ", text)
     return result
 
 
-
-def remove_terms_in_bracket(text,bracket_form="curly"):
+def remove_terms_in_bracket(text: str, bracket_form="curly"):
     """Returns a string with terms/words in bracket together with the bracket removed
-    
+
     Params:
         - bracket_form: string or symbol about whether is it  curly({) or square([])
         or etc
     """
-    CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}") 
-    SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]") 
-    NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)") 
+    CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}")
+    SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]")
+    NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)")
     if bracket_form == "curly" or bracket_form == "{}":
-        result = re.sub(CURLY_BRACKET_REGEX,"",text)
+        result = re.sub(CURLY_BRACKET_REGEX, "", text)
     elif bracket_form == "square" or bracket_form == "[]":
-        result = re.sub(SQUARE_BRACKET_REGEX,"",text)
+        result = re.sub(SQUARE_BRACKET_REGEX, "", text)
     elif bracket_form == "normal" or bracket_form == "()":
-        result = re.sub(NORMAL_BRACKET_REGEX,"",text)
+        result = re.sub(NORMAL_BRACKET_REGEX, "", text)
     return result
 
-def remove_accents(text):
+
+def remove_accents(text: str):
     """Returns a string with diacritics/accents removed
 
     Params:
@@ -285,90 +285,89 @@ def remove_accents(text):
     nfkd_form = unicodedata.normalize("NFKD", text)
     result = "".join([char for char in nfkd_form if not unicodedata.combining(char)])
     return result
-   
 
     # EXTRACTION FUNCTIONS
 
 
-def extract_emails(text):
-    """Returns the emails extracted """
+def extract_emails(text: str):
+    """Returns the emails extracted"""
     result = re.findall(EMAIL_REGEX, text)
     return result
 
 
-def extract_numbers(text):
-    """Returns the numbers/digits extracted """
+def extract_numbers(text: str):
+    """Returns the numbers/digits extracted"""
     result = re.findall(NUMBERS_REGEX, text)
     return result
 
 
-def extract_phone_numbers(text):
-    """Returns the phone number extracted """
+def extract_phone_numbers(text: str):
+    """Returns the phone number extracted"""
     result = re.findall(PHONE_REGEX, text)
     return result
 
 
-def extract_special_characters(text):
-    """Returns the specified characters extracted """
+def extract_special_characters(text: str):
+    """Returns the specified characters extracted"""
     result = re.findall(SPECIAL_CHARACTERS_REGEX, text)
     return result
 
 
-def extract_emojis(text):
-    """Returns the emojis extracted """
+def extract_emojis(text: str):
+    """Returns the emojis extracted"""
     result = re.findall(EMOJI_REGEX, text)
     return result
 
 
-def extract_stopwords(text):
-    """Returns the stopwords as a list """
+def extract_stopwords(text: str):
+    """Returns the stopwords as a list"""
     result = [word for word in text.split() if word in STOPWORDS]
     return result
 
 
-def extract_urls(text):
-    """Returns the URLS extracted """
+def extract_urls(text: str):
+    """Returns the URLS extracted"""
     result = re.findall(URL_PATTERN, text)
     return result
 
 
-def extract_currencies(text):
-    """Returns the currencies extracted """
+def extract_currencies(text: str):
+    """Returns the currencies extracted"""
     result = re.findall(CURRENCY_REGEX, text)
     return result
 
 
-def extract_currency_symbols(text):
-    """Returns the currency symbols extracted """
+def extract_currency_symbols(text: str):
+    """Returns the currency symbols extracted"""
     result = re.findall(CURRENCY_SYMB_REGEX, text)
     return result
 
 
-def extract_dates(text):
-    """Returns the dates extracted """
+def extract_dates(text: str):
+    """Returns the dates extracted"""
     result = re.findall(DATE_REGEX, text)
     return result
 
 
-def extract_html_tags(text):
-    """Returns  the HTML Tags extracted """
+def extract_html_tags(text: str):
+    """Returns  the HTML Tags extracted"""
     result = re.findall(r"<[^<]+?>", text)
     return result
 
 
-def extract_hashtags(text):
+def extract_hashtags(text: str):
     """Returns the hashtags extracted"""
     result = re.findall(HASTAG_REGEX, text)
     return result
 
 
-def extract_userhandles(text):
-    """Returns the @userhandles extracted """
+def extract_userhandles(text: str):
+    """Returns the @userhandles extracted"""
     result = re.findall(USER_HANDLES_REGEX, text)
     return result
 
 
-def extract_pattern(text, term_pattern):
+def extract_pattern(text: str, term_pattern):
     """Returns  a list all terms found extracted
 
     --------
@@ -380,7 +379,7 @@ def extract_pattern(text, term_pattern):
     return result
 
 
-def extract_shortwords(text, length=3):
+def extract_shortwords(text: str, length: int = 3):
     """Returns a list with all short words of a particular length
 
     params:
@@ -393,76 +392,77 @@ def extract_shortwords(text, length=3):
     return short_words_list
 
 
-def extract_btc_address(text):
-    """Returns a list with Bitcoin Addresses """
+def extract_btc_address(text: str):
+    """Returns a list with Bitcoin Addresses"""
     result = re.findall(BTC_ADDRESS_REGEX, text)
     return result
 
 
-def extract_visacard_addr(text):
-    """Returns a list with VISA Card Addresses """
+def extract_visacard_addr(text: str):
+    """Returns a list with VISA Card Addresses"""
     result = re.findall(VISACard_REGEX, text)
     return result
 
 
-def extract_mastercard_addr(text):
-    """Returns a list with MasterCard Addresses """
+def extract_mastercard_addr(text: str):
+    """Returns a list with MasterCard Addresses"""
     result = re.findall(MASTERCard_REGEX, text)
     return result
 
 
-def extract_md5sha(text):
-    """Returns a list with MD5 & SHA Hash """
+def extract_md5sha(text: str):
+    """Returns a list with MD5 & SHA Hash"""
     result = re.findall(MD5_SHA_REGEX, text)
     return result
 
 
-def extract_postoffice_box(text):
-    """Returns a list with Post Office Box """
+def extract_postoffice_box(text: str):
+    """Returns a list with Post Office Box"""
     result = re.findall(PoBOX_REGEX, text)
     return result
 
 
-def extract_street_address(text):
-    """Returns a list with Street Addresses """
+def extract_street_address(text: str):
+    """Returns a list with Street Addresses"""
     result = re.findall(STREET_ADDRESS_REGEX, text)
     return result
 
-def extract_terms_in_bracket(text,bracket_form="curly"):
-    """Returns  a list of a string within bracket 
-    
+
+def extract_terms_in_bracket(text: str, bracket_form="curly"):
+    """Returns  a list of a string within bracket
+
     Params:
         - bracket_form: string or symbol about whether is it  curly({) or square([])
         or etc
     """
-    CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}") 
-    SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]") 
-    NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)") 
+    CURLY_BRACKET_REGEX = re.compile(r"\{(.*?)\}")
+    SQUARE_BRACKET_REGEX = re.compile(r"\[(.*?)\]")
+    NORMAL_BRACKET_REGEX = re.compile(r"\((.*?)\)")
     if bracket_form == "curly" or bracket_form == "{}":
-        result = re.findall(CURLY_BRACKET_REGEX,text)
+        result = re.findall(CURLY_BRACKET_REGEX, text)
     elif bracket_form == "square" or bracket_form == "[]":
-        result = re.findall(SQUARE_BRACKET_REGEX,text)
+        result = re.findall(SQUARE_BRACKET_REGEX, text)
     elif bracket_form == "normal" or bracket_form == "()":
-        result = re.findall(NORMAL_BRACKET_REGEX,text)
+        result = re.findall(NORMAL_BRACKET_REGEX, text)
 
     return result
 
 
 def clean_text(
-    text,
-    puncts=False,
-    stopwords=True,
-    urls=False,
-    emails=False,
-    numbers=False,
-    emojis=True,
-    special_char=False,
-    phone_num=False,
-    non_ascii=False,
-    multiple_whitespaces=True,
-    contractions=False,
-    currency_symbols=False,
-    custom_pattern=None,
+    text: str,
+    puncts: bool = False,
+    stopwords: bool = True,
+    urls: bool = False,
+    emails: bool = False,
+    numbers: bool = False,
+    emojis: bool = True,
+    special_char: bool = False,
+    phone_num: bool = False,
+    non_ascii: bool = False,
+    multiple_whitespaces: bool = True,
+    contractions: bool = False,
+    currency_symbols: bool = False,
+    custom_pattern: bool = None,
 ):
     """
     Clean entire text
@@ -546,88 +546,67 @@ def clean_text(
     return text.lower()
 
 
-# def clean_text(text,preserve=False):
-# 	"""Clean Entire Text"""
-# 	if preserve == False:
-# 		email_result = re.sub(EMAIL_REGEX,"",text)
-# 		phone_result = re.sub(PHONE_REGEX,"",email_result)
-# 		number_result = re.sub(NUMBERS_REGEX,"",phone_result)
-# 		url_result = re.sub(URL_PATTERN,"",number_result)
-# 		emoji_result = re.sub(EMOJI_REGEX,"",url_result)
-# 		special_char_result = re.sub(SPECIAL_CHARACTERS_REGEX,"",emoji_result)
-# 		final_result = special_char_result.lower()
-# 	else:
-# 		email_result = re.sub(EMAIL_REGEX,"<EMAIL>",text)
-# 		phone_result = re.sub(PHONE_REGEX,"<PHONENUMBER>",email_result)
-# 		number_result = re.sub(NUMBERS_REGEX,"<NUMBERS>",phone_result)
-# 		url_result = re.sub(URL_PATTERN,"<URL>",number_result)
-# 		emoji_result = re.sub(EMOJI_REGEX,"<EMOJI>",url_result)
-# 		final_result = emoji_result.lower()
-
-# 	return final_result
-
-
-def replace_emails(text, replace_with="<EMAIL>"):
+def replace_emails(text: str, replace_with="<EMAIL>"):
     """Replaces the emails in the text with custom label"""
     result = re.sub(EMAIL_REGEX, replace_with, text)
     return result
 
 
-def replace_phone_numbers(text, replace_with="<PHONENUMBER>"):
+def replace_phone_numbers(text: str, replace_with="<PHONENUMBER>"):
     """Replaces the phone numbers in the text with custom label"""
     result = re.sub(PHONE_REGEX, replace_with, text)
     return result
 
 
-def replace_numbers(text, replace_with="<NUMBER>"):
+def replace_numbers(text: str, replace_with="<NUMBER>"):
     """Replaces numbers/digits in the text with custom label"""
     result = re.sub(NUMBERS_REGEX, replace_with, text)
     return result
 
 
-def replace_special_characters(text, replace_with="<SPECIAL_CHAR>"):
+def replace_special_characters(text: str, replace_with="<SPECIAL_CHAR>"):
     """Replaces special characters in the text with custom label"""
     result = re.sub(SPECIAL_CHARACTERS_REGEX, replace_with, text)
     return result
 
 
-def replace_emojis(text, replace_with="<EMOJI>"):
+def replace_emojis(text: str, replace_with="<EMOJI>"):
     """Replaces emojis in the text with custom label"""
     result = re.sub(EMOJI_REGEX, replace_with, text)
     return result
 
 
-def replace_urls(text, replace_with="<URL>"):
+def replace_urls(text: str, replace_with="<URL>"):
     """Replaces URLS/HTTP(S) in the text with custom label"""
     result = re.sub(URL_PATTERN, replace_with, text)
     return result
 
 
-def replace_currencies(text, replace_with="<CURRENCY>"):
+def replace_currencies(text: str, replace_with="<CURRENCY>"):
     """Replaces Currencies in the text with custom label"""
     result = re.sub(CURRENCY_REGEX, replace_with, text)
     return result
 
 
-def replace_currency_symbols(text, replace_with="<CURRENCY_SYMB>"):
+def replace_currency_symbols(text: str, replace_with="<CURRENCY_SYMB>"):
     """Replaces currency symbols in the text with custom label"""
     result = re.sub(CURRENCY_SYMB_REGEX, replace_with, text)
     return result
 
 
-def replace_dates(text, replace_with="<DATE>"):
+def replace_dates(text: str, replace_with="<DATE>"):
     """Replaces Dates in the text with custom label"""
     result = re.sub(DATE_REGEX, replace_with, text)
     return result
 
 
-def replace_term(text, old_term, new_term):
+def replace_term(text: str, old_term, new_term):
     """Replaces term in the text with another term"""
     result = re.sub(old_term, new_term, text)
     return result
 
 
-def replace_bad_quotes(text):
+def replace_bad_quotes(text: str):
     """Replace bad quotes with their correct once"""
     result = re.sub("[‘’“”…]", '"', text)
     return result
@@ -653,7 +632,7 @@ def read_txt(filename):
     return docx_tf
 
 
-def to_txt(text, filename):
+def to_txt(text: str, filename):
     """
     Save/Write a Text  to A File
 
@@ -821,7 +800,7 @@ def digit2words(num):
 
 
 # Source https://github.com/adashofdata/nlp-in-python-tutorial/blob/master/5-Text-Generation.ipynb
-def markov_chain(text):
+def markov_chain(text: str):
     """Returns a dictionary with each word as
     a key and each value as the list of words that come after the key in the text."""
 
@@ -860,7 +839,7 @@ def __generate_text(chain, count=15):
     return sentence
 
 
-def generate_sentence(text, num_of_words=15):
+def generate_sentence(text: str, num_of_words: int = 15):
     """Returns a new sentence/text From a given text using Markov Chains
 
     Parameters
@@ -890,7 +869,7 @@ def generate_sentence(text, num_of_words=15):
     return final_result_sentence
 
 
-def normalize(text, level="shallow"):
+def normalize(text: str, level="shallow"):
     """Normalize Text by converting to lowercase,removing punctuations and square brackets
 
     Parameters
@@ -937,7 +916,7 @@ def normalize(text, level="shallow"):
     return text
 
 
-def fix_contractions(text):
+def fix_contractions(text: str):
     """Fix contractions in a text"""
     text = text.lower()
     text = re.sub(r"i'm", "i am", text)
@@ -1097,7 +1076,7 @@ def fix_contractions(text):
     return text
 
 
-def word_freq(text):
+def word_freq(text: str):
     """Returns a term/word frequency"""
     stopwords = list(STOPWORDS)
     # Build Word Frequency(bag) # word.text is tokenization in spacy
@@ -1118,7 +1097,7 @@ def word_freq(text):
     return word_frequencies
 
 
-def term_freq(text):
+def term_freq(text: str):
     """Returns the Term Frequency of Words in a Sentence
 
     Definition
@@ -1148,7 +1127,7 @@ def term_freq(text):
     return term_frequencies
 
 
-def inverse_df(text):
+def inverse_df(text: str):
     """IDF: log((Total number of sentences (documents))/(Number of sentences (documents) containing the word))
 
     It is important to mention that to mitigate the effect of very rare and very common words on the corpus, the log of the IDF value can be calculated before multiplying it with the TF-IDF value.
@@ -1167,7 +1146,7 @@ def inverse_df(text):
     return word_idf_values
 
 
-def _lex_richness_herdan(text):
+def _lex_richness_herdan(text: str):
     # Tokenize Word using Words
     tokenized_words = re.split(r"\W+", str(text).lower())
     num_of_word_types = len(set(tokenized_words))
@@ -1183,7 +1162,7 @@ def _lex_richness_herdan(text):
     return result_httr
 
 
-def _lex_richness_maas_ttr(text):
+def _lex_richness_maas_ttr(text: str):
     # Tokenize Word using Words
     tokenized_words = re.split(r"\W+", str(text).lower())
     num_of_word_types = len(set(tokenized_words))
@@ -1199,7 +1178,7 @@ def _lex_richness_maas_ttr(text):
     return result_maas_ttr
 
 
-def lexical_richness(text):
+def lexical_richness(text: str):
     """Returns A Dictionary of the Lexical/Text Richness of the text using Type/Token Ratio
 
             ------------
@@ -1240,7 +1219,7 @@ def lexical_richness(text):
     return result
 
 
-def word_length_freq(text):
+def word_length_freq(text: str):
     """Returns the Count/Freq Distribution of Words by their length.
     Useful for stylometric mendelhall curve
 
@@ -1254,20 +1233,111 @@ def word_length_freq(text):
     return dict(sorted_count_of_n_length_word)
 
 
+def uppercase_split(text: str):
+    """Returns a list of words divided at uppercase"""
+    result = re.findall(UPPERCASE_SPLIT_REGEX, text)
+    return result
+
+
 def dasherize(text: str) -> str:
-    """Converts underscores to dashes 
-    
+    """Converts underscores to dashes
+
     >>> ex = "scikit_learn"
     >>> dasherize(ex)
     scikit_learn
     """
-    return text.replace('_','-')
+    return text.replace("_", "-")
+
 
 def underscorize(text: str) -> str:
     """Converts dashes to underscores
-    
+
     >>> ex = "scikit-learn"
     >>> underscorize(ex)
     scikit-learn
     """
-    return text.replace('-','_')
+    return text.replace("-", "_")
+
+
+class TextCase(Enum):
+    UPPER = "UPPERCASE"
+    lower = "lowercase"
+    Title = "Title Case"
+    snake = "snake_case"
+    camel = "camelCase"
+    pascal = "PascalCase"
+    kebab = "kebab-case"
+
+
+def convert_text_case(text: str, conversion: "TextCase"):
+    """Convert text to a particular case type
+    >> from neattext.functions import convert_text_case, TextCase
+    >> text = "convert this text"
+    >> convert_text_case(text, TextCase.UPPER))  # Output: CONVERT THIS TEXT
+    >> convert_text_case(text, TextCase.lower))  # Output: convert this text
+    >> convert_text_case(text, TextCase.Title))  # Output: Convert This Text
+    >> convert_text_case(text, TextCase.snake))  # Output: convert_this_text
+    >> convert_text_case(text, TextCase.camel))  # Output: ConvertThisText
+
+    """
+    if conversion == TextCase.UPPER:
+        return text.upper()
+    elif conversion == TextCase.lower:
+        return text.lower()
+    elif conversion == TextCase.Title:
+        return text.title()
+    elif conversion == TextCase.snake:
+        return text.lower().replace(" ", "_")
+    elif conversion == TextCase.camel:
+        return to_camel_case(text)
+    elif conversion == TextCase.pascal:
+        return "".join([word.capitalize() for word in text.split(" ")])
+    elif conversion == TextCase.kebab:
+        return to_kebab_case(text)
+    else:
+        raise ValueError("Invalid text case conversion")
+
+
+def to_snake_case(text: str):
+    return text.replace(" ", "_").lower()
+
+
+def to_camel_case(text: str):
+    text = re.sub(r"(_|-)+", " ", text).title().replace(" ", "")
+    return text[0].lower() + text[1:]
+
+
+def to_pascal_case(text: str):
+    return re.sub(r"(_\s|-)", " ", text).title().replace(" ", "")
+
+
+def to_kebab_case(text: str):
+    return text.replace(" ", "-").lower()
+
+
+def snake_to_pascal(text: str):
+    return text.replace("_", " ").title().replace(" ", "")
+
+
+def snake_to_camel(text: str):
+    tokens = text.split("_")
+    camel_words = []
+    for word in tokens:
+        camel_words.append(word.title())
+    return f"{camel_words[0].lower()}{''.join(camel_words[1:])}"
+
+
+def _convert_camel_to_snake(text: str):
+    words = text.split()
+    snake_words = []
+    for word in words:
+        snake_words.append(word.lower())
+    return "".join(snake_words)
+
+
+def _convert_pascal_to_snake(text: str):
+    words = text.split()
+    snake_words = []
+    for word in words:
+        snake_words.append(word.capitalize())
+    return "".join(snake_words)
