@@ -1,0 +1,10 @@
+site_name: NeatText
+site_url: https://jcharis.github.io/neattext/
+nav:
+    - Home: index.md
+    - User Guide: userguide.md
+    - API Guide: apireference.md
+    - Contributing: contributing.md
+    - About: about.md
+
+theme: readthedocs

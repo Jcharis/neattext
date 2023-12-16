@@ -3,11 +3,12 @@ from neattext import TextCleaner,TextExtractor,TextMetrics,TextFrame
 # from neattext.neattext import clean_text,remove_emails,extract_emails,replace_emails,replace_urls,remove_currencies,remove_currency_symbols,extract_currencies
 from neattext.functions import *
 from neattext.explainer import *
+from neattext.pipeline import TextPipeline
 
 
 
 def test_version():
-    assert __version__ == '0.1.0'
+    assert __version__ == '0.1.4'
 
 def test_remove_emails():
 	docx = TextCleaner()
@@ -245,3 +246,80 @@ def test_single_fxn_clean_text_custom_pattern():
 	t1 = "This is the mail example@gmail.com ,our WEBSITE is https://example.com ."
 	result = clean_text(t1,stopwords=False,custom_pattern=r'@\w+')
 	assert result == 'this is the mail example .com ,our website is https://example.com .'
+
+def test_single_fxn_extract_btc_address():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result = extract_btc_address(t2)
+	assert result == ['1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2']
+
+def test_single_fxn_extract_mastercard_address():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result = extract_mastercard_addr(t2)
+	assert result == ['5500 0000 0000 0004']
+
+def test_single_fxn_extract_visacard_address():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result = extract_visacard_addr(t2)
+	assert result == ['4111 1111 1111 1111']
+	result2 = extract_postoffice_box(t2)
+	assert result2 == ['PO Box 555']
+
+def test_single_fxn_extract_postoffice_box():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result2 = extract_postoffice_box(t2)
+	assert result2 == ['PO Box 555']
+
+def test_single_fxn_remove_postoffice_box():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	result2 = remove_postoffice_box(t2)
+	assert result2 != "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊.\nThis is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to  , KNU"
+
+
+def test_single_fxn_remove_terms_in_bracket():
+	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
+	result2 = remove_terms_in_bracket(t2)
+	assert result2 ==  'This is the mail of   different from [Berlin] [Germany] '
+
+
+def test_single_fxn_remove_terms_in_bracket_square():
+	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
+	result2 = remove_terms_in_bracket(t2,"[]")
+	assert result2 ==  'This is the mail of {London} {Accra} different from   '
+
+
+def test_single_fxn_extract_terms_in_bracket():
+	t2 = """This is the mail of {London} {Accra} different from [Berlin] [Germany] """
+	result2 = extract_terms_in_bracket(t2)
+	assert result2 ==  ['London', 'Accra']
+
+def test_txt_cleaning_pipeline():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+	results2 = p.fit(t2)
+	assert results2 == 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
+def test_txt_cleaning_pipeline_transform():
+	t2 = """This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊. This is visa 4111 1111 1111 1111 and bitcoin 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2 with mastercard 5500 0000 0000 0004. Send it to PO Box 555, KNU"""
+	p = TextPipeline(steps=[remove_emails,remove_numbers,remove_emojis])
+	results2 = p.transform(t2)
+	assert results2 == 'This is the mail  ,our WEBSITE is https://example.com . This is visa     and bitcoin BvBMSEYstWetqTFnAumGFgxJaNVN with mastercard    . Send it to PO Box , KNU'
+
+
+def test_textframe_memory_usage():
+	docx = TextFrame()
+	docx.text = "This is the mail example@gmail.com ,our WEBSITE is https://example.com 😊."
+	result = docx.memory_usage()['memory']
+	assert result == 368
+
+
+def test_remove_diacritics_n_accents():
+	t2 = "Ma Mère, Françoise, was singing the noël song."
+	result2 = remove_accents(t2)
+	assert result2 == "Ma Mere, Francoise, was singing the noel song."
+
+
+def test_dasherize():
+	t1 = "scikit_learn"
+	result1 = dasherize(t1)
+	assert result1 == "scikit-learn"
+	assert t1 == underscorize("scikit-learn")

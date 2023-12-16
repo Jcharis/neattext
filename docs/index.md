@@ -1,6 +1,5 @@
 # neattext
-NeatText:a simple NLP package for cleaning textual data and text preprocessing.
-Simplifying Text Cleaning For NLP & ML
+NeatText:a simple NLP package for cleaning textual data and text preprocessing
 
 [![Build Status](https://travis-ci.org/Jcharis/neattext.svg?branch=master)](https://travis-ci.org/Jcharis/neattext)
 
@@ -14,8 +13,6 @@ Simplifying Text Cleaning For NLP & ML
 #### Solution
 + convert the already known solution for cleaning text into a reuseable package
 
-#### Docs
-+ Check out the full docs [here](https://jcharis.github.io/neattext/)
 
 #### Installation
 ```bash
@@ -25,14 +22,15 @@ pip install neattext
 ### Usage
 + The OOP Way(Object Oriented Way)
 + NeatText offers 5 main classes for working with text data
-	- TextFrame : a frame-like object for cleaning text
-	- TextCleaner: remove or replace specifics
-	- TextExtractor: extract unwanted text data
-	- TextMetrics: word stats and metrics
-	- TextPipeline: combine multiple functions in a pipeline
+    - TextFrame : a frame-like object for cleaning text
+    - TextCleaner: remove or replace specifics
+    - TextExtractor: extract unwanted text data
+    - TextMetrics: word stats and metrics
+    - TextPipeline: combine multiple functions in a pipeline
 
 ### Overall Components of NeatText
-![](images/neattext_features_jcharistech.png)
+<!-- ![](images/neattext_features_jcharistech.png) -->
+![NeatText](https://raw.githubusercontent.com/Jcharis/neattext/master/images/neattext_features_jcharistech.png)
 
 ### Using TextFrame
 + Keeps the text as `TextFrame` object. This allows us to do more with our text. 
@@ -97,8 +95,6 @@ tokens(words): 14
 >>> docx.remove_special_characters()
 >>> docx.remove_emojis()
 >>> docx.fix_contractions()
->>> docx.remove_accents()
->>> docx.remove_non_ascii()
 ```
 
 ##### Handling Files with NeatText
@@ -298,9 +294,9 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 
 ### Explainer
 + Explain an emoji or unicode for emoji 
-	- emoji_explainer()
-	- emojify()
-	- unicode_2_emoji()
+    - emoji_explainer()
+    - emojify()
+    - unicode_2_emoji()
 
 
 ```python
@@ -318,11 +314,13 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 ```python
 >>> from neattext.explainer import unicode_2_emoji
 >>> unicode_2_emoji('0x1f49b')
-	'FLUSHED FACE'
+    'FLUSHED FACE'
 ```
 
-### Usage 
-+ The Pipeline Way
+### Pipeline Approach using TextPipeline
++ This is a new feature(from version 0.1.2) that introduces the concept of pipeline. 
++ TextPipeline operates like the `clean_text` function but in this case you specify
+according as steps a group of functions you need to use to clean a given text.
 
 ```python
 >>> from neattext.pipeline import TextPipeline
@@ -339,20 +337,16 @@ TextFrame(text="mail example@gmail.com ,our WEBSITE https://example.com 😊. fo
 >>> p.named_steps
 ```
 
-+ Alternatively you can also use this approach
-
-
 
 
 ### Documentation
 Please read the [documentation](https://github.com/Jcharis/neattext/wiki) for more information on what neattext does and how to use is for your needs.You can also check 
 out our readthedocs page [here](https://jcharis.github.io/neattext/)
 
-
 ### More Features To Add
 + basic nlp task
 + currency normalizer
-+ neattext-cli
++ neatext-cli
 
 #### Acknowledgements
 + Inspired by packages like `clean-text` from Johannes Fillter and `textify` by JCharisTech
